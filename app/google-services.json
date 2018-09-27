@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "419528374124",
+    "firebase_url": "https://sambandh-a8609.firebaseio.com",
+    "project_id": "sambandh-a8609",
+    "storage_bucket": "sambandh-a8609.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:419528374124:android:9b7adcb9199c89a4",
+        "android_client_info": {
+          "package_name": "test.testing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "419528374124-dqbfv5sl5ljbcln367na7j6qvm9n5qjs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWuZbC9oXHEUnUp20scfX_YRJ4mnbu12M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

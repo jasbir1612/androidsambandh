@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:background="@drawable/shape"
+    tools:context="test.testing.ui.MainActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Find UDICE code"
+            android:textSize="30sp"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/txtlogin"
+            android:textColor="@android:color/white"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="#c0c0c0"
+            android:layout_margin="20dp"
+            android:id="@+id/line"
+            android:layout_below="@+id/txtlogin"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/line"
+        android:layout_marginTop="10dp">
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/udice_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter UDice Code"
+
+        tools:layout_editor_absoluteX="8dp"
+        android:background="@drawable/etshape"
+        android:padding="10dp"
+        android:layout_margin="8dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/district_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/udice_code"
+        android:hint="Enter District Code"
+        android:background="@drawable/etshape"
+        android:padding="10dp"
+        android:layout_margin="8dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/block_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/etshape"
+        android:padding="10dp"
+        android:layout_margin="8dp"
+        android:layout_below="@+id/district_code"
+        android:hint="Enter Block Code"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/village_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/block_code"
+        android:hint="Enter Village Code"
+        android:background="@drawable/etshape"
+        android:padding="10dp"
+        android:layout_margin="8dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="#002468"
+        android:text="Submit"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:textColor="@android:color/white" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="@color/colorPrimary"
+        android:visibility="gone" />
+    </RelativeLayout>
+</RelativeLayout>

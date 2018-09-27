@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape"
+    tools:context=".LoginScreen">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:textSize="30sp"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/txtlogin"
+            android:textColor="@android:color/white"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="#c0c0c0"
+            android:layout_margin="20dp"
+            android:id="@+id/line"
+            android:layout_below="@+id/txtlogin"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/line"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:layout_marginBottom="100dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:maxWidth="300dp"
+            android:layout_margin="10dp"
+            android:hint="Enter Mobile Number"
+            android:id="@+id/etnumber"
+            android:inputType="number"
+            android:background="@drawable/etshape"
+            android:layout_marginBottom="10dp"
+            android:maxLength="10"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:maxWidth="300dp"
+            android:layout_margin="10dp"
+            android:hint="Enter UCID"
+            android:id="@+id/et_rucid"
+            android:background="@drawable/etshape"
+            android:layout_marginBottom="10dp" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="Find UCID Code"
+            android:id="@+id/find_udice"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:maxWidth="300dp"
+            android:layout_margin="10dp"
+            android:hint="Enter Field 2"
+            android:background="@drawable/etshape"
+            android:layout_marginBottom="10dp" />
+
+
+    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:text="Submit"
+        android:textColor="@android:color/white"
+        android:background="#004c90"
+        android:id="@+id/rsubmit"
+        android:layout_margin="10dp"
+        />
+</RelativeLayout>
