@@ -40,8 +40,8 @@ public class Home extends AppCompatActivity {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent i = new Intent(Home.this, Upload.class);
-//                startActivity(i);
+                Intent i = new Intent(Home.this, Upload.class);
+                startActivity(i);
                 loginUser(email, password);
             }
         });
@@ -54,6 +54,7 @@ public class Home extends AppCompatActivity {
 
                 Intent i = new Intent(Home.this, Download.class);
                 startActivity(i);
+                loginUser(email, password);
             }
         });
     }
