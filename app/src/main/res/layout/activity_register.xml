@@ -3,18 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/shape"
     tools:context=".LoginScreen">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:src="@drawable/logo"
+        android:id="@+id/logo"
+        android:layout_margin="10dp"/>
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/pledgelife_logo"
+        android:id="@+id/pledge_logo"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/logo"
+        />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Register"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
             android:id="@+id/txtlogin"
+            android:layout_below="@+id/pledge_logo"
             android:textColor="@android:color/white"/>
         <View
             android:layout_width="fill_parent"
@@ -23,13 +40,13 @@
             android:layout_margin="20dp"
             android:id="@+id/line"
             android:layout_below="@+id/txtlogin"/>
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_below="@+id/line"
-        android:layout_height="match_parent"
-        android:padding="10dp"
-        android:layout_marginBottom="100dp">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <EditText
             android:layout_width="match_parent"
@@ -49,6 +66,7 @@
             android:padding="10dp"
             android:maxWidth="300dp"
             android:layout_margin="10dp"
+            android:layout_below="@+id/etnumber"
             android:hint="Enter UCID"
             android:id="@+id/et_rucid"
             android:background="@drawable/etshape"
@@ -58,6 +76,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:text="Find UCID Code"
+            android:layout_below="@+id/et_rucid"
             android:id="@+id/find_udice"
             android:textColor="@android:color/white"
             android:textSize="12sp"/>
@@ -67,21 +86,23 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:maxWidth="300dp"
+            android:id="@+id/field2"
+            android:layout_below="@+id/find_udice"
             android:layout_margin="10dp"
             android:hint="Enter Field 2"
             android:background="@drawable/etshape"
             android:layout_marginBottom="10dp" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Submit"
+            android:textColor="@android:color/white"
+            android:background="#004c90"
+            android:id="@+id/rsubmit"
+            android:layout_below="@+id/field2"
+            android:layout_margin="10dp"
+            />
 
 
-    </LinearLayout>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:text="Submit"
-        android:textColor="@android:color/white"
-        android:background="#004c90"
-        android:id="@+id/rsubmit"
-        android:layout_margin="10dp"
-        />
+    </RelativeLayout>
 </RelativeLayout>
