@@ -3,13 +3,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:background="@drawable/shape"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/logo_layout"
+                android:background="@android:color/white"
+                android:padding="10dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/logo"
+                    android:id="@+id/logo"/>
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/pledgelife_logo"
+                android:id="@+id/pledge_logo2"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload Image 1"
+                android:layout_margin="10dp"
+                android:textSize="12sp"
+                android:textColor="@android:color/white"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:weightSum="3">
 
         <Button
@@ -17,12 +56,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#002468"
+            android:textColor="@android:color/white"
             android:text="Choose File" />
 
         <EditText
             android:id="@+id/edt_file_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/etshape"
             android:layout_weight="2"
             android:hint="File Name" />
 
@@ -39,7 +81,10 @@
             android:id="@+id/btn_upload_file"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#002468"
+            android:textColor="@android:color/white"
             android:layout_weight="1"
+            android:layout_margin="10dp"
             android:text="Upload File" />
 
 
@@ -74,5 +119,6 @@
             android:text="Back" />
 
     </LinearLayout>
-
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -6,11 +6,18 @@
     android:layout_height="match_parent"
     android:background="@drawable/shape"
     tools:context=".LoginScreen">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/logo_layout"
+        android:background="@android:color/white"
+        android:padding="10dp">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:src="@drawable/logo"
         android:id="@+id/logo"/>
+    </RelativeLayout>
     <ImageView
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -19,7 +26,7 @@
         android:id="@+id/pledge_logo2"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_below="@+id/logo"
+        android:layout_below="@+id/logo_layout"
         />
     <RelativeLayout
         android:layout_width="match_parent"
@@ -81,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="Login"
-            android:layout_below="@+id/btnotp"
+            android:layout_above="@id/register"
             android:textColor="@android:color/white"
             android:background="#002468"
             android:id="@+id/btnlogin"

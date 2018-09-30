@@ -88,6 +88,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, "Error response", Toast.LENGTH_SHORT).show();
             }
         });
+
+        if(v.getId() == R.id.btn_submit)
+        {
+            Intent i = new Intent(MainActivity.this, Register.class);
+            startActivity(i);
+        }
     }
 }
 

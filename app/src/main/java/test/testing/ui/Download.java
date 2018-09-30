@@ -3,6 +3,7 @@ package test.testing.ui;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,7 +24,11 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 import test.testing.R;
@@ -65,7 +70,25 @@ public class Download extends AppCompatActivity {
                 public void onClick(View v) {
 
 //                downloadFileinMemory(storageReference);
-                                downloadFileloc(storageReference);
+
+                try {
+                    FileInputStream fis = new FileInputStream(new File(getCacheDir(), "cachefile"));
+                    if(fis!=null)
+                    {
+                        
+                        storageReference.putStream(fis);
+                        Toast.makeText(Download.this, "cache", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(videoURL);
+                        Toast.makeText(Download.this, "url", Toast.LENGTH_SHORT).show();
+                        downloadFileinMemory(storageReference);
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(Download.this, "no cache path", Toast.LENGTH_SHORT).show();
+                }
+//                                downloadFileloc(storageReference);
 
 
             }
@@ -118,52 +141,6 @@ public class Download extends AppCompatActivity {
         } else {
             Toast.makeText(Download.this, "No File!", Toast.LENGTH_LONG).show();
         }
-
-    }
-
-    public void downloadFileloc(StorageReference reference)
-    {
-        if (reference != null) {
-            progressDialog.setTitle("Downloading...");
-            progressDialog.setMessage(null);
-            progressDialog.show();
-
-            try {
-                final File file = File.createTempFile("video", ".mp4");
-                Log.d("fname", file.toString());
-                reference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(Download.this, "File Downloaded", Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(Download.this, e.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-
-                        // percentage in progress dialog
-                        progressDialog.setMessage("Downloaded " + ((int) progress) + "%...");
-
-                    }
-                });
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }else{
-            Toast.makeText(this, "No File", Toast.LENGTH_SHORT).show();
-        }
-        Log.d("referece", reference.toString());
 
     }
 }

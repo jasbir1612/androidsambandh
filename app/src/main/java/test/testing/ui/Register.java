@@ -10,7 +10,7 @@ import test.testing.R;
 
 public class Register extends AppCompatActivity {
 
-    Button btnFindUdice;
+    Button btnFindUdice, submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +18,20 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         btnFindUdice = findViewById(R.id.find_udice);
+        submit = findViewById(R.id.rsubmit);
         btnFindUdice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Register.this, MainActivity.class);
                 startActivity(i);
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Register.this, Home.class);
+                startActivity(intent);
             }
         });
     }
