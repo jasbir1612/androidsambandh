@@ -14,7 +14,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import test.testing.pojo.request.SchoolDataBody;
+import test.testing.pojo.response.BlockDataResponse;
+import test.testing.pojo.response.DistrictDataResponse;
 import test.testing.pojo.response.SchoolDataResponse;
+import test.testing.pojo.response.VillageDataResponse;
 
 /**
  * Created by rajdeep1008 on 17/12/17.
@@ -72,7 +75,6 @@ public class ApiService {
                     ArrayList<SchoolDataResponse> resp = new ArrayList<>();
                     for (int i = 0; i < 20; i++) {
                         resp.add(response.body().get(i));
-                        Log.d("response", resp.toString());
                     }
                     callback.success(resp);
                 } else {
@@ -84,6 +86,63 @@ public class ApiService {
             public void onFailure(@NonNull Call<List<SchoolDataResponse>> call, Throwable t) {
                 Log.d("lalala", t.getMessage());
                 callback.failure(new ArrayList<SchoolDataResponse>());
+            }
+        });
+    }
+
+    public void getDistrictData(long code, final ResponseCallback<List<DistrictDataResponse>> callback) {
+        Call<List<DistrictDataResponse>> call = sambandhApi.getDistrictData(code);
+        call.enqueue(new Callback<List<DistrictDataResponse>>() {
+            @Override
+            public void onResponse(Call<List<DistrictDataResponse>> call, Response<List<DistrictDataResponse>> response) {
+                if (response.isSuccessful()) {
+                    callback.success(response.body());
+                } else {
+                    callback.failure(new ArrayList<DistrictDataResponse>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DistrictDataResponse>> call, Throwable t) {
+                callback.failure(new ArrayList<DistrictDataResponse>());
+            }
+        });
+    }
+
+    public void getBlockData(long code, final ResponseCallback<List<BlockDataResponse>> callback) {
+        Call<List<BlockDataResponse>> call = sambandhApi.getBlockData(code);
+        call.enqueue(new Callback<List<BlockDataResponse>>() {
+            @Override
+            public void onResponse(Call<List<BlockDataResponse>> call, Response<List<BlockDataResponse>> response) {
+                if (response.isSuccessful()) {
+                    callback.success(response.body());
+                } else {
+                    callback.failure(new ArrayList<BlockDataResponse>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BlockDataResponse>> call, Throwable t) {
+                callback.failure(new ArrayList<BlockDataResponse>());
+            }
+        });
+    }
+
+    public void getVillageData(long code, final ResponseCallback<List<VillageDataResponse>> callback) {
+        Call<List<VillageDataResponse>> call = sambandhApi.getVillageData(code);
+        call.enqueue(new Callback<List<VillageDataResponse>>() {
+            @Override
+            public void onResponse(Call<List<VillageDataResponse>> call, Response<List<VillageDataResponse>> response) {
+                if (response.isSuccessful()) {
+                    callback.success(response.body());
+                } else {
+                    callback.failure(new ArrayList<VillageDataResponse>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<VillageDataResponse>> call, Throwable t) {
+                callback.failure(new ArrayList<VillageDataResponse>());
             }
         });
     }

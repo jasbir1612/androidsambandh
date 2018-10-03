@@ -1,58 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#3b5998"
     android:orientation="vertical"
-    tools:context=".ui.Home"
-    android:background="#3b5998">
-        <LinearLayout
+    tools:context=".ui.Home">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/logo_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            >
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/logo_layout"
-                android:background="@android:color/white"
-                android:padding="10dp">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:src="@drawable/logo"
-                    android:id="@+id/logo"/>
-            </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="10dp">
+
             <ImageView
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/pledgelife_logo"
-                android:id="@+id/pledge_logo2"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                />
+                android:id="@+id/logo"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:src="@drawable/logo" />
+        </RelativeLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textColor="@android:color/white"
-        android:text="Download"
-        android:id="@+id/download"
-        android:background="#3B5998"
-        android:textSize="35sp"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textColor="@android:color/white"
-        android:text="Upload"
-        android:id="@+id/upload"
-        android:background="#004c90"
-        android:textSize="35sp"/>
+        <ImageView
+            android:id="@+id/pledge_logo2"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/pledgelife_logo" />
 
-        </LinearLayout>
+        <Button
+            android:id="@+id/download"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#3B5998"
+            android:text="Download"
+            android:textColor="@android:color/white"
+            android:textSize="35sp" />
+
+        <Button
+            android:id="@+id/upload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#004c90"
+            android:text="Upload"
+            android:textColor="@android:color/white"
+            android:textSize="35sp" />
+
+    </LinearLayout>
 </LinearLayout>

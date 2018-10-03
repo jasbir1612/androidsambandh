@@ -1,60 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Download"
     android:background="@drawable/shape"
-    >
+    tools:context=".ui.Download">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
 
-        >
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/logo_layout"
-        android:background="@android:color/white"
-        android:padding="10dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:src="@drawable/logo"
-            android:id="@+id/logo"/>
-    </RelativeLayout>
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/pledgelife_logo"
-        android:id="@+id/pledge_logo2"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
 
-    <VideoView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_margin="10dp"
-        android:id="@+id/video"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btdownload"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/video"
-        android:text="download"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="10dp"
-        android:background="#002468"/>
-    </LinearLayout>
+            >
+
+            <RelativeLayout
+                android:id="@+id/logo_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/logo" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/pledge_logo2"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/pledgelife_logo" />
+
+            <VideoView
+                android:id="@+id/video"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="10dp" />
+
+            <Button
+                android:id="@+id/btdownload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/video"
+                android:layout_margin="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#002468"
+                android:text="download"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
     </ScrollView>
 
 </RelativeLayout>

@@ -1,108 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/shape"
     tools:context=".LoginScreen">
+
     <RelativeLayout
+        android:id="@+id/logo_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/logo_layout"
         android:background="@android:color/white"
         android:padding="10dp">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:src="@drawable/logo"
-        android:id="@+id/logo"/>
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:src="@drawable/logo" />
     </RelativeLayout>
+
     <ImageView
+        android:id="@+id/pledge_logo2"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/logo_layout"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/pledgelife_logo"
-        android:id="@+id/pledge_logo2"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_below="@+id/logo_layout"
-        />
+        android:src="@drawable/pledgelife_logo" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        android:layout_below="@+id/pledge_logo2">
-
+        android:layout_below="@+id/pledge_logo2"
+        android:padding="10dp">
 
 
         <TextView
+            android:id="@+id/txtlogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login"
-            android:textSize="20sp"
             android:layout_centerHorizontal="true"
+            android:text="Login"
 
-            android:id="@+id/txtlogin"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
         <View
+            android:id="@+id/line2"
             android:layout_width="fill_parent"
             android:layout_height="2dp"
-            android:background="#c0c0c0"
+            android:layout_below="@+id/txtlogin"
             android:layout_margin="20dp"
-            android:id="@+id/line2"
-            android:layout_below="@+id/txtlogin"/>
+            android:background="#c0c0c0" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:maxWidth="300dp"
-        android:layout_margin="10dp"
-        android:hint="Enter Mobile Number"
-        android:id="@+id/number"
-        android:inputType="number"
-        android:layout_below="@+id/line2"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/etshape"
-        android:layout_marginBottom="10dp"
-        android:maxLength="10"/>
         <EditText
+            android:id="@+id/number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:maxWidth="300dp"
+            android:layout_below="@+id/line2"
+            android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
-            android:hint="Enter OTP"
-            android:id="@+id/btnotp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/etshape"
+            android:hint="Enter Mobile Number"
             android:inputType="number"
+            android:maxWidth="300dp"
+            android:maxLength="10"
+            android:padding="10dp" />
+
+        <EditText
+            android:id="@+id/btnotp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/number"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/etshape"
+            android:layout_margin="10dp"
             android:layout_marginBottom="10dp"
-            android:maxLength="10"/>
+            android:background="@drawable/etshape"
+            android:hint="Enter OTP"
+            android:inputType="number"
+            android:maxWidth="300dp"
+            android:maxLength="10"
+            android:padding="10dp" />
 
 
         <Button
+            android:id="@+id/btnlogin"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="Login"
             android:layout_above="@id/register"
-            android:textColor="@android:color/white"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:background="#002468"
-            android:id="@+id/btnlogin"
-            />
+            android:text="Login"
+            android:textColor="@android:color/white" />
+
         <Button
+            android:id="@+id/register"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:text="Register"
-            android:textColor="@android:color/white"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="16dp"
             android:background="#004c90"
-            android:id="@+id/register"
-            android:layout_margin="10dp"
-            />
+            android:text="Register"
+            android:textColor="@android:color/white" />
 
 
     </RelativeLayout>
