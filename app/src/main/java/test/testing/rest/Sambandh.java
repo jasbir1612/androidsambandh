@@ -8,9 +8,11 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import test.testing.pojo.request.SchoolDataBody;
+import test.testing.pojo.request.SendSmsBody;
 import test.testing.pojo.response.BlockDataResponse;
 import test.testing.pojo.response.DistrictDataResponse;
 import test.testing.pojo.response.SchoolDataResponse;
+import test.testing.pojo.response.SmsDataResponse;
 import test.testing.pojo.response.VillageDataResponse;
 
 /**
@@ -27,9 +29,9 @@ public interface Sambandh {
 
     @GET("Sambandh/GetVillageData")
     Call<List<VillageDataResponse>> getVillageData(@Query("BlockCode") long code);
-//
-//    @POST("Sambandh/SendSMS")
-//    Call<> sendSms(@Body SendSmsBody body);
+
+    @POST("Sambandh/SendSMS")
+    Call<List<SmsDataResponse>> sendSms(@Body SendSmsBody body);
 //
 //    @POST("Sambandh/SendSMS")
 //    Call<> getBlockDataQueryMethod(@Query("MobileNo") String mobileNo, @Query("Message") String message);

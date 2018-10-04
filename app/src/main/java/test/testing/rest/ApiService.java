@@ -14,9 +14,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import test.testing.pojo.request.SchoolDataBody;
+import test.testing.pojo.request.SendSmsBody;
 import test.testing.pojo.response.BlockDataResponse;
 import test.testing.pojo.response.DistrictDataResponse;
 import test.testing.pojo.response.SchoolDataResponse;
+import test.testing.pojo.response.SmsDataResponse;
 import test.testing.pojo.response.VillageDataResponse;
 
 /**
@@ -38,7 +40,10 @@ public class ApiService {
                     .client(httpClient);
 
     private static Retrofit mRetrofit = builder.build();
+    private static Retrofit mRetrofit2 = builder.build();
+
     private Sambandh sambandhApi;
+    private Sambandh sambandhApi2;
 
     private Retrofit initRetrofit() {
         if (mRetrofit == null) {
@@ -64,6 +69,9 @@ public class ApiService {
             initRetrofit();
         }
         sambandhApi = mRetrofit.create(Sambandh.class);
+        sambandhApi2 = mRetrofit2.create(Sambandh.class);
+
+
     }
 
     public void getSchoolData(SchoolDataBody body, final ResponseCallback<List<SchoolDataResponse>> callback) {
@@ -145,5 +153,37 @@ public class ApiService {
                 callback.failure(new ArrayList<VillageDataResponse>());
             }
         });
+    }
+
+    public void getSmsData(SendSmsBody body, final ResponseCallback<List<SmsDataResponse>> callback) {
+        Log.d("resp", "getSmsData: ");
+        Call<List<SmsDataResponse>> call = sambandhApi2.sendSms(body);
+        call.enqueue(new Callback<List<SmsDataResponse>>() {
+            @Override
+            public void onResponse(Call<List<SmsDataResponse>> call, Response<List<SmsDataResponse>> response) {
+                Log.d("resp", "onResponse: "+response.raw().request().url());
+                if (response.isSuccessful()) {
+                    ArrayList<SmsDataResponse> resp = new ArrayList<>();
+                    for (int i = 0; i < 20; i++) {
+                        resp.add(response.body().get(i));
+                        Log.d("response", resp.toString());
+                    }
+                    callback.success(resp);
+                } else {
+                    callback.failure(new ArrayList<SmsDataResponse>());
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<List<SmsDataResponse>> call, Throwable t) {
+                //Toast.makeText(getApplicationContext(), "Error response", Toast.LENGTH_SHORT).show();
+                Log.d("onFailure", t.getMessage());
+                callback.failure(new ArrayList<SmsDataResponse>());
+            }
+
+
+        });
+
     }
 }
