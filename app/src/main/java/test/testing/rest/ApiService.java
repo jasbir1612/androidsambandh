@@ -13,8 +13,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import test.testing.pojo.request.RegisterBody;
 import test.testing.pojo.response.BlockDataResponse;
 import test.testing.pojo.response.DistrictDataResponse;
+import test.testing.pojo.response.RegisterResponse;
 import test.testing.pojo.response.SchoolDataResponse;
 import test.testing.pojo.response.VillageDataResponse;
 
@@ -138,6 +140,28 @@ public class ApiService {
             @Override
             public void onFailure(Call<List<VillageDataResponse>> call, Throwable t) {
                 callback.failure(new ArrayList<VillageDataResponse>());
+            }
+        });
+    }
+
+    public void register(RegisterBody jsonBody, final ResponseCallback<List<RegisterResponse>> callback) {
+        Call<List<RegisterResponse>> call = sambandhApi.register(jsonBody);
+        call.enqueue(new Callback<List<RegisterResponse>>() {
+            @Override
+            public void onResponse(Call<List<RegisterResponse>> call, Response<List<RegisterResponse>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().get(0).getMessage().length() > 0)
+                        callback.failure(new ArrayList<RegisterResponse>());
+                    else
+                        callback.success(response.body());
+                } else {
+                    callback.failure(new ArrayList<RegisterResponse>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RegisterResponse>> call, Throwable t) {
+                callback.failure(new ArrayList<RegisterResponse>());
             }
         });
     }

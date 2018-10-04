@@ -17,17 +17,17 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.DetailActivity" />
-        <activity android:name=".LoginScreen">
+        <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.Register" />
-        <activity android:name=".ui.Upload" />
-        <activity android:name=".ui.Download" />
-        <activity android:name=".ui.Home" />
+        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.UploadActivity" />
+        <activity android:name=".ui.DownloadActivity" />
+        <activity android:name=".ui.HomeActivity" />
     </application>
 
 </manifest>

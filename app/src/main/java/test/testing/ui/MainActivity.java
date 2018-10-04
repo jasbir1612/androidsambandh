@@ -32,9 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AppCompatEditText udiceEt;
     private ApiService apiService;
     private Button submitButton;
-    private ProgressBar progressBar;
     private ProgressBar loadingProgress;
-
 
     private ArrayList<DistrictDataResponse> districtDataList = new ArrayList<>();
     private ArrayList<BlockDataResponse> blockDataList = new ArrayList<>();
@@ -116,8 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         villageSpinner.setEnabled(false);
 
         submitButton = findViewById(R.id.btn_submit);
-        progressBar = findViewById(R.id.progress_bar);
-
         submitButton.setOnClickListener(this);
 
         getDistrictData();
@@ -278,7 +274,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         schoolSpinner.setAdapter(adapter);
 
         submitButton.setEnabled(true);
-        udiceEt.setText(doubleConverter(schoolDataList.get(schoolSpinner.getSelectedItemPosition()).getSchoolCode()));
+        if (schoolDataList.size() > 0)
+            udiceEt.setText(doubleConverter(schoolDataList.get(schoolSpinner.getSelectedItemPosition()).getSchoolCode()));
 
     }
 
