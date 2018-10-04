@@ -13,7 +13,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import test.testing.pojo.request.SchoolDataBody;
 import test.testing.pojo.response.BlockDataResponse;
 import test.testing.pojo.response.DistrictDataResponse;
 import test.testing.pojo.response.SchoolDataResponse;
@@ -66,17 +65,13 @@ public class ApiService {
         sambandhApi = mRetrofit.create(Sambandh.class);
     }
 
-    public void getSchoolData(SchoolDataBody body, final ResponseCallback<List<SchoolDataResponse>> callback) {
-        Call<List<SchoolDataResponse>> call = sambandhApi.getSchoolData(body);
+    public void getSchoolData(long districtCode, long blockCode, long villageCode, String udiceCode, final ResponseCallback<List<SchoolDataResponse>> callback) {
+        Call<List<SchoolDataResponse>> call = sambandhApi.getSchoolData(districtCode, blockCode, villageCode, udiceCode);
         call.enqueue(new Callback<List<SchoolDataResponse>>() {
             @Override
             public void onResponse(@NonNull Call<List<SchoolDataResponse>> call, @NonNull Response<List<SchoolDataResponse>> response) {
                 if (response.isSuccessful()) {
-                    ArrayList<SchoolDataResponse> resp = new ArrayList<>();
-                    for (int i = 0; i < 20; i++) {
-                        resp.add(response.body().get(i));
-                    }
-                    callback.success(resp);
+                    callback.success(response.body());
                 } else {
                     callback.failure(new ArrayList<SchoolDataResponse>());
                 }

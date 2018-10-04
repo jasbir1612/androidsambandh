@@ -3,11 +3,8 @@ package test.testing.rest;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.Query;
-import test.testing.pojo.request.SchoolDataBody;
 import test.testing.pojo.response.BlockDataResponse;
 import test.testing.pojo.response.DistrictDataResponse;
 import test.testing.pojo.response.SchoolDataResponse;
@@ -37,6 +34,9 @@ public interface Sambandh {
 //    @POST("Sambandh/GetDesignation")
 //    Call<> getDesignation();
 
-    @POST("Sambandh/GetSchoolData")
-    Call<List<SchoolDataResponse>> getSchoolData(@Body SchoolDataBody body);
+    @GET("Sambandh/GetSchoolData")
+    Call<List<SchoolDataResponse>> getSchoolData(@Query("DistrictCode") long districtCode,
+                                                 @Query("BlockCode") long blockCode,
+                                                 @Query("VillageCode") long villageCode,
+                                                 @Query("UDiceCode") String udiceCode);
 }
