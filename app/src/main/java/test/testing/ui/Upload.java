@@ -42,7 +42,7 @@ import java.io.InputStream;
 
 import test.testing.R;
 
-public class Upload extends AppCompatActivity implements View.OnClickListener  {
+public class Upload extends AppCompatActivity implements View.OnClickListener {
     String videoUrl = "https://firebasestorage.googleapis.com/v0/b/pet-simplified-automation.appspot.com/o/devpet%2FGB%2010sec%20video-1537724669843.mp4?alt=media&token=fa764176-c7bd-4f7d-9378-99009c3dfa40";
 
     private static final String TAG = "UploadActivity";
@@ -51,12 +51,12 @@ public class Upload extends AppCompatActivity implements View.OnClickListener  {
 
     private TextView tvFileName;
     private ImageView imageView;
-    private EditText edtFileName;
 
     private Uri fileUri;
     private Bitmap bitmap;
-    private StorageReference imageReference;
+    private StorageReference imageReference, imageReference2;
     private FirebaseAuth mAuth;
+    String fileName, fileName2;
     ProgressDialog progressDialog;
 
 
@@ -65,27 +65,31 @@ public class Upload extends AppCompatActivity implements View.OnClickListener  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
 
-        imageView =  findViewById(R.id.img_file);
-        edtFileName =  findViewById(R.id.edt_file_name);
+        imageView = findViewById(R.id.img_file);
         tvFileName = findViewById(R.id.tv_file_name);
         tvFileName.setText("");
 
         mAuth = FirebaseAuth.getInstance();
         imageReference = FirebaseStorage.getInstance().getReference().child("images");
+        imageReference2 = FirebaseStorage.getInstance().getReference().child("images2");
+
         progressDialog = new ProgressDialog(this);
 
         findViewById(R.id.btn_choose_file).setOnClickListener(this);
         findViewById(R.id.btn_upload_file).setOnClickListener(this);
-        findViewById(R.id.btn_back).setOnClickListener(this);
+        findViewById(R.id.btn_upload_file2).setOnClickListener(this);
+        findViewById(R.id.btn_choose_file2).setOnClickListener(this);
+
     }
 
     private void uploadFile() {
         if (fileUri != null) {
-            String fileName = edtFileName.getText().toString();
 
+            fileName = fileUri.getLastPathSegment();
             if (!validateInputFileName(fileName)) {
                 return;
             }
+
 
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
@@ -132,6 +136,63 @@ public class Upload extends AppCompatActivity implements View.OnClickListener  {
         } else {
             Toast.makeText(Upload.this, "No File!", Toast.LENGTH_LONG).show();
         }
+
+
+    }
+
+    private void uploadFile2(){
+        if (fileUri != null) {
+            fileName2 = fileUri.getLastPathSegment();
+
+            if (!validateInputFileName(fileName2)) {
+                return;
+            }
+
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            StorageReference fileRef2 = imageReference2.child(fileName2 + "." + getFileExtension(fileUri));
+            fileRef2.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                    Log.e(TAG, "Name: " + taskSnapshot.getMetadata().getName());
+
+                    tvFileName.setText(taskSnapshot.getMetadata().getPath() + " - "
+                            + taskSnapshot.getMetadata().getSizeBytes() / 1024 + " KBs");
+                    Toast.makeText(Upload.this, "File Uploaded ", Toast.LENGTH_LONG).show();
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+
+                    Toast.makeText(Upload.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+
+                    // percentage in progress dialog
+                    progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+
+                }
+            }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+                    System.out.println("Upload is paused!");
+
+
+
+                }
+            });
+
+        } else {
+            Toast.makeText(Upload.this, "No File!", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     private void showChoosingFile() {
@@ -154,6 +215,7 @@ public class Upload extends AppCompatActivity implements View.OnClickListener  {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
                 imageView.setImageBitmap(bitmap);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -169,15 +231,18 @@ public class Upload extends AppCompatActivity implements View.OnClickListener  {
             showChoosingFile();
         } else if (i == R.id.btn_upload_file) {
             uploadFile();
-        } else if (i == R.id.btn_back) {
-            finish();
+        }else if(i == R.id.btn_choose_file2)
+        {
+            showChoosingFile();
+        }else if(i == R.id.btn_upload_file2){
+            uploadFile2();
         }
 
     }
+
     private String getFileExtension(Uri uri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
-
         return mime.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
@@ -187,14 +252,6 @@ public class Upload extends AppCompatActivity implements View.OnClickListener  {
             Toast.makeText(Upload.this, "Enter file name!", Toast.LENGTH_SHORT).show();
             return false;
         }
-
         return true;
     }
-
-//    private void updateUI(FirebaseUser currentUser) {
-//        if(currentUser!=null)
-//        {
-//            Toast.makeText(this, "email: " +currentUser.getEmail(), Toast.LENGTH_SHORT).show();
-//        }
-//    }
 }

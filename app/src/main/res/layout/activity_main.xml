@@ -62,26 +62,50 @@
                 android:layout_height="2dp"
                 android:layout_margin="20dp"
                 android:background="#c0c0c0" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select District Code"
+                android:textColor="@android:color/white"
+                android:paddingLeft="10dp"/>
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/district_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:background="@drawable/spinnershape"
+                android:padding="10dp"
                 android:prompt="@string/district_spinner_hint" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Block Code"
+                android:textColor="@android:color/white"
+                android:paddingLeft="10dp"/>
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/block_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:background="@drawable/spinnershape"
+                android:padding="10dp"
                 android:prompt="@string/block_spinner_hint" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Village Code"
+                android:textColor="@android:color/white"
+                android:paddingLeft="10dp"/>
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/village_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:background="@drawable/spinnershape"
+                android:padding="10dp"
                 android:prompt="@string/village_spinner_hint" />
 
             <LinearLayout

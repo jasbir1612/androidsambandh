@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressBar progressBar;
     private ProgressBar loadingProgress;
 
+
     private ArrayList<DistrictDataResponse> districtDataList = new ArrayList<>();
     private ArrayList<BlockDataResponse> blockDataList = new ArrayList<>();
     private ArrayList<VillageDataResponse> villageDataList = new ArrayList<>();

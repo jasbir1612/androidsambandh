@@ -12,8 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            >
+            android:layout_marginTop="10dp">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,13 +59,7 @@
             android:textColor="@android:color/white"
             android:text="Choose File" />
 
-        <EditText
-            android:id="@+id/edt_file_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/etshape"
-            android:layout_weight="2"
-            android:hint="File Name" />
+
 
     </LinearLayout>
 
@@ -101,7 +94,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:weightSum="5">
 
@@ -109,16 +102,41 @@
             android:id="@+id/img_file"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:padding="10dp"
             android:layout_weight="4.7" />
-
-        <Button
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Back" />
-
     </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="5">
+            <Button
+                android:id="@+id/btn_choose_file2"
+                android:layout_width="wrap_content"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#002468"
+                android:textColor="@android:color/white"
+                android:text="Choose File" />
+            <Button
+                android:id="@+id/btn_upload_file2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#002468"
+                android:textColor="@android:color/white"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:text="Upload File" />
+
+            <ImageView
+                android:id="@+id/img_file2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"/>
+        </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
