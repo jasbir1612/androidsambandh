@@ -14,10 +14,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import test.testing.pojo.request.RegisterBody;
+import test.testing.pojo.request.SendSmsBody;
 import test.testing.pojo.response.BlockDataResponse;
 import test.testing.pojo.response.DistrictDataResponse;
 import test.testing.pojo.response.RegisterResponse;
 import test.testing.pojo.response.SchoolDataResponse;
+import test.testing.pojo.response.SendOtpResponse;
+import test.testing.pojo.response.SendSmsResponse;
 import test.testing.pojo.response.VillageDataResponse;
 
 /**
@@ -165,4 +168,25 @@ public class ApiService {
             }
         });
     }
+
+    public void getSmsData(SendSmsBody body, final ResponseCallback<SendSmsResponse> callback) {
+        Call<SendSmsResponse> call = sambandhApi.sendSms(body);
+        call.enqueue(new Callback<SendSmsResponse>() {
+            @Override
+            public void onResponse(Call<SendSmsResponse> call, Response<SendSmsResponse> response) {
+                if (response.isSuccessful()) {
+                    callback.success(response.body());
+                } else {
+                    callback.failure(new SendSmsResponse());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SendSmsResponse> call, Throwable t) {
+                callback.failure(new SendSmsResponse());
+            }
+        });
+    }
+
+
 }
