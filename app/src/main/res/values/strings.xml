@@ -4,4 +4,5 @@
     <string name="block_spinner_hint">Enter Village Code</string>
     <string name="village_spinner_hint">Enter Village Code</string>
     <string name="udice_spinner_hint">Enter UDice Code</string>
+    <string name="school_spinner_hint">Enter School Code</string>
 </resources>

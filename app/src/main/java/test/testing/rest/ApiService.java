@@ -13,10 +13,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import test.testing.pojo.request.SchoolDataBody;
+import test.testing.pojo.request.RegisterBody;
+import test.testing.pojo.request.SendSmsBody;
 import test.testing.pojo.response.BlockDataResponse;
 import test.testing.pojo.response.DistrictDataResponse;
+import test.testing.pojo.response.RegisterResponse;
 import test.testing.pojo.response.SchoolDataResponse;
+import test.testing.pojo.response.SendOtpResponse;
+import test.testing.pojo.response.SendSmsResponse;
 import test.testing.pojo.response.VillageDataResponse;
 
 /**
@@ -66,17 +70,13 @@ public class ApiService {
         sambandhApi = mRetrofit.create(Sambandh.class);
     }
 
-    public void getSchoolData(SchoolDataBody body, final ResponseCallback<List<SchoolDataResponse>> callback) {
-        Call<List<SchoolDataResponse>> call = sambandhApi.getSchoolData(body);
+    public void getSchoolData(long districtCode, long blockCode, long villageCode, String udiceCode, final ResponseCallback<List<SchoolDataResponse>> callback) {
+        Call<List<SchoolDataResponse>> call = sambandhApi.getSchoolData(districtCode, blockCode, villageCode, udiceCode);
         call.enqueue(new Callback<List<SchoolDataResponse>>() {
             @Override
             public void onResponse(@NonNull Call<List<SchoolDataResponse>> call, @NonNull Response<List<SchoolDataResponse>> response) {
                 if (response.isSuccessful()) {
-                    ArrayList<SchoolDataResponse> resp = new ArrayList<>();
-                    for (int i = 0; i < 20; i++) {
-                        resp.add(response.body().get(i));
-                    }
-                    callback.success(resp);
+                    callback.success(response.body());
                 } else {
                     callback.failure(new ArrayList<SchoolDataResponse>());
                 }
@@ -146,4 +146,47 @@ public class ApiService {
             }
         });
     }
+
+    public void register(RegisterBody jsonBody, final ResponseCallback<List<RegisterResponse>> callback) {
+        Call<List<RegisterResponse>> call = sambandhApi.register(jsonBody);
+        call.enqueue(new Callback<List<RegisterResponse>>() {
+            @Override
+            public void onResponse(Call<List<RegisterResponse>> call, Response<List<RegisterResponse>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().get(0).getMessage().length() > 0)
+                        callback.failure(new ArrayList<RegisterResponse>());
+                    else
+                        callback.success(response.body());
+                } else {
+                    callback.failure(new ArrayList<RegisterResponse>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RegisterResponse>> call, Throwable t) {
+                callback.failure(new ArrayList<RegisterResponse>());
+            }
+        });
+    }
+
+    public void getSmsData(SendSmsBody body, final ResponseCallback<SendSmsResponse> callback) {
+        Call<SendSmsResponse> call = sambandhApi.sendSms(body);
+        call.enqueue(new Callback<SendSmsResponse>() {
+            @Override
+            public void onResponse(Call<SendSmsResponse> call, Response<SendSmsResponse> response) {
+                if (response.isSuccessful()) {
+                    callback.success(response.body());
+                } else {
+                    callback.failure(new SendSmsResponse());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SendSmsResponse> call, Throwable t) {
+                callback.failure(new SendSmsResponse());
+            }
+        });
+    }
+
+
 }

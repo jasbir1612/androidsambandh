@@ -1,11 +1,12 @@
 package test.testing.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,11 +14,11 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import test.testing.R;
-import test.testing.pojo.request.SchoolDataBody;
 import test.testing.pojo.response.BlockDataResponse;
 import test.testing.pojo.response.DistrictDataResponse;
 import test.testing.pojo.response.SchoolDataResponse;
@@ -27,18 +28,16 @@ import test.testing.rest.ResponseCallback;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private AppCompatSpinner districtSpinner, villageSpinner, blockSpinner;
+    private AppCompatSpinner districtSpinner, villageSpinner, blockSpinner, schoolSpinner;
     private AppCompatEditText udiceEt;
     private ApiService apiService;
-    private SchoolDataBody schoolDataBody;
     private Button submitButton;
-    private ProgressBar progressBar;
     private ProgressBar loadingProgress;
-
 
     private ArrayList<DistrictDataResponse> districtDataList = new ArrayList<>();
     private ArrayList<BlockDataResponse> blockDataList = new ArrayList<>();
     private ArrayList<VillageDataResponse> villageDataList = new ArrayList<>();
+    private ArrayList<SchoolDataResponse> schoolDataList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +46,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         apiService = new ApiService();
 
-        udiceEt = findViewById(R.id.udice_code);
+        udiceEt = findViewById(R.id.udice_code_et);
         blockSpinner = findViewById(R.id.block_code);
         districtSpinner = findViewById(R.id.district_code);
         villageSpinner = findViewById(R.id.village_code);
         loadingProgress = findViewById(R.id.loading_progress);
+        schoolSpinner = findViewById(R.id.school_code);
+
+        submitButton = findViewById(R.id.btn_submit);
+        submitButton.setEnabled(false);
 
         districtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -80,7 +83,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         villageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                long selectedDistrictCode = districtDataList.get(districtSpinner.getSelectedItemPosition()).getDistrictCode();
+                long selectedblockCode = blockDataList.get(blockSpinner.getSelectedItemPosition()).getBlockCode();
+                long selectedVillageCode = villageDataList.get(position).getVillageCode();
 
+                getSchoolData(selectedDistrictCode, selectedblockCode, selectedVillageCode, "");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        schoolSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                submitButton.setEnabled(true);
+                udiceEt.setText(doubleConverter(schoolDataList.get(position).getSchoolCode()));
             }
 
             @Override
@@ -94,8 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         villageSpinner.setEnabled(false);
 
         submitButton = findViewById(R.id.btn_submit);
-        progressBar = findViewById(R.id.progress_bar);
-
         submitButton.setOnClickListener(this);
 
         getDistrictData();
@@ -103,43 +121,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        String finalUdice = udiceEt.getText().toString();
 
-        submitButton.setEnabled(false);
-        progressBar.setVisibility(View.VISIBLE);
+        if (TextUtils.isEmpty(finalUdice)) {
+            Toast.makeText(this, "Problem in finding udice. Try again later.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        schoolDataBody = new SchoolDataBody();
-//        schoolDataBody.setuDiceCode(etUCID.getText().toString().trim());
-//        schoolDataBody.setDistrictCode(etDistrict.getText().toString().trim());
-//        schoolDataBody.setVillageCode(etVillage.getText().toString().trim());
-//        schoolDataBody.setBlockCode(etblock.getText().toString().trim());
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("udice_code", finalUdice);
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
+    }
 
-        apiService.getSchoolData(schoolDataBody, new ResponseCallback<List<SchoolDataResponse>>() {
+    private void getSchoolData(long districtCode, long blockCode, long villageCode, String udiceCode) {
+        apiService.getSchoolData(districtCode, blockCode, villageCode, "", new ResponseCallback<List<SchoolDataResponse>>() {
             @Override
             public void success(List<SchoolDataResponse> schoolDataResponses) {
-                submitButton.setEnabled(true);
-                progressBar.setVisibility(View.GONE);
-
-                if (schoolDataResponses != null) {
-                    Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                    intent.putParcelableArrayListExtra("list", new ArrayList<Parcelable>(schoolDataResponses));
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(MainActivity.this, "null response", Toast.LENGTH_SHORT).show();
-                }
+                if (schoolDataResponses != null)
+                    schoolDataList = new ArrayList<>(schoolDataResponses);
+                else
+                    schoolDataList = new ArrayList<>();
+                fillSchoolData(schoolDataList);
+                showLoader(false);
             }
 
             @Override
             public void failure(List<SchoolDataResponse> schoolDataResponses) {
-                submitButton.setEnabled(true);
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(MainActivity.this, "Error response", Toast.LENGTH_SHORT).show();
+                schoolDataList = new ArrayList<>();
+                fillSchoolData(schoolDataList);
+                showLoader(false);
             }
         });
-
-        if (v.getId() == R.id.btn_submit) {
-            Intent i = new Intent(MainActivity.this, Register.class);
-            startActivity(i);
-        }
     }
 
     private void getDistrictData() {
@@ -147,7 +160,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         apiService.getDistrictData(18, new ResponseCallback<List<DistrictDataResponse>>() {
             @Override
             public void success(List<DistrictDataResponse> districtDataResponses) {
-                districtDataList = new ArrayList<>(districtDataResponses);
+                if (districtDataResponses != null)
+                    districtDataList = new ArrayList<>(districtDataResponses);
+                else
+                    districtDataList = new ArrayList<>();
                 fillDistrictData(districtDataList);
                 showLoader(false);
             }
@@ -166,7 +182,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         apiService.getBlockData(code, new ResponseCallback<List<BlockDataResponse>>() {
             @Override
             public void success(List<BlockDataResponse> blockDataResponse) {
-                blockDataList = new ArrayList<>(blockDataResponse);
+                if (blockDataResponse != null)
+                    blockDataList = new ArrayList<>(blockDataResponse);
+                else
+                    blockDataList = new ArrayList<>();
                 fillBlockData(blockDataList);
                 showLoader(false);
             }
@@ -185,7 +204,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         apiService.getVillageData(code, new ResponseCallback<List<VillageDataResponse>>() {
             @Override
             public void success(List<VillageDataResponse> villageDataResponses) {
-                villageDataList = new ArrayList<>(villageDataResponses);
+                if (villageDataResponses != null)
+                    villageDataList = new ArrayList<>(villageDataResponses);
+                else
+                    villageDataList = new ArrayList<>();
                 filVillageData(villageDataList);
                 showLoader(false);
             }
@@ -234,10 +256,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, providerlist);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         villageSpinner.setAdapter(adapter);
+
+        long selectedDistrictCode = districtDataList.get(districtSpinner.getSelectedItemPosition()).getDistrictCode();
+        long selectedblockCode = blockDataList.get(blockSpinner.getSelectedItemPosition()).getBlockCode();
+        long selectedVillageCode = villageDataList.get(villageSpinner.getSelectedItemPosition()).getVillageCode();
+        getSchoolData(selectedDistrictCode, selectedblockCode, selectedVillageCode, "");
+    }
+
+    private void fillSchoolData(ArrayList<SchoolDataResponse> data) {
+        ArrayList<String> providerlist = new ArrayList<>();
+        for (SchoolDataResponse response : data) {
+            providerlist.add(response.getSchoolName());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, providerlist);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        schoolSpinner.setAdapter(adapter);
+
+        submitButton.setEnabled(true);
+        if (schoolDataList.size() > 0)
+            udiceEt.setText(doubleConverter(schoolDataList.get(schoolSpinner.getSelectedItemPosition()).getSchoolCode()));
+
     }
 
     private void showLoader(boolean value) {
         loadingProgress.setVisibility(value ? View.VISIBLE : View.GONE);
+    }
+
+    private String doubleConverter(Double value) {
+        String ans = BigDecimal.valueOf(value).toPlainString();
+        return ans;
     }
 }
 

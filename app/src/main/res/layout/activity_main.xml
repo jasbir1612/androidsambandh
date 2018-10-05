@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/shape"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     tools:context="test.testing.ui.MainActivity">
 
     <ScrollView
@@ -12,9 +14,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="8dp">
 
             <RelativeLayout
                 android:id="@+id/logo_layout"
@@ -62,12 +64,13 @@
                 android:layout_height="2dp"
                 android:layout_margin="20dp"
                 android:background="#c0c0c0" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select District Code"
-                android:textColor="@android:color/white"
-                android:paddingLeft="10dp"/>
+                android:paddingLeft="10dp"
+                android:text="Select District"
+                android:textColor="@android:color/white" />
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/district_code"
@@ -77,12 +80,13 @@
                 android:background="@drawable/spinnershape"
                 android:padding="10dp"
                 android:prompt="@string/district_spinner_hint" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select Block Code"
-                android:textColor="@android:color/white"
-                android:paddingLeft="10dp"/>
+                android:paddingLeft="10dp"
+                android:text="Select Block"
+                android:textColor="@android:color/white" />
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/block_code"
@@ -92,12 +96,13 @@
                 android:background="@drawable/spinnershape"
                 android:padding="10dp"
                 android:prompt="@string/block_spinner_hint" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select Village Code"
-                android:textColor="@android:color/white"
-                android:paddingLeft="10dp"/>
+                android:paddingLeft="10dp"
+                android:text="Select Village"
+                android:textColor="@android:color/white" />
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/village_code"
@@ -107,6 +112,22 @@
                 android:background="@drawable/spinnershape"
                 android:padding="10dp"
                 android:prompt="@string/village_spinner_hint" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="Select School"
+                android:textColor="@android:color/white" />
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/school_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/spinnershape"
+                android:padding="10dp"
+                android:prompt="@string/school_spinner_hint" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -124,7 +145,7 @@
                     android:textSize="15sp" />
 
                 <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/udice_code"
+                    android:id="@+id/udice_code_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -146,14 +167,6 @@
                 android:background="#002468"
                 android:text="Submit"
                 android:textColor="@android:color/white" />
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center_horizontal"
-                android:indeterminateTint="@color/colorPrimary"
-                android:visibility="gone" />
 
         </LinearLayout>
     </ScrollView>
