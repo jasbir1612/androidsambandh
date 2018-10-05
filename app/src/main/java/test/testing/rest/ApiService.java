@@ -21,6 +21,7 @@ import test.testing.pojo.response.RegisterResponse;
 import test.testing.pojo.response.SchoolDataResponse;
 import test.testing.pojo.response.SendOtpResponse;
 import test.testing.pojo.response.SendSmsResponse;
+import test.testing.pojo.response.VerifyOtpResponse;
 import test.testing.pojo.response.VillageDataResponse;
 
 /**
@@ -188,5 +189,53 @@ public class ApiService {
         });
     }
 
+    public void sendOtp(String mobileNumber, final ResponseCallback<List<SendOtpResponse>> callback) {
+        Call<List<SendOtpResponse>> call = sambandhApi.sendOtp(mobileNumber);
+        call.enqueue(new Callback<List<SendOtpResponse>>() {
+            @Override
+            public void onResponse(Call<List<SendOtpResponse>> call, Response<List<SendOtpResponse>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().get(0).getStatus().equalsIgnoreCase("Success")) {
+                        callback.success(response.body());
+                    } else {
+                        callback.failure(new ArrayList<SendOtpResponse>());
+                    }
+                } else {
+                    callback.failure(new ArrayList<SendOtpResponse>());
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<SendOtpResponse>> call, Throwable t) {
+                callback.failure(new ArrayList<SendOtpResponse>());
+            }
+        });
+    }
+
+    public void verifyOtp(String mobileNo, String otp, String appUid, final ResponseCallback<List<VerifyOtpResponse>> callback) {
+        Call<List<VerifyOtpResponse>> call = sambandhApi.verifyOtp(mobileNo, otp, appUid);
+        call.enqueue(new Callback<List<VerifyOtpResponse>>() {
+            @Override
+            public void onResponse(Call<List<VerifyOtpResponse>> call, Response<List<VerifyOtpResponse>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().get(0) != null) {
+                        if (response.body().get(0).getStatus() != null && response.body().get(0).getStatus().equalsIgnoreCase("Success")) {
+                            callback.success(response.body());
+                        } else {
+                            callback.failure(new ArrayList<VerifyOtpResponse>());
+                        }
+                    } else {
+                        callback.failure(new ArrayList<VerifyOtpResponse>());
+                    }
+                } else {
+                    callback.failure(new ArrayList<VerifyOtpResponse>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<VerifyOtpResponse>> call, Throwable t) {
+                callback.failure(new ArrayList<VerifyOtpResponse>());
+            }
+        });
+    }
 }

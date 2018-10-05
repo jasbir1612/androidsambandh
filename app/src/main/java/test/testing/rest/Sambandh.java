@@ -17,6 +17,7 @@ import test.testing.pojo.response.RegisterResponse;
 import test.testing.pojo.response.SchoolDataResponse;
 import test.testing.pojo.response.SendOtpResponse;
 import test.testing.pojo.response.SendSmsResponse;
+import test.testing.pojo.response.VerifyOtpResponse;
 import test.testing.pojo.response.VillageDataResponse;
 
 /**
@@ -50,4 +51,7 @@ public interface Sambandh {
                                                  @Query("BlockCode") long blockCode,
                                                  @Query("VillageCode") long villageCode,
                                                  @Query("UDiceCode") String udiceCode);
+
+    @POST("Sambandh/VerifyOTP")
+    Call<List<VerifyOtpResponse>> verifyOtp(@Query("MobileNo") String mobileNo, @Query("OTP") String otp, @Query("AppUID") String appUid);
 }
