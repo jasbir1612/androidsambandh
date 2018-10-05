@@ -55,6 +55,13 @@ public class RegisterActivity extends AppCompatActivity {
         createdByEt = findViewById(R.id.et_created_by);
         dudiceEt = findViewById(R.id.et_dudice_code);
 
+        //Hiding Fields
+
+        userTypeEt.setVisibility(View.GONE);
+        jsonDataEt.setVisibility(View.GONE);
+        createdByEt.setVisibility(View.GONE);
+        dudiceEt.setVisibility(View.GONE);
+
         btnFindUdice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
