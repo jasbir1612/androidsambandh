@@ -32,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
         btnOtp = findViewById(R.id.generate_otp_btn);
         etPhone = findViewById(R.id.et_number);
         etOtp = findViewById(R.id.et_otp);
+        btnRegister.setVisibility(View.GONE);
+        btnLogin.setVisibility(View.GONE);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +59,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length() < 7) {
                     Toast.makeText(LoginActivity.this, "Please enter a valid phone number.", Toast.LENGTH_SHORT).show();
                     return;
+                }else{
+                    btnRegister.setVisibility(View.VISIBLE);
+                    btnLogin.setVisibility(View.VISIBLE);
+                    //generate OTP function
                 }
             }
         });

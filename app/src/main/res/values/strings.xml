@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Testing</string>
+    <string name="app_name">PFL</string>
     <string name="district_spinner_hint">Enter Block Code</string>
     <string name="block_spinner_hint">Enter Village Code</string>
     <string name="village_spinner_hint">Enter Village Code</string>
