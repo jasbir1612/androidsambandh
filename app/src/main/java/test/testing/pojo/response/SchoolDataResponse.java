@@ -2,7 +2,6 @@ package test.testing.pojo.response;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -33,6 +32,8 @@ public class SchoolDataResponse implements Parcelable {
     @SerializedName("School Management")
     @Expose
     private String schoolManagement;
+    @SerializedName("DistSchoolCode")
+    private String distSchoolCode;
     @SerializedName("Activity")
     @Expose
     private String activity;
@@ -54,6 +55,7 @@ public class SchoolDataResponse implements Parcelable {
         }
         schoolCategory = in.readString();
         schoolManagement = in.readString();
+        distSchoolCode = in.readString();
         activity = in.readString();
     }
 
@@ -105,6 +107,14 @@ public class SchoolDataResponse implements Parcelable {
         return activity;
     }
 
+    public String getDistSchoolCode() {
+        return distSchoolCode;
+    }
+
+    public void setDistSchoolCode(String distSchoolCode) {
+        this.distSchoolCode = distSchoolCode;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -130,7 +140,7 @@ public class SchoolDataResponse implements Parcelable {
         }
         dest.writeString(schoolCategory);
         dest.writeString(schoolManagement);
+        dest.writeString(distSchoolCode);
         dest.writeString(activity);
-        Log.d("dest", dest.toString());
     }
 }

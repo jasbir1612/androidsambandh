@@ -29,7 +29,7 @@ import test.testing.rest.ResponseCallback;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private AppCompatSpinner districtSpinner, villageSpinner, blockSpinner, schoolSpinner;
-    private AppCompatEditText udiceEt;
+    private AppCompatEditText udiceEt, dUdiceEt;
     private ApiService apiService;
     private Button submitButton;
     private ProgressBar loadingProgress;
@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         apiService = new ApiService();
 
         udiceEt = findViewById(R.id.udice_code_et);
+        dUdiceEt = findViewById(R.id.dudice_code_et);
         blockSpinner = findViewById(R.id.block_code);
         districtSpinner = findViewById(R.id.district_code);
         villageSpinner = findViewById(R.id.village_code);
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         udiceEt.setEnabled(false);
+        dUdiceEt.setEnabled(false);
         blockSpinner.setEnabled(false);
         villageSpinner.setEnabled(false);
 
@@ -122,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         String finalUdice = udiceEt.getText().toString();
+        String finalDudice = dUdiceEt.getText().toString();
 
         if (TextUtils.isEmpty(finalUdice)) {
             Toast.makeText(this, "Problem in finding udice. Try again later.", Toast.LENGTH_SHORT).show();
@@ -130,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent resultIntent = new Intent();
         resultIntent.putExtra("udice_code", finalUdice);
+        resultIntent.putExtra("dudice_code", finalDudice);
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }
@@ -274,8 +278,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         schoolSpinner.setAdapter(adapter);
 
         submitButton.setEnabled(true);
-        if (schoolDataList.size() > 0)
+        if (schoolDataList.size() > 0) {
             udiceEt.setText(doubleConverter(schoolDataList.get(schoolSpinner.getSelectedItemPosition()).getSchoolCode()));
+            dUdiceEt.setText(schoolDataList.get(schoolSpinner.getSelectedItemPosition()).getDistSchoolCode());
+        }
 
     }
 

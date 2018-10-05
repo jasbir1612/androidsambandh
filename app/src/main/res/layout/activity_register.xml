@@ -97,7 +97,7 @@
                     android:layout_centerHorizontal="true"
                     android:background="@android:color/white"
                     android:padding="8dp"
-                    android:text="Find UCID Code"
+                    android:text="Find UDICE Code"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp" />
 

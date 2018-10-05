@@ -77,7 +77,9 @@ public class RegisterActivity extends AppCompatActivity {
             if (requestCode == SELECT_UDICE_REQUEST_CODE) {
                 if (data != null) {
                     String udiceCode = data.getStringExtra("udice_code");
+                    String dudiceCode = data.getStringExtra("dudice_code");
                     udiceEt.setText(udiceCode);
+                    dudiceEt.setText(dudiceCode);
                 }
             }
         }
