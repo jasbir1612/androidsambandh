@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import test.testing.R;
+import test.testing.rest.Database;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -24,13 +25,19 @@ public class HomeActivity extends AppCompatActivity {
     String password = "geniejasbir";
     String TAG = "Home";
     private FirebaseAuth mAuth;
+    private Button logoutbtn;
+    private Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        db = new Database(getApplicationContext());
+
         btnUpload = findViewById(R.id.upload);
         btnDownload = findViewById(R.id.download);
+        logoutbtn = findViewById(R.id.logout_btn);
         mAuth = FirebaseAuth.getInstance();
 
 //        Toast.makeText(this, "email" +mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
@@ -47,11 +54,20 @@ public class HomeActivity extends AppCompatActivity {
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 Intent i = new Intent(HomeActivity.this, DownloadActivity.class);
                 startActivity(i);
                 loginUser(email, password);
+            }
+        });
+
+        logoutbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.clear();
+                Intent intent = new Intent(HomeActivity.this, Splash.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         });
     }

@@ -3,4 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="login_btn_color">#002468</color>
+    <color name="register_btn_color">#004c90</color>
+    <color name="gray_btn_color">#BDBDBD</color>
 </resources>

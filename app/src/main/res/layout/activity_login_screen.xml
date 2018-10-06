@@ -97,7 +97,7 @@
                 android:layout_below="@+id/et_otp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="#002468"
+                android:background="@color/login_btn_color"
                 android:text="Generate OTP"
                 android:textColor="@android:color/white" />
 
@@ -109,7 +109,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="#002468"
+                android:background="@color/gray_btn_color"
                 android:text="Login"
                 android:textColor="@android:color/white" />
 
@@ -122,7 +122,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="#004c90"
+                android:background="@color/gray_btn_color"
                 android:text="Register"
                 android:textColor="@android:color/white" />
 

@@ -2,6 +2,7 @@ package test.testing.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -40,12 +41,37 @@ public class LoginActivity extends AppCompatActivity {
         etOtp = findViewById(R.id.et_otp);
 
         btnLogin.setEnabled(false);
+        btnRegister.setEnabled(false);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(i);
+                String mobile = etPhone.getText().toString().trim();
+                String otp = etOtp.getText().toString().trim();
+                String appUid = db.getAppUid();
+
+                if (TextUtils.isEmpty(mobile)) {
+                    Toast.makeText(LoginActivity.this, "Enter mobile number first", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(otp)) {
+                    Toast.makeText(LoginActivity.this, "Enter mobile number first", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                apiService.verifyOtp(mobile, otp, appUid, new ResponseCallback<List<VerifyOtpResponse>>() {
+                    @Override
+                    public void success(List<VerifyOtpResponse> verifyOtpResponses) {
+                        Toast.makeText(LoginActivity.this, "Otp verified.", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                    }
+
+                    @Override
+                    public void failure(List<VerifyOtpResponse> verifyOtpResponses) {
+                        Toast.makeText(LoginActivity.this, "There was some problem right now. Try again later.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -95,6 +121,9 @@ public class LoginActivity extends AppCompatActivity {
                     //generate OTP function
                 }
 
+                btnOtp.setEnabled(false);
+                btnOtp.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.gray_btn_color));
+
                 apiService.sendOtp(phoneNumber, new ResponseCallback<List<SendOtpResponse>>() {
                     @Override
                     public void success(List<SendOtpResponse> sendOtpResponses) {
@@ -102,12 +131,22 @@ public class LoginActivity extends AppCompatActivity {
                             db.setAppUid(sendOtpResponses.get(0).getAppUID());
                             db.setMobile(sendOtpResponses.get(0).getMobile());
                         }
+
+                        btnOtp.setEnabled(true);
                         btnLogin.setEnabled(true);
+                        btnRegister.setEnabled(true);
+
+                        btnOtp.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.login_btn_color));
+                        btnLogin.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.login_btn_color));
+                        btnRegister.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.register_btn_color));
+
                         Toast.makeText(LoginActivity.this, "Otp sent successfully to " + phoneNumber, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void failure(List<SendOtpResponse> sendOtpResponses) {
+                        btnOtp.setEnabled(true);
+                        btnOtp.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.login_btn_color));
                         Toast.makeText(LoginActivity.this, "Problem in sending OTP. Try again later.", Toast.LENGTH_SHORT).show();
                     }
                 });

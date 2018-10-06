@@ -12,6 +12,7 @@ public class Database {
     public static final String KEY_APP_UID = "app_uid";
     public static final String KEY_SMSID = "sms_id";
     public static final String KEY_MOBILE = "moibile";
+    public static final String KEY_APP_ID = "app_id";
 
     public Database(Context context) {
         mContext = context;
@@ -37,6 +38,18 @@ public class Database {
     private boolean putInt(String key, int value) {
         editor.putInt(key, value);
         return editor.commit();
+    }
+
+    public void clear() {
+        editor.clear().commit();
+    }
+
+    public void setAppId(String appId) {
+        putString(KEY_APP_ID, appId);
+    }
+
+    public String getAppId() {
+        return sharedpreferences.getString(KEY_APP_ID, "");
     }
 
     public void setAppUid(String appUid) {

@@ -154,10 +154,23 @@ public class ApiService {
             @Override
             public void onResponse(Call<List<RegisterResponse>> call, Response<List<RegisterResponse>> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().get(0).getMessage().length() > 0)
+                    if (response.body() != null) {
+                        if (response.body().get(0) != null) {
+                            if (!response.body().get(0).getMessage().equalsIgnoreCase("")) {
+                                callback.failure(new ArrayList<RegisterResponse>());
+                            } else {
+                                if (response.body().get(0).getResult() == 1) {
+                                    callback.success(response.body());
+                                } else {
+                                    callback.failure(new ArrayList<RegisterResponse>());
+                                }
+                            }
+                        } else {
+                            callback.failure(new ArrayList<RegisterResponse>());
+                        }
+                    } else {
                         callback.failure(new ArrayList<RegisterResponse>());
-                    else
-                        callback.success(response.body());
+                    }
                 } else {
                     callback.failure(new ArrayList<RegisterResponse>());
                 }
