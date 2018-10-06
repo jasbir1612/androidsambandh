@@ -21,12 +21,11 @@ public class Splash extends AppCompatActivity {
 
         db = new Database(getApplicationContext());
 
-//        if (db.getAppUid().equalsIgnoreCase("")) {
-//            intent = new Intent(Splash.this, LoginActivity.class);
-//        } else {
-//            intent = new Intent(Splash.this, HomeActivity.class);
-//        }
-        intent = new Intent(this, RegisterActivity.class);
+        if (db.getAppUid().equalsIgnoreCase("")) {
+            intent = new Intent(Splash.this, LoginActivity.class);
+        } else {
+            intent = new Intent(Splash.this, HomeActivity.class);
+        }
 
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -38,11 +38,9 @@ public class RegisterResponse {
     private String subject;
 
     @SerializedName("MailText")
-    @Expose
     private String mailText;
 
     @SerializedName("DateTime")
-    @Expose
     private String dateTime;
 
     @SerializedName("Message")

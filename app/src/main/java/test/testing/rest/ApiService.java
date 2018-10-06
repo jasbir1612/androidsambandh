@@ -15,12 +15,14 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import test.testing.pojo.request.RegisterBody;
 import test.testing.pojo.request.SendSmsBody;
+import test.testing.pojo.request.UploadBody;
 import test.testing.pojo.response.BlockDataResponse;
 import test.testing.pojo.response.DistrictDataResponse;
 import test.testing.pojo.response.RegisterResponse;
 import test.testing.pojo.response.SchoolDataResponse;
 import test.testing.pojo.response.SendOtpResponse;
 import test.testing.pojo.response.SendSmsResponse;
+import test.testing.pojo.response.UploadResponse;
 import test.testing.pojo.response.VerifyOtpResponse;
 import test.testing.pojo.response.VillageDataResponse;
 
@@ -248,6 +250,39 @@ public class ApiService {
             @Override
             public void onFailure(Call<List<VerifyOtpResponse>> call, Throwable t) {
                 callback.failure(new ArrayList<VerifyOtpResponse>());
+            }
+        });
+    }
+
+    public void upload(UploadBody body, final ResponseCallback<List<UploadResponse>> callback) {
+        Call<List<UploadResponse>> call = sambandhApi.upload(body);
+        call.enqueue(new Callback<List<UploadResponse>>() {
+            @Override
+            public void onResponse(Call<List<UploadResponse>> call, Response<List<UploadResponse>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().get(0) != null) {
+                            if (!response.body().get(0).getMessage().equalsIgnoreCase("")) {
+                                callback.failure(new ArrayList<UploadResponse>());
+                            } else {
+                                if (response.body().get(0).getResult() == 1) {
+                                    callback.success(response.body());
+                                } else {
+                                    callback.failure(new ArrayList<UploadResponse>());
+                                }
+                            }
+                        } else {
+                            callback.failure(new ArrayList<UploadResponse>());
+                        }
+                    } else {
+                        callback.failure(new ArrayList<UploadResponse>());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<UploadResponse>> call, Throwable t) {
+                callback.failure(new ArrayList<UploadResponse>());
             }
         });
     }

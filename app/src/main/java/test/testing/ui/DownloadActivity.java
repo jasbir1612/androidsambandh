@@ -2,9 +2,9 @@ package test.testing.ui;
 
 import android.app.ProgressDialog;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +26,7 @@ import test.testing.R;
 public class DownloadActivity extends AppCompatActivity {
 
     VideoView videoView;
-    Button btndownload;
+    Button btndownload, btn2, btn3;
     ProgressDialog progressDialog;
     final String videoURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video.mp4?alt=media&token=4761a05d-e86e-4a04-8149-2fab3217a3c5";
     StorageReference storageReference;
@@ -39,16 +39,18 @@ public class DownloadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_download);
         videoView = findViewById(R.id.video);
         btndownload = findViewById(R.id.btdownload);
+        btn2 = findViewById(R.id.btdownload_hindi);
+        btn3 = findViewById(R.id.btdownload_assami);
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getReference();
         mAuth = FirebaseAuth.getInstance();
 
         storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(videoURL);
         progressDialog = new ProgressDialog(this);
-        Log.d("storage", "storageref: " +storageReference);
+        Log.d("storage", "storageref: " + storageReference);
 
 
-        fileUri= Uri.parse(videoURL);
+        fileUri = Uri.parse(videoURL);
         Log.d("fileURI", fileUri.toString());
         videoView.setVideoURI(fileUri);
         videoView.requestFocus();
@@ -57,29 +59,73 @@ public class DownloadActivity extends AppCompatActivity {
 
         btndownload.setOnClickListener(new View.OnClickListener() {
             @Override
-                public void onClick(View v) {
-
+            public void onClick(View v) {
 //                downloadFileinMemory(storageReference);
-
                 try {
                     FileInputStream fis = new FileInputStream(new File(getCacheDir(), "cachefile"));
-                    if(fis!=null)
-                    {
-                        
+                    if (fis != null) {
+
                         storageReference.putStream(fis);
                         Toast.makeText(DownloadActivity.this, "cache", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(videoURL);
                         Toast.makeText(DownloadActivity.this, "url", Toast.LENGTH_SHORT).show();
                         downloadFileinMemory(storageReference);
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    Toast.makeText(DownloadActivity.this, "no cache path", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DownloadActivity.this, "Downloaded", Toast.LENGTH_SHORT).show();
                 }
 //                                downloadFileloc(storageReference);
 
+
+            }
+        });
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                downloadFileinMemory(storageReference);
+                try {
+                    FileInputStream fis = new FileInputStream(new File(getCacheDir(), "cachefile"));
+                    if (fis != null) {
+
+                        storageReference.putStream(fis);
+                        Toast.makeText(DownloadActivity.this, "cache", Toast.LENGTH_SHORT).show();
+                    } else {
+                        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(videoURL);
+                        Toast.makeText(DownloadActivity.this, "url", Toast.LENGTH_SHORT).show();
+                        downloadFileinMemory(storageReference);
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(DownloadActivity.this, "Downloaded", Toast.LENGTH_SHORT).show();
+                }
+//                                downloadFileloc(storageReference);
+
+            }
+        });
+
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //                downloadFileinMemory(storageReference);
+                try {
+                    FileInputStream fis = new FileInputStream(new File(getCacheDir(), "cachefile"));
+                    if (fis != null) {
+
+                        storageReference.putStream(fis);
+                        Toast.makeText(DownloadActivity.this, "cache", Toast.LENGTH_SHORT).show();
+                    } else {
+                        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(videoURL);
+                        Toast.makeText(DownloadActivity.this, "url", Toast.LENGTH_SHORT).show();
+                        downloadFileinMemory(storageReference);
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(DownloadActivity.this, "Downloaded", Toast.LENGTH_SHORT).show();
+                }
+//                                downloadFileloc(storageReference);
 
             }
         });

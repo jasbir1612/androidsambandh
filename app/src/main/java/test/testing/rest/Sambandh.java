@@ -11,12 +11,14 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 import test.testing.pojo.request.RegisterBody;
 import test.testing.pojo.request.SendSmsBody;
+import test.testing.pojo.request.UploadBody;
 import test.testing.pojo.response.BlockDataResponse;
 import test.testing.pojo.response.DistrictDataResponse;
 import test.testing.pojo.response.RegisterResponse;
 import test.testing.pojo.response.SchoolDataResponse;
 import test.testing.pojo.response.SendOtpResponse;
 import test.testing.pojo.response.SendSmsResponse;
+import test.testing.pojo.response.UploadResponse;
 import test.testing.pojo.response.VerifyOtpResponse;
 import test.testing.pojo.response.VillageDataResponse;
 
@@ -54,4 +56,8 @@ public interface Sambandh {
 
     @POST("Sambandh/VerifyOTP")
     Call<List<VerifyOtpResponse>> verifyOtp(@Query("MobileNo") String mobileNo, @Query("OTP") String otp, @Query("AppUID") String appUid);
+
+    @Headers({"Accept: application/json", "Content-Type: application/json"})
+    @POST("Sambandh/Upload")
+    Call<List<UploadResponse>> upload(@Body UploadBody body);
 }

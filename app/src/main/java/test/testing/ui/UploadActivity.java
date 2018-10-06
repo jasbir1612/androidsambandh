@@ -5,14 +5,15 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,34 +28,44 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.List;
 
 import test.testing.R;
+import test.testing.pojo.request.UploadBody;
+import test.testing.pojo.response.UploadResponse;
+import test.testing.rest.ApiService;
+import test.testing.rest.Database;
+import test.testing.rest.ResponseCallback;
 
 public class UploadActivity extends AppCompatActivity implements View.OnClickListener {
-    String videoUrl = "https://firebasestorage.googleapis.com/v0/b/pet-simplified-automation.appspot.com/o/devpet%2FGB%2010sec%20video-1537724669843.mp4?alt=media&token=fa764176-c7bd-4f7d-9378-99009c3dfa40";
-
     private static final String TAG = "UploadActivity";
     //track Choosing Image Intent
     private static final int CHOOSING_IMAGE_REQUEST = 1234;
-
+    String videoUrl = "https://firebasestorage.googleapis.com/v0/b/pet-simplified-automation.appspot.com/o/devpet%2FGB%2010sec%20video-1537724669843.mp4?alt=media&token=fa764176-c7bd-4f7d-9378-99009c3dfa40";
+    String fileName, fileName2;
+    ProgressDialog progressDialog;
+    EditText dateEt, pledgesEt;
     private TextView tvFileName;
     private ImageView imageView;
-
     private Uri fileUri;
     private Bitmap bitmap;
     private StorageReference imageReference, imageReference2;
     private FirebaseAuth mAuth;
-    String fileName, fileName2;
-    ProgressDialog progressDialog;
-
+    private ApiService apiService;
+    private Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
 
+        apiService = new ApiService();
+        db = new Database(getApplicationContext());
+
         imageView = findViewById(R.id.img_file);
         tvFileName = findViewById(R.id.tv_file_name);
+        dateEt = findViewById(R.id.update);
+        pledgesEt = findViewById(R.id.upnumber);
         tvFileName.setText("");
 
         mAuth = FirebaseAuth.getInstance();
@@ -67,6 +78,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.btn_upload_file).setOnClickListener(this);
         findViewById(R.id.btn_upload_file2).setOnClickListener(this);
         findViewById(R.id.btn_choose_file2).setOnClickListener(this);
+        findViewById(R.id.btn_upload_data).setOnClickListener(this);
 
     }
 
@@ -127,7 +139,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void uploadFile2(){
+    private void uploadFile2() {
         if (fileUri != null) {
             fileName2 = fileUri.getLastPathSegment();
 
@@ -215,13 +227,43 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             showChoosingFile();
         } else if (i == R.id.btn_upload_file) {
             uploadFile();
-        }else if(i == R.id.btn_choose_file2)
-        {
+        } else if (i == R.id.btn_choose_file2) {
             showChoosingFile();
-        }else if(i == R.id.btn_upload_file2){
+        } else if (i == R.id.btn_upload_file2) {
             uploadFile2();
+        } else if (i == R.id.btn_upload_data) {
+            uploadForm();
         }
 
+    }
+
+    private void uploadForm() {
+        String date = dateEt.getText().toString().trim();
+        String pledge = pledgesEt.getText().toString().trim();
+
+        if (TextUtils.isEmpty(date)) {
+            Toast.makeText(this, "Enter date.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(pledge)) {
+            Toast.makeText(this, "Enter number of students pledged.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        UploadBody body = new UploadBody(date, pledge, db.getMobile(), "", db.getMobile());
+
+        apiService.upload(body, new ResponseCallback<List<UploadResponse>>() {
+            @Override
+            public void success(List<UploadResponse> uploadResponses) {
+                Toast.makeText(UploadActivity.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void failure(List<UploadResponse> uploadResponses) {
+                Toast.makeText(UploadActivity.this, "Error in uploading. Try again later.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private String getFileExtension(Uri uri) {
