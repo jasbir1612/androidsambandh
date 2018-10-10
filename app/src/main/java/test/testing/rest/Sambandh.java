@@ -13,6 +13,7 @@ import test.testing.pojo.request.RegisterBody;
 import test.testing.pojo.request.SendSmsBody;
 import test.testing.pojo.request.UploadBody;
 import test.testing.pojo.response.BlockDataResponse;
+import test.testing.pojo.response.CheckRegisteredResponse;
 import test.testing.pojo.response.DistrictDataResponse;
 import test.testing.pojo.response.RegisterResponse;
 import test.testing.pojo.response.SchoolDataResponse;
@@ -60,4 +61,7 @@ public interface Sambandh {
     @Headers({"Accept: application/json", "Content-Type: application/json"})
     @POST("Sambandh/Upload")
     Call<List<UploadResponse>> upload(@Body UploadBody body);
+
+    @GET("Sambandh/GetMobileRegister")
+    Call<List<CheckRegisteredResponse>> checkRegistered(@Query("MobileNo") String mobileNo);
 }

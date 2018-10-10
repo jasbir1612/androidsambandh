@@ -17,6 +17,7 @@ import test.testing.pojo.request.RegisterBody;
 import test.testing.pojo.request.SendSmsBody;
 import test.testing.pojo.request.UploadBody;
 import test.testing.pojo.response.BlockDataResponse;
+import test.testing.pojo.response.CheckRegisteredResponse;
 import test.testing.pojo.response.DistrictDataResponse;
 import test.testing.pojo.response.RegisterResponse;
 import test.testing.pojo.response.SchoolDataResponse;
@@ -158,7 +159,7 @@ public class ApiService {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         if (response.body().get(0) != null) {
-                            if (!response.body().get(0).getMessage().equalsIgnoreCase("")) {
+                            if (response.body().get(0).getMessage() != null && !response.body().get(0).getMessage().equalsIgnoreCase("")) {
                                 callback.failure(new ArrayList<RegisterResponse>());
                             } else {
                                 if (response.body().get(0).getResult() == 1) {
@@ -283,6 +284,29 @@ public class ApiService {
             @Override
             public void onFailure(Call<List<UploadResponse>> call, Throwable t) {
                 callback.failure(new ArrayList<UploadResponse>());
+            }
+        });
+    }
+
+    public void checkRegistered(String mobileNo, final ResponseCallback<List<CheckRegisteredResponse>> callback) {
+        Call<List<CheckRegisteredResponse>> call = sambandhApi.checkRegistered(mobileNo);
+        call.enqueue(new Callback<List<CheckRegisteredResponse>>() {
+            @Override
+            public void onResponse(Call<List<CheckRegisteredResponse>> call, Response<List<CheckRegisteredResponse>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().get(0) != null) {
+                        if (response.body().get(0).getMessage().equalsIgnoreCase("Mobile No Register.")) {
+                            callback.failure(new ArrayList<CheckRegisteredResponse>());
+                        } else {
+                            callback.success(new ArrayList<CheckRegisteredResponse>());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CheckRegisteredResponse>> call, Throwable t) {
+                callback.failure(new ArrayList<CheckRegisteredResponse>());
             }
         });
     }
