@@ -32,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText emailEt;
     private EditText jsonDataEt;
     private EditText createdByEt;
-    private EditText dudiceEt;
+    private EditText dudiceEt, etDesignation;
     private Database db;
 
     private AppCompatSpinner designationSpinner, userTypeSpinner, schoolTypeSpinner;
@@ -49,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         btnFindUdice = findViewById(R.id.find_udice);
         submit = findViewById(R.id.rsubmit);
+        etDesignation = findViewById(R.id.et_designation);
 
         mobileEt = findViewById(R.id.et_number);
         mobileEt.setEnabled(false);
@@ -60,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
         jsonDataEt = findViewById(R.id.et_json_data);
 
         designationSpinner = findViewById(R.id.designation_spinner);
+        designationSpinner.setVisibility(View.GONE);
         schoolTypeSpinner = findViewById(R.id.school_type_spinner);
         userTypeSpinner = findViewById(R.id.user_type_spinner);
 
@@ -88,6 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         designationSpinner.setAdapter(adapter);
 
+
         userTypeArray = getResources().getStringArray(R.array.array_user_type);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, R.layout.spinner_item_register, userTypeArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -97,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this, R.layout.spinner_item_register, schoolTypeArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         schoolTypeSpinner.setAdapter(adapter3);
+        userTypeSpinner.setVisibility(View.GONE);
 
     }
 
@@ -118,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
         String mobile = mobileEt.getText().toString().trim();
         String schoolType = schoolTypeArray[schoolTypeSpinner.getSelectedItemPosition()];
         String userType = userTypeArray[userTypeSpinner.getSelectedItemPosition()];
-        String designation = designationArray[designationSpinner.getSelectedItemPosition()];
+        String designation = etDesignation.getText().toString().trim();
         String userName = nameEt.getText().toString().trim();
         String email = emailEt.getText().toString().trim();
         String jsonData = jsonDataEt.getText().toString().trim();

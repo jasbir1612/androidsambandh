@@ -79,7 +79,7 @@
                 android:id="@+id/et_otp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/et_number"
+                android:layout_below="@+id/generate_otp_btn"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
@@ -87,14 +87,24 @@
                 android:hint="Enter OTP"
                 android:inputType="number"
                 android:maxWidth="300dp"
-                android:maxLength="10"
+                android:maxLength="6"
                 android:padding="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_number"
+                android:id="@+id/warning"
+                android:textSize="14sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:layout_margin="5dp"
+                android:text="Wait for 2 minutes to generate OTP again"/>
 
             <Button
                 android:id="@+id/generate_otp_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/et_otp"
+                android:layout_below="@+id/warning"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/login_btn_color"
@@ -105,20 +115,21 @@
                 android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/generate_otp_btn"
+                android:layout_below="@+id/register_btn"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/gray_btn_color"
                 android:text="Login"
+                android:layout_alignParentBottom="true"
                 android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/register_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/login_btn"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/et_otp"
+
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"

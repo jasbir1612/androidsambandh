@@ -1,18 +1,24 @@
 package test.testing.ui;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +34,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import test.testing.R;
 import test.testing.pojo.request.UploadBody;
@@ -44,8 +53,8 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     String videoUrl = "https://firebasestorage.googleapis.com/v0/b/pet-simplified-automation.appspot.com/o/devpet%2FGB%2010sec%20video-1537724669843.mp4?alt=media&token=fa764176-c7bd-4f7d-9378-99009c3dfa40";
     String fileName, fileName2;
     ProgressDialog progressDialog;
-    EditText dateEt, pledgesEt;
-    private TextView tvFileName;
+    EditText pledgesEt;
+    private TextView tvFileName, dateEt;
     private ImageView imageView;
     private Uri fileUri;
     private Bitmap bitmap;
@@ -53,6 +62,10 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     private FirebaseAuth mAuth;
     private ApiService apiService;
     private Database db;
+    Button upload1, upload2 ,reUpload;
+    Calendar myCalendar;
+    String dateST;
+    private DatePickerDialog.OnDateSetListener date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +79,8 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         tvFileName = findViewById(R.id.tv_file_name);
         dateEt = findViewById(R.id.update);
         pledgesEt = findViewById(R.id.upnumber);
+        reUpload = findViewById(R.id.btn_reupload);
+        reUpload.setVisibility(View.GONE);
         tvFileName.setText("");
 
         mAuth = FirebaseAuth.getInstance();
@@ -75,11 +90,63 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         progressDialog = new ProgressDialog(this);
 
         findViewById(R.id.btn_choose_file).setOnClickListener(this);
-        findViewById(R.id.btn_upload_file).setOnClickListener(this);
-        findViewById(R.id.btn_upload_file2).setOnClickListener(this);
-        findViewById(R.id.btn_choose_file2).setOnClickListener(this);
+        reUpload.setOnClickListener(this);
+        upload1 = findViewById(R.id.btn_upload_file);
+        upload1.setOnClickListener(this);
+        upload1.setEnabled(true);
+        upload2 = findViewById(R.id.btn_upload_file2);
+        upload2.setOnClickListener(this);
+        upload2.setEnabled(true);
         findViewById(R.id.btn_upload_data).setOnClickListener(this);
 
+        myCalendar = Calendar.getInstance();
+//        date = new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                myCalendar.set(Calendar.YEAR, year);
+//                myCalendar.set(Calendar.MONTH, monthOfYear);
+//                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//                updateLabel();
+//
+//            }
+//        };
+//
+
+        dateEt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectDate();
+
+            }
+        });
+
+    }
+
+    private void selectDate(){
+        int year = myCalendar.get(Calendar.YEAR);
+        int month = myCalendar.get(Calendar.MONTH);
+        int day = myCalendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(UploadActivity.this,android.R.style.Theme_DeviceDefault, date,year, month, day);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+
+        date  = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month+1;
+                dateST = month + "/" +dayOfMonth+"/" + year;
+                Toast.makeText(UploadActivity.this, dateST, Toast.LENGTH_SHORT).show();
+                dateEt.setText(dateST);
+            }
+        };
+    }
+
+    private void updateLabel(){
+        String myFormat = "MM/dd/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        dateEt.setText(sdf.format(myCalendar.getTime()));
     }
 
     private void uploadFile() {
@@ -103,8 +170,12 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 //                            Log.e(TAG, "Uri: " + taskSnapshot.getDownloadUrl());
                             Log.e(TAG, "Name: " + taskSnapshot.getMetadata().getName());
 
-                            tvFileName.setText(taskSnapshot.getMetadata().getPath() + " - "
+                            upload1.setText("Uploaded "+taskSnapshot.getMetadata().getPath() + " - "
                                     + taskSnapshot.getMetadata().getSizeBytes() / 1024 + " KBs");
+                            upload1.setEnabled(false);
+                            upload1.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.gray_btn_color));
+                            imageView.setImageBitmap(null);
+                            reUpload.setVisibility(View.VISIBLE);
                             Toast.makeText(UploadActivity.this, "File Uploaded ", Toast.LENGTH_LONG).show();
                         }
                     })
@@ -157,8 +228,12 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                     progressDialog.dismiss();
                     Log.e(TAG, "Name: " + taskSnapshot.getMetadata().getName());
 
-                    tvFileName.setText(taskSnapshot.getMetadata().getPath() + " - "
+                    upload2.setText("Uploaded "+taskSnapshot.getMetadata().getPath() + " - "
                             + taskSnapshot.getMetadata().getSizeBytes() / 1024 + " KBs");
+                    upload2.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.gray_btn_color));
+                    upload2.setEnabled(false);
+                    imageView.setImageBitmap(null);
+                    reUpload.setVisibility(View.VISIBLE);
                     Toast.makeText(UploadActivity.this, "File Uploaded ", Toast.LENGTH_LONG).show();
 
                 }
@@ -225,20 +300,30 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 
         if (i == R.id.btn_choose_file) {
             showChoosingFile();
+            imageView.setImageBitmap(null);
         } else if (i == R.id.btn_upload_file) {
             uploadFile();
-        } else if (i == R.id.btn_choose_file2) {
-            showChoosingFile();
         } else if (i == R.id.btn_upload_file2) {
             uploadFile2();
         } else if (i == R.id.btn_upload_data) {
+//            selectDate();
             uploadForm();
+        }else if(i ==R.id.btn_reupload)
+        {
+            upload1.setEnabled(true);
+            upload1.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.login_btn_color));
+            upload1.setText("Upload Image 1");
+            upload2.setEnabled(true);
+            upload2.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.login_btn_color));
+            upload2.setText("Upload Image 2");
+
+
         }
 
     }
 
     private void uploadForm() {
-        String date = dateEt.getText().toString().trim();
+        String date = dateST;
         String pledge = pledgesEt.getText().toString().trim();
 
         if (TextUtils.isEmpty(date)) {
@@ -250,6 +335,10 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(this, "Enter number of students pledged.", Toast.LENGTH_SHORT).show();
             return;
         }
+        if(pledge.length()>5000)
+        {
+            Toast.makeText(this, "Please enter students less than 5000", Toast.LENGTH_SHORT).show();
+        }
 
         UploadBody body = new UploadBody(date, pledge, db.getMobile(), "", db.getMobile());
 
@@ -257,6 +346,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void success(List<UploadResponse> uploadResponses) {
                 Toast.makeText(UploadActivity.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
+                logout();
             }
 
             @Override
@@ -279,5 +369,12 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             return false;
         }
         return true;
+    }
+    private void logout(){
+        db.clear();
+        Intent intent = new Intent(UploadActivity.this, Splash.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }

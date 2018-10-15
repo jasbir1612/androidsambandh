@@ -12,6 +12,10 @@
 
     <string-array name="array_designation">
         <item>Professor</item>
+        <item>Teacher</item>
+        <item>Principal</item>
+        <item>Staff Member</item>
+        <item>Other</item>
     </string-array>
 
     <string-array name="array_user_type">
@@ -20,5 +24,7 @@
 
     <string-array name="array_school_type">
         <item>Primary</item>
+        <item>Upper Primary</item>
+        <item>Secondary</item>
     </string-array>
 </resources>

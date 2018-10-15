@@ -49,34 +49,32 @@
                 android:id="@+id/btdownload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/video"
                 android:layout_margin="10dp"
                 android:layout_marginTop="10dp"
                 android:background="#002468"
-                android:text="download"
+                android:text="download PFL Video English"
                 android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/btdownload_hindi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/video"
                 android:layout_margin="10dp"
                 android:layout_marginTop="10dp"
                 android:background="#002468"
-                android:text="download hindi"
+                android:text="download PFL Video Hindi"
                 android:textColor="@android:color/white" />
 
             <Button
-                android:id="@+id/btdownload_assami"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/video"
+                android:id="@+id/pdf"
                 android:layout_margin="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#002468"
-                android:text="download assami"
-                android:textColor="@android:color/white" />
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textColor="@android:color/white"
+                android:text="Download Instructions"
+                android:background="#002468"/>
         </LinearLayout>
     </ScrollView>
 

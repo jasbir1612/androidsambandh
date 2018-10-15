@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnRegister, btnLogin, btnOtp;
     private ApiService apiService;
     private Database db;
+    TextView otpWarning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,9 @@ public class LoginActivity extends AppCompatActivity {
         btnOtp = findViewById(R.id.generate_otp_btn);
         etPhone = findViewById(R.id.et_number);
         etOtp = findViewById(R.id.et_otp);
+        otpWarning = findViewById(R.id.warning);
+        otpWarning.setVisibility(View.GONE);
+
 
         btnLogin.setEnabled(false);
         btnRegister.setEnabled(false);
@@ -78,9 +83,11 @@ public class LoginActivity extends AppCompatActivity {
                         });
                     }
 
+
                     @Override
                     public void failure(List<CheckRegisteredResponse> checkRegisteredResponses) {
-                        Toast.makeText(LoginActivity.this, "Mobile number already registered", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Mobile number already registered, Please Login", Toast.LENGTH_SHORT).show();
+
                     }
                 });
             }
@@ -123,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final String phoneNumber = etPhone.getText().toString().trim();
 
-                if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length() < 7) {
+                if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length() < 10) {
                     Toast.makeText(LoginActivity.this, "Please enter a valid phone number.", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
@@ -134,6 +141,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 btnOtp.setEnabled(false);
                 btnOtp.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.gray_btn_color));
+                otpWarning.setVisibility(View.VISIBLE);
 
                 apiService.sendOtp(phoneNumber, new ResponseCallback<List<SendOtpResponse>>() {
                     @Override
@@ -143,11 +151,20 @@ public class LoginActivity extends AppCompatActivity {
                             db.setMobile(sendOtpResponses.get(0).getMobile());
                         }
 
-                        btnOtp.setEnabled(true);
+                        btnOtp.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                    btnOtp.setEnabled(true);
+                                btnOtp.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.login_btn_color));
+
+                                otpWarning.setVisibility(View.GONE);
+
+                            }
+                        }, 2*60*1000);
+
                         btnLogin.setEnabled(true);
                         btnRegister.setEnabled(true);
 
-                        btnOtp.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.login_btn_color));
                         btnLogin.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.login_btn_color));
                         btnRegister.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.register_btn_color));
 

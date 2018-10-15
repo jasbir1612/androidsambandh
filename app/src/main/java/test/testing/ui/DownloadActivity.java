@@ -26,8 +26,9 @@ import test.testing.R;
 public class DownloadActivity extends AppCompatActivity {
 
     VideoView videoView;
-    Button btndownload, btn2, btn3;
+    Button btndownload,btnpdf, btnhindi;
     ProgressDialog progressDialog;
+
     final String videoURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video.mp4?alt=media&token=4761a05d-e86e-4a04-8149-2fab3217a3c5";
     StorageReference storageReference;
     private FirebaseAuth mAuth;
@@ -39,8 +40,8 @@ public class DownloadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_download);
         videoView = findViewById(R.id.video);
         btndownload = findViewById(R.id.btdownload);
-        btn2 = findViewById(R.id.btdownload_hindi);
-        btn3 = findViewById(R.id.btdownload_assami);
+        btnpdf = findViewById(R.id.pdf);
+        btnhindi = findViewById(R.id.btdownload_hindi);
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -54,78 +55,47 @@ public class DownloadActivity extends AppCompatActivity {
         Log.d("fileURI", fileUri.toString());
         videoView.setVideoURI(fileUri);
         videoView.requestFocus();
-        videoView.start();
+//        videoView.start();
+        
+        btnpdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DownloadActivity.this, "PDF will be available after Oct 18, 2018", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         btndownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                downloadFileinMemory(storageReference);
-                try {
-                    FileInputStream fis = new FileInputStream(new File(getCacheDir(), "cachefile"));
-                    if (fis != null) {
-
-                        storageReference.putStream(fis);
-                        Toast.makeText(DownloadActivity.this, "cache", Toast.LENGTH_SHORT).show();
-                    } else {
-                        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(videoURL);
-                        Toast.makeText(DownloadActivity.this, "url", Toast.LENGTH_SHORT).show();
-                        downloadFileinMemory(storageReference);
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Toast.makeText(DownloadActivity.this, "Downloaded", Toast.LENGTH_SHORT).show();
-                }
+//                try {
+//                    FileInputStream fis = new FileInputStream(new File(getCacheDir(), "cachefile"));
+//                    if (fis != null) {
+//
+//                        storageReference.putStream(fis);
+//                        Toast.makeText(DownloadActivity.this, "cache", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(videoURL);
+//                        Toast.makeText(DownloadActivity.this, "url", Toast.LENGTH_SHORT).show();
+//                        downloadFileinMemory(storageReference);
+//                    }
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                    Toast.makeText(DownloadActivity.this, "Downloaded", Toast.LENGTH_SHORT).show();
+//                }
+                Toast.makeText(DownloadActivity.this, "Video will be available after Oct 18,2018", Toast.LENGTH_SHORT).show();
 //                                downloadFileloc(storageReference);
 
 
             }
         });
 
-        btn2.setOnClickListener(new View.OnClickListener() {
+        btnhindi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                downloadFileinMemory(storageReference);
-                try {
-                    FileInputStream fis = new FileInputStream(new File(getCacheDir(), "cachefile"));
-                    if (fis != null) {
+                Toast.makeText(DownloadActivity.this, "Video will be available after Oct 18,2018", Toast.LENGTH_SHORT).show();
 
-                        storageReference.putStream(fis);
-                        Toast.makeText(DownloadActivity.this, "cache", Toast.LENGTH_SHORT).show();
-                    } else {
-                        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(videoURL);
-                        Toast.makeText(DownloadActivity.this, "url", Toast.LENGTH_SHORT).show();
-                        downloadFileinMemory(storageReference);
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Toast.makeText(DownloadActivity.this, "Downloaded", Toast.LENGTH_SHORT).show();
-                }
-//                                downloadFileloc(storageReference);
-
-            }
-        });
-
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //                downloadFileinMemory(storageReference);
-                try {
-                    FileInputStream fis = new FileInputStream(new File(getCacheDir(), "cachefile"));
-                    if (fis != null) {
-
-                        storageReference.putStream(fis);
-                        Toast.makeText(DownloadActivity.this, "cache", Toast.LENGTH_SHORT).show();
-                    } else {
-                        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(videoURL);
-                        Toast.makeText(DownloadActivity.this, "url", Toast.LENGTH_SHORT).show();
-                        downloadFileinMemory(storageReference);
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Toast.makeText(DownloadActivity.this, "Downloaded", Toast.LENGTH_SHORT).show();
-                }
-//                                downloadFileloc(storageReference);
 
             }
         });
