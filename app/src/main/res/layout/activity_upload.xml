@@ -39,6 +39,39 @@
                 android:layout_marginRight="10dp"
                 android:src="@drawable/pledgelife_logo" />
 
+            <TextView
+                android:id="@+id/update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/etshape"
+                android:text="Select Date MM/DD/YYYY"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/upnumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/etshape"
+                android:hint="Enter Number of Students"
+                android:inputType="number"
+                android:maxWidth="300dp"
+                android:clickable="true"
+                android:padding="10dp" />
+
+            <Button
+                android:id="@+id/btn_upload_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="#002468"
+                android:text="Upload Data"
+                android:textColor="@android:color/white" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,7 +95,7 @@
                     android:layout_weight="1"
                     android:background="#002468"
                     android:layout_marginLeft="10dp"
-                    android:text="Upload Again"
+                    android:text="Remove Image"
                     android:textColor="@android:color/white" />
 
 
@@ -87,6 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
+                    android:src="@drawable/no_image"
                     android:padding="10dp" />
             </LinearLayout>
 
@@ -127,44 +161,13 @@
                     android:text="Upload Image 2"
                     android:textColor="@android:color/white" />
 
+
+
                 <ImageView
                     android:id="@+id/img_file2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp" />
-
-                <TextView
-                    android:id="@+id/update"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/etshape"
-                    android:text="Select Date MM/DD/YYYY"
-                    android:padding="10dp" />
-
-                <EditText
-                    android:id="@+id/upnumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/etshape"
-                    android:hint="Enter Number of Students"
-                    android:inputType="number"
-                    android:maxWidth="300dp"
-                    android:clickable="true"
-                    android:padding="10dp" />
-
-                <Button
-                    android:id="@+id/btn_upload_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:background="#002468"
-                    android:text="Upload Data"
-                    android:textColor="@android:color/white" />
             </LinearLayout>
 
         </LinearLayout>

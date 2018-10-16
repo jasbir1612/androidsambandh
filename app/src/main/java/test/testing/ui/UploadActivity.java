@@ -35,7 +35,12 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -64,7 +69,11 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     private Database db;
     Button upload1, upload2 ,reUpload;
     Calendar myCalendar;
-    String dateST;
+    String dateST, datecurrent;
+    int flag = 0;
+    int year, month, day;
+    long back2 =1000*30*60*60;
+    long back = back2*24;
     private DatePickerDialog.OnDateSetListener date;
 
     @Override
@@ -82,6 +91,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         reUpload = findViewById(R.id.btn_reupload);
         reUpload.setVisibility(View.GONE);
         tvFileName.setText("");
+        myCalendar = Calendar.getInstance();
 
         mAuth = FirebaseAuth.getInstance();
         imageReference = FirebaseStorage.getInstance().getReference().child("images");
@@ -98,55 +108,37 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         upload2.setOnClickListener(this);
         upload2.setEnabled(true);
         findViewById(R.id.btn_upload_data).setOnClickListener(this);
+        year = myCalendar.get(Calendar.YEAR);
+        month = myCalendar.get(Calendar.MONTH);
+        day = myCalendar.get(Calendar.DAY_OF_MONTH);
+        datecurrent = month + "/" +day+"/" + year;
 
-        myCalendar = Calendar.getInstance();
-//        date = new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-//                myCalendar.set(Calendar.YEAR, year);
-//                myCalendar.set(Calendar.MONTH, monthOfYear);
-//                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-//                updateLabel();
-//
-//            }
-//        };
-//
 
-        dateEt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectDate();
-
-            }
-        });
+        dateEt.setOnClickListener(this);
 
     }
 
     private void selectDate(){
-        int year = myCalendar.get(Calendar.YEAR);
-        int month = myCalendar.get(Calendar.MONTH);
-        int day = myCalendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog dialog = new DatePickerDialog(UploadActivity.this,android.R.style.Theme_DeviceDefault, date,year, month, day);
+        final DatePickerDialog dialog = new DatePickerDialog(UploadActivity.this,android.R.style.Theme_DeviceDefault, date,year, month, day);
 //        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        dialog.getDatePicker().setMinDate(System.currentTimeMillis()- back);
         dialog.show();
 
 
         date  = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month = month+1;
-                dateST = month + "/" +dayOfMonth+"/" + year;
+            public void onDateSet(DatePicker view, int dyear, int dmonth, int ddayOfMonth) {
+                dmonth = dmonth+1;
+                dateST = dmonth + "/" +ddayOfMonth+"/" + dyear;
+                Log.d("date", dateST);
+
+
                 Toast.makeText(UploadActivity.this, dateST, Toast.LENGTH_SHORT).show();
                 dateEt.setText(dateST);
             }
         };
-    }
-
-    private void updateLabel(){
-        String myFormat = "MM/dd/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        dateEt.setText(sdf.format(myCalendar.getTime()));
     }
 
     private void uploadFile() {
@@ -176,6 +168,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                             upload1.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.gray_btn_color));
                             imageView.setImageBitmap(null);
                             reUpload.setVisibility(View.VISIBLE);
+                            flag = 1;
                             Toast.makeText(UploadActivity.this, "File Uploaded ", Toast.LENGTH_LONG).show();
                         }
                     })
@@ -234,6 +227,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                     upload2.setEnabled(false);
                     imageView.setImageBitmap(null);
                     reUpload.setVisibility(View.VISIBLE);
+                    flag = 1;
                     Toast.makeText(UploadActivity.this, "File Uploaded ", Toast.LENGTH_LONG).show();
 
                 }
@@ -246,6 +240,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
+
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                     double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
 
@@ -316,44 +311,52 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             upload2.setEnabled(true);
             upload2.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.login_btn_color));
             upload2.setText("Upload Image 2");
+            flag = 0;
 
 
+        }else if(i==R.id.update)
+        {
+            selectDate();
         }
 
     }
 
     private void uploadForm() {
-        String date = dateST;
-        String pledge = pledgesEt.getText().toString().trim();
 
-        if (TextUtils.isEmpty(date)) {
-            Toast.makeText(this, "Enter date.", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        if(flag==1) {
+            String date = dateST;
+            String pledge = pledgesEt.getText().toString().trim();
 
-        if (TextUtils.isEmpty(pledge)) {
-            Toast.makeText(this, "Enter number of students pledged.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(pledge.length()>5000)
-        {
-            Toast.makeText(this, "Please enter students less than 5000", Toast.LENGTH_SHORT).show();
-        }
-
-        UploadBody body = new UploadBody(date, pledge, db.getMobile(), "", db.getMobile());
-
-        apiService.upload(body, new ResponseCallback<List<UploadResponse>>() {
-            @Override
-            public void success(List<UploadResponse> uploadResponses) {
-                Toast.makeText(UploadActivity.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
-                logout();
+            if (TextUtils.isEmpty(date)) {
+                Toast.makeText(this, "Enter date.", Toast.LENGTH_SHORT).show();
+                return;
             }
 
-            @Override
-            public void failure(List<UploadResponse> uploadResponses) {
-                Toast.makeText(UploadActivity.this, "Error in uploading. Try again later.", Toast.LENGTH_SHORT).show();
+            if (TextUtils.isEmpty(pledge)) {
+                Toast.makeText(this, "Enter number of students pledged.", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
+            if (pledge.length() > 5000) {
+                Toast.makeText(this, "Please enter students less than 5000", Toast.LENGTH_SHORT).show();
+            }
+
+            UploadBody body = new UploadBody(date, pledge, db.getMobile(), "", db.getMobile());
+
+            apiService.upload(body, new ResponseCallback<List<UploadResponse>>() {
+                @Override
+                public void success(List<UploadResponse> uploadResponses) {
+                    Toast.makeText(UploadActivity.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
+                    logout();
+                }
+
+                @Override
+                public void failure(List<UploadResponse> uploadResponses) {
+                    Toast.makeText(UploadActivity.this, "Error in uploading. Try again later.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            Toast.makeText(this, "Please upload atleast one Image", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private String getFileExtension(Uri uri) {
