@@ -23,7 +23,7 @@
         <activity android:name=".ui.UploadActivity" />
         <activity android:name=".ui.DownloadActivity" />
         <activity android:name=".ui.HomeActivity" />
-        <activity android:name=".ui.Splash">
+        <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

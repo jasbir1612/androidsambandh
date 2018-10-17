@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import test.testing.R;
 import test.testing.rest.Database;
 
-public class Splash extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     private final int SPLASH_DISPLAY_LENGTH = 3000;
     private Database db;
@@ -22,17 +22,17 @@ public class Splash extends AppCompatActivity {
         db = new Database(getApplicationContext());
 
         if (db.getAppUid().equalsIgnoreCase("")) {
-            intent = new Intent(Splash.this, LoginActivity.class);
+            intent = new Intent(SplashActivity.this, LoginActivity.class);
         } else {
-            intent = new Intent(Splash.this, HomeActivity.class);
+            intent = new Intent(SplashActivity.this, HomeActivity.class);
         }
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                Splash.this.startActivity(intent);
-                Splash.this.finish();
+                SplashActivity.this.startActivity(intent);
+                SplashActivity.this.finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
     }

@@ -234,6 +234,10 @@ public class ApiService {
             @Override
             public void onResponse(Call<List<VerifyOtpResponse>> call, Response<List<VerifyOtpResponse>> response) {
                 if (response.isSuccessful()) {
+                    if (response.body().size() == 0) {
+                        callback.failure(new ArrayList<VerifyOtpResponse>());
+                        return;
+                    }
                     if (response.body().get(0) != null) {
                         if (response.body().get(0).getStatus() != null && response.body().get(0).getStatus().equalsIgnoreCase("Success")) {
                             callback.success(response.body());
