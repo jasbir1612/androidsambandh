@@ -58,14 +58,15 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     private FirebaseAuth mAuth;
     private ApiService apiService;
     private Database db;
-    Button upload1, upload2 ,reUpload;
+    Button upload1, upload2, reUpload;
     Calendar myCalendar;
     String dateST, datecurrent;
     int flag = 0;
     int year, month, day;
-    long back2 =1000*30*60*60;
-    long back = back2*24;
+    long back2 = 1000 * 30 * 60 * 60;
+    long back = back2 * 24;
     private DatePickerDialog.OnDateSetListener date;
+    DatePickerDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,27 +103,14 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         year = myCalendar.get(Calendar.YEAR);
         month = myCalendar.get(Calendar.MONTH);
         day = myCalendar.get(Calendar.DAY_OF_MONTH);
-        datecurrent = month + "/" +day+"/" + year;
-
+        datecurrent = month + "/" + day + "/" + year;
 
         dateEt.setOnClickListener(this);
-
-    }
-
-    private void selectDate(){
-
-        final DatePickerDialog dialog = new DatePickerDialog(UploadActivity.this,android.R.style.Theme_DeviceDefault, date,year, month, day);
-//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-        dialog.getDatePicker().setMinDate(System.currentTimeMillis()- back);
-        dialog.show();
-
-
-        date  = new DatePickerDialog.OnDateSetListener() {
+        date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int dyear, int dmonth, int ddayOfMonth) {
-                dmonth = dmonth+1;
-                dateST = dmonth + "/" +ddayOfMonth+"/" + dyear;
+                dmonth = dmonth + 1;
+                dateST = ddayOfMonth + "/" + dmonth + "/" + dyear;
                 Log.d("date", dateST);
 
 
@@ -130,6 +118,18 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                 dateEt.setText(dateST);
             }
         };
+
+        dialog = new DatePickerDialog(UploadActivity.this, android.R.style.Theme_DeviceDefault, date, year, month, day);
+
+    }
+
+    private void selectDate() {
+
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        dialog.getDatePicker().setMinDate(System.currentTimeMillis() - back);
+        dialog.show();
+
     }
 
     private void uploadFile() {
@@ -153,7 +153,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 //                            Log.e(TAG, "Uri: " + taskSnapshot.getDownloadUrl());
                             Log.e(TAG, "Name: " + taskSnapshot.getMetadata().getName());
 
-                            upload1.setText("Uploaded "+taskSnapshot.getMetadata().getPath() + " - "
+                            upload1.setText("Uploaded " + taskSnapshot.getMetadata().getPath() + " - "
                                     + taskSnapshot.getMetadata().getSizeBytes() / 1024 + " KBs");
                             upload1.setEnabled(false);
                             upload1.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.gray_btn_color));
@@ -212,7 +212,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                     progressDialog.dismiss();
                     Log.e(TAG, "Name: " + taskSnapshot.getMetadata().getName());
 
-                    upload2.setText("Uploaded "+taskSnapshot.getMetadata().getPath() + " - "
+                    upload2.setText("Uploaded " + taskSnapshot.getMetadata().getPath() + " - "
                             + taskSnapshot.getMetadata().getSizeBytes() / 1024 + " KBs");
                     upload2.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.gray_btn_color));
                     upload2.setEnabled(false);
@@ -294,8 +294,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         } else if (i == R.id.btn_upload_data) {
 //            selectDate();
             uploadForm();
-        }else if(i ==R.id.btn_reupload)
-        {
+        } else if (i == R.id.btn_reupload) {
             upload1.setEnabled(true);
             upload1.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.login_btn_color));
             upload1.setText("Upload Image 1");
@@ -305,8 +304,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             flag = 0;
 
 
-        }else if(i==R.id.update)
-        {
+        } else if (i == R.id.update) {
             selectDate();
         }
 
@@ -314,7 +312,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 
     private void uploadForm() {
 
-        if(flag==1) {
+        if (flag == 1) {
             String date = dateST;
             String pledge = pledgesEt.getText().toString().trim();
 
@@ -345,7 +343,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(UploadActivity.this, "Error in uploading. Try again later.", Toast.LENGTH_SHORT).show();
                 }
             });
-        }else{
+        } else {
             Toast.makeText(this, "Please upload atleast one Image", Toast.LENGTH_SHORT).show();
         }
     }
@@ -364,7 +362,8 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         }
         return true;
     }
-    private void logout(){
+
+    private void logout() {
         db.clear();
         Intent intent = new Intent(UploadActivity.this, SplashActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
