@@ -6,7 +6,7 @@
     android:background="@drawable/shape"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context="test.testing.ui.MainActivity">
+    tools:context="test.gtconline.ui.MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"

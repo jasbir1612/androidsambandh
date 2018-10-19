@@ -8,6 +8,37 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:419528374124:android:65d948d0a75a2c4a",
+        "android_client_info": {
+          "package_name": "test.gtconline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "419528374124-dqbfv5sl5ljbcln367na7j6qvm9n5qjs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWuZbC9oXHEUnUp20scfX_YRJ4mnbu12M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:419528374124:android:9b7adcb9199c89a4",
         "android_client_info": {
           "package_name": "test.testing"
