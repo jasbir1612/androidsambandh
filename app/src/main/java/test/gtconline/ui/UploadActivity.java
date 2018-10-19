@@ -58,7 +58,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     private FirebaseAuth mAuth;
     private ApiService apiService;
     private Database db;
-    Button upload1, upload2, reUpload;
+    Button upload1, upload2, reUpload, reupload2;
     Calendar myCalendar;
     String dateST, datecurrent;
     int flag = 0;
@@ -91,6 +91,9 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 
         progressDialog = new ProgressDialog(this);
 
+        reupload2 = findViewById(R.id.btn_reupload2);
+        reupload2.setVisibility(View.GONE);
+        reupload2.setOnClickListener(this);
         findViewById(R.id.btn_choose_file).setOnClickListener(this);
         reUpload.setOnClickListener(this);
         upload1 = findViewById(R.id.btn_upload_file);
@@ -145,7 +148,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void uploadFile() {
-        if (fileUri != null || imageView!=null) {
+        if (fileUri != null) {
 
             fileName = fileUri.getLastPathSegment();
             if (!validateInputFileName(fileName)) {
@@ -173,6 +176,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                             reUpload.setVisibility(View.VISIBLE);
                             flag = 1;
                             Toast.makeText(UploadActivity.this, "File Uploaded ", Toast.LENGTH_LONG).show();
+                            fileUri=null;
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -200,14 +204,15 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     });
         } else {
-            Toast.makeText(UploadActivity.this, "No File!", Toast.LENGTH_LONG).show();
+            Toast.makeText(UploadActivity.this, "No File! Please select Image", Toast.LENGTH_LONG).show();
+
         }
 
 
     }
 
     private void uploadFile2() {
-        if (fileUri != null || imageView!=null) {
+        if (fileUri != null) {
             fileName2 = fileUri.getLastPathSegment();
 
             if (!validateInputFileName(fileName2)) {
@@ -229,9 +234,10 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                     upload2.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.gray_btn_color));
                     upload2.setEnabled(false);
                     imageView.setImageBitmap(null);
-                    reUpload.setVisibility(View.VISIBLE);
+                    reupload2.setVisibility(View.VISIBLE);
                     flag = 1;
                     Toast.makeText(UploadActivity.this, "File Uploaded ", Toast.LENGTH_LONG).show();
+                    fileUri=null;
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -259,7 +265,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             });
 
         } else {
-            Toast.makeText(UploadActivity.this, "No File!", Toast.LENGTH_LONG).show();
+            Toast.makeText(UploadActivity.this, "No File! Please select Image", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -310,13 +316,16 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             upload1.setEnabled(true);
             upload1.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.login_btn_color));
             upload1.setText("Upload Image 1");
+            flag = 0;
+
+
+        } else if(i ==R.id.btn_reupload2)
+        {
             upload2.setEnabled(true);
             upload2.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.login_btn_color));
             upload2.setText("Upload Image 2");
             flag = 0;
-
-
-        } else if (i == R.id.update) {
+        }else if (i == R.id.update) {
             selectDate();
         }
 
@@ -327,7 +336,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         if (flag == 1) {
             String date = dateST;
             String pledge = pledgesEt.getText().toString().trim();
-            int num = Integer.parseInt(pledge);
+
 
             if (TextUtils.isEmpty(date)) {
                 Toast.makeText(this, "Enter date.", Toast.LENGTH_SHORT).show();
@@ -338,24 +347,27 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(this, "Enter number of students pledged.", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (num > 5000) {
-                Toast.makeText(this, "Please enter students less than 5000", Toast.LENGTH_SHORT).show();
-            }else {
+            else {
+                int num = Integer.parseInt(pledge);
+                if (num > 5000) {
+                    Toast.makeText(this, "Please enter students less than 5000", Toast.LENGTH_SHORT).show();
+                }else {
 
-                UploadBody body = new UploadBody(date, pledge, db.getMobile(), "", db.getMobile());
+                    UploadBody body = new UploadBody(date, pledge, db.getMobile(), "", db.getMobile());
 
-                apiService.upload(body, new ResponseCallback<List<UploadResponse>>() {
-                    @Override
-                    public void success(List<UploadResponse> uploadResponses) {
-                        Toast.makeText(UploadActivity.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
-                        logout();
-                    }
+                    apiService.upload(body, new ResponseCallback<List<UploadResponse>>() {
+                        @Override
+                        public void success(List<UploadResponse> uploadResponses) {
+                            Toast.makeText(UploadActivity.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
+                            logout();
+                        }
 
-                    @Override
-                    public void failure(List<UploadResponse> uploadResponses) {
-                        Toast.makeText(UploadActivity.this, "Error in uploading. Try again later.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void failure(List<UploadResponse> uploadResponses) {
+                            Toast.makeText(UploadActivity.this, "Error in uploading. Try again later.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         } else {
             Toast.makeText(this, "Please upload atleast one Image", Toast.LENGTH_SHORT).show();

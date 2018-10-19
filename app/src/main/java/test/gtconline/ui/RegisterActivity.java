@@ -152,7 +152,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void failure(List<RegisterResponse> registerResponses) {
-                Toast.makeText(RegisterActivity.this, "Please fill all compulsory(*) boxes.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Please fill all compulsory(*) boxes or try again later.", Toast.LENGTH_SHORT).show();
             }
         });
     }

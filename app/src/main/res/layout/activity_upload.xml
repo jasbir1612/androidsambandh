@@ -46,7 +46,7 @@
                 android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/etshape"
-                android:text="Select Date MM/DD/YYYY"
+                android:text="Select Date MM/DD/YYYY*"
                 android:padding="10dp" />
 
             <EditText
@@ -56,21 +56,11 @@
                 android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/etshape"
-                android:hint="Enter Number of Students"
+                android:hint="Enter Number of Students*"
                 android:inputType="number"
                 android:maxWidth="300dp"
                 android:clickable="true"
                 android:padding="10dp" />
-
-            <Button
-                android:id="@+id/btn_upload_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:background="#002468"
-                android:text="Upload Data"
-                android:textColor="@android:color/white" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -94,8 +84,19 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="#002468"
+                    android:textSize="12sp"
                     android:layout_marginLeft="10dp"
-                    android:text="Remove Image"
+                    android:text="Remove Image 1"
+                    android:textColor="@android:color/white" />
+                <Button
+                    android:id="@+id/btn_reupload2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#002468"
+                    android:layout_marginLeft="10dp"
+                    android:text="Remove Image 2"
+                    android:textSize="12sp"
                     android:textColor="@android:color/white" />
 
 
@@ -169,6 +170,16 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_upload_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="#002468"
+                android:text="Upload Data"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
     </ScrollView>
