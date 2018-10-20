@@ -7,12 +7,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -38,12 +52,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<BlockDataResponse> blockDataList = new ArrayList<>();
     private ArrayList<VillageDataResponse> villageDataList = new ArrayList<>();
     private ArrayList<SchoolDataResponse> schoolDataList = new ArrayList<>();
+    RequestQueue requestQueue;
+    String baseurl = "http://sambandhhealthapi.uniso.in/api/Sambandh/GetUdiseCount?UdiseCode=";
+    String finalUdice, url;
+    String finalDudice;
+    static int count =3;
+    TextView txtCount;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        txtCount = findViewById(R.id.txtucnt);
+
+        requestQueue = Volley.newRequestQueue(this);
         apiService = new ApiService();
 
         udiceEt = findViewById(R.id.udice_code_et);
@@ -123,19 +147,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        String finalUdice = udiceEt.getText().toString();
-        String finalDudice = dUdiceEt.getText().toString();
 
-        if (TextUtils.isEmpty(finalUdice)) {
-            Toast.makeText(this, "Problem in finding udice. Try again later.", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        finalUdice = udiceEt.getText().toString();
+        finalDudice = dUdiceEt.getText().toString();
+        url = baseurl+finalUdice;
 
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra("udice_code", finalUdice);
-        resultIntent.putExtra("dudice_code", finalDudice);
-        setResult(Activity.RESULT_OK, resultIntent);
-        finish();
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+
+                try{
+                    JSONObject jsonObject = response.getJSONObject(0);
+                    Log.d("Volley", "jsonObject"+jsonObject.toString());
+                    String str = jsonObject.getString("Cnt");
+//                    count = Integer.parseInt(str);
+                    int count2 = Integer.parseInt(str);
+                    Log.d("Volley", "count: " +count2);
+
+                    if (TextUtils.isEmpty(finalUdice)) {
+                        Toast.makeText(MainActivity.this, "Problem in finding udice. Try again later.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(count2<3)
+                    {
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra("udice_code", finalUdice);
+                        resultIntent.putExtra("dudice_code", finalDudice);
+                        setResult(Activity.RESULT_OK, resultIntent);
+                        finish();
+                    }else{
+                        Toast.makeText(MainActivity.this, "Maximum 3 users allowed on this UDISE code.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }catch (JSONException e)
+                {
+                    e.printStackTrace();
+                    Log.d("Volley", "catch error: "+e.toString());
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                Log.d("Volley", error.toString());
+
+            }
+        });
+//
+//        String temp = txtCount.getText().toString();
+//        int countTemp = Integer.parseInt(temp);
+//        Log.d("Volley", "count here: " +countTemp);
+
+        requestQueue.add(jsonArrayRequest);
+        
     }
 
     private void getSchoolData(long districtCode, long blockCode, long villageCode, String udiceCode) {
@@ -293,5 +360,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String ans = BigDecimal.valueOf(value).toPlainString();
         return ans;
     }
+//    public void getVolleyData()
+//    {
+//
+//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+//            @Override
+//            public void onResponse(JSONArray response) {
+//                try{
+//                    JSONObject jsonObject = response.getJSONObject(0);
+//                    Log.d("Volley", "jsonObject"+jsonObject.toString());
+//                    str = jsonObject.getString("Cnt");
+//                    count = Integer.parseInt(str);
+//                    Log.d("Volley", "count: " +count);
+//
+//                }catch (JSONException e)
+//                {
+//                    e.printStackTrace();
+//                    Log.d("Volley", "catch error: "+e.toString());
+//                }
+//
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(MainActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+//                Log.d("Volley", error.toString());
+//
+//            }
+//        });
+//
+//        requestQueue.add(jsonArrayRequest);
+//    }
 }
 
