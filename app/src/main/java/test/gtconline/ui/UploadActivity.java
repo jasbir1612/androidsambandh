@@ -62,11 +62,13 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     Calendar myCalendar;
     String dateST, datecurrent;
     int flag = 0;
+    int flag2 =0;
     int year, month, day;
     long back2 = 1000 * 30 * 60 * 60;
     long back = back2 * 24;
     private DatePickerDialog.OnDateSetListener date;
     DatePickerDialog dialog;
+    String imgUrl1, imgUrl2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,7 +170,8 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 //                            Log.e(TAG, "Uri: " + taskSnapshot.getDownloadUrl());
                             Log.e(TAG, "Name: " + taskSnapshot.getMetadata().getName());
 
-                            upload1.setText("Uploaded " + taskSnapshot.getMetadata().getPath() + " - "
+                            imgUrl1 = taskSnapshot.getMetadata().getPath();
+                            upload1.setText("Uploaded " + imgUrl1 + " - "
                                     + taskSnapshot.getMetadata().getSizeBytes() / 1024 + " KBs");
                             upload1.setEnabled(false);
                             upload1.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.gray_btn_color));
@@ -229,13 +232,14 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                     progressDialog.dismiss();
                     Log.e(TAG, "Name: " + taskSnapshot.getMetadata().getName());
 
-                    upload2.setText("Uploaded " + taskSnapshot.getMetadata().getPath() + " - "
+                    imgUrl2 = taskSnapshot.getMetadata().getPath();
+                    upload2.setText("Uploaded " + imgUrl2 + " - "
                             + taskSnapshot.getMetadata().getSizeBytes() / 1024 + " KBs");
                     upload2.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.gray_btn_color));
                     upload2.setEnabled(false);
                     imageView.setImageBitmap(null);
                     reupload2.setVisibility(View.VISIBLE);
-                    flag = 1;
+                    flag2 = 1;
                     Toast.makeText(UploadActivity.this, "File Uploaded ", Toast.LENGTH_LONG).show();
                     fileUri=null;
 
@@ -309,6 +313,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             uploadFile();
         } else if (i == R.id.btn_upload_file2) {
             uploadFile2();
+            Log.d("Image", imgUrl1 + imgUrl2);
         } else if (i == R.id.btn_upload_data) {
 //            selectDate();
             uploadForm();
@@ -333,7 +338,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 
     private void uploadForm() {
 
-        if (flag == 1) {
+        if (flag == 1 && flag2 ==1) {
             String date = dateST;
             String pledge = pledgesEt.getText().toString().trim();
 
@@ -370,7 +375,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         } else {
-            Toast.makeText(this, "Please upload atleast one Image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please upload Images", Toast.LENGTH_SHORT).show();
         }
     }
 
