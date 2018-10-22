@@ -13,12 +13,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import test.gtconline.pojo.request.NewUploadBody;
 import test.gtconline.pojo.request.RegisterBody;
 import test.gtconline.pojo.request.SendSmsBody;
 import test.gtconline.pojo.request.UploadBody;
 import test.gtconline.pojo.response.BlockDataResponse;
 import test.gtconline.pojo.response.CheckRegisteredResponse;
 import test.gtconline.pojo.response.DistrictDataResponse;
+import test.gtconline.pojo.response.NewUploadResponse;
 import test.gtconline.pojo.response.RegisterResponse;
 import test.gtconline.pojo.response.SchoolDataResponse;
 import test.gtconline.pojo.response.SendOtpResponse;
@@ -288,6 +290,39 @@ public class ApiService {
             @Override
             public void onFailure(Call<List<UploadResponse>> call, Throwable t) {
                 callback.failure(new ArrayList<UploadResponse>());
+            }
+        });
+    }
+
+    public void newUpload(NewUploadBody body, final ResponseCallback<List<NewUploadResponse>> callback) {
+        Call<List<NewUploadResponse>> call = sambandhApi.newUpload(body);
+        call.enqueue(new Callback<List<NewUploadResponse>>() {
+            @Override
+            public void onResponse(Call<List<NewUploadResponse>> call, Response<List<NewUploadResponse>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().get(0) != null) {
+                            if (!response.body().get(0).getMessage().equalsIgnoreCase("")) {
+                                callback.failure(new ArrayList<NewUploadResponse>());
+                            } else {
+                                if (response.body().get(0).getResult() == 1) {
+                                    callback.success(response.body());
+                                } else {
+                                    callback.failure(new ArrayList<NewUploadResponse>());
+                                }
+                            }
+                        } else {
+                            callback.failure(new ArrayList<NewUploadResponse>());
+                        }
+                    } else {
+                        callback.failure(new ArrayList<NewUploadResponse>());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<NewUploadResponse>> call, Throwable t) {
+                callback.failure(new ArrayList<NewUploadResponse>());
             }
         });
     }

@@ -36,7 +36,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import test.gtconline.R;
+import test.gtconline.pojo.request.NewUploadBody;
 import test.gtconline.pojo.request.UploadBody;
+import test.gtconline.pojo.response.NewUploadResponse;
 import test.gtconline.pojo.response.UploadResponse;
 import test.gtconline.rest.ApiService;
 import test.gtconline.rest.Database;
@@ -62,7 +64,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     Calendar myCalendar;
     String dateST, datecurrent;
     int flag = 0;
-    int flag2 =0;
+    int flag2 = 0;
     int year, month, day;
     long back2 = 1000 * 30 * 60 * 60;
     long back = back2 * 24;
@@ -117,16 +119,15 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                 dmonth = dmonth + 1;
                 dateST = ddayOfMonth + "/" + dmonth + "/" + dyear;
                 Log.d("date", dateST);
-                if(ddayOfMonth<10 )
-                {
+                if (ddayOfMonth < 10) {
                     dateST = "0" + ddayOfMonth + "/" + dmonth + "/" + dyear;
-                }Log.d("testing", dateST);
-                if(dmonth<10)
+                }
+                Log.d("testing", dateST);
+                if (dmonth < 10)
 
                 {
                     dateST = ddayOfMonth + "/" + "0" + dmonth + "/" + dyear;
-                    if(ddayOfMonth<10)
-                    {
+                    if (ddayOfMonth < 10) {
                         dateST = "0" + ddayOfMonth + "/" + "0" + dmonth + "/" + dyear;
                     }
                 }
@@ -179,7 +180,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                             reUpload.setVisibility(View.VISIBLE);
                             flag = 1;
                             Toast.makeText(UploadActivity.this, "File Uploaded ", Toast.LENGTH_LONG).show();
-                            fileUri=null;
+                            fileUri = null;
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -241,7 +242,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                     reupload2.setVisibility(View.VISIBLE);
                     flag2 = 1;
                     Toast.makeText(UploadActivity.this, "File Uploaded ", Toast.LENGTH_LONG).show();
-                    fileUri=null;
+                    fileUri = null;
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -324,13 +325,12 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             flag = 0;
 
 
-        } else if(i ==R.id.btn_reupload2)
-        {
+        } else if (i == R.id.btn_reupload2) {
             upload2.setEnabled(true);
             upload2.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.login_btn_color));
             upload2.setText("Upload Image 2");
             flag = 0;
-        }else if (i == R.id.update) {
+        } else if (i == R.id.update) {
             selectDate();
         }
 
@@ -338,9 +338,9 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 
     private void uploadForm() {
 
-        if (flag == 1 && flag2 ==1) {
-            String date = dateST;
-            String pledge = pledgesEt.getText().toString().trim();
+        if (flag == 1 && flag2 == 1) {
+            final String date = dateST;
+            final String pledge = pledgesEt.getText().toString().trim();
 
 
             if (TextUtils.isEmpty(date)) {
@@ -351,20 +351,30 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             if (TextUtils.isEmpty(pledge)) {
                 Toast.makeText(this, "Enter number of students pledged.", Toast.LENGTH_SHORT).show();
                 return;
-            }
-            else {
+            } else {
                 int num = Integer.parseInt(pledge);
                 if (num > 5000) {
                     Toast.makeText(this, "Please enter students less than 5000", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
 
                     UploadBody body = new UploadBody(date, pledge, db.getMobile(), "", db.getMobile());
 
                     apiService.upload(body, new ResponseCallback<List<UploadResponse>>() {
                         @Override
                         public void success(List<UploadResponse> uploadResponses) {
-                            Toast.makeText(UploadActivity.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
-                            logout();
+                            NewUploadBody newUploadBody = new NewUploadBody(date, pledge, db.getMobile(), db.getMobile(), imgUrl1, imgUrl2);
+                            apiService.newUpload(newUploadBody, new ResponseCallback<List<NewUploadResponse>>() {
+                                @Override
+                                public void success(List<NewUploadResponse> newUploadResponses) {
+                                    Toast.makeText(UploadActivity.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
+                                    logout();
+                                }
+
+                                @Override
+                                public void failure(List<NewUploadResponse> newUploadResponses) {
+                                    Toast.makeText(UploadActivity.this, "Error in uploading. Try again later.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
 
                         @Override

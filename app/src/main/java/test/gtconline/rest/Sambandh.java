@@ -9,12 +9,14 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import test.gtconline.pojo.request.NewUploadBody;
 import test.gtconline.pojo.request.RegisterBody;
 import test.gtconline.pojo.request.SendSmsBody;
 import test.gtconline.pojo.request.UploadBody;
 import test.gtconline.pojo.response.BlockDataResponse;
 import test.gtconline.pojo.response.CheckRegisteredResponse;
 import test.gtconline.pojo.response.DistrictDataResponse;
+import test.gtconline.pojo.response.NewUploadResponse;
 import test.gtconline.pojo.response.RegisterResponse;
 import test.gtconline.pojo.response.SchoolDataResponse;
 import test.gtconline.pojo.response.SendOtpResponse;
@@ -61,6 +63,10 @@ public interface Sambandh {
     @Headers({"Accept: application/json", "Content-Type: application/json"})
     @POST("Sambandh/Upload")
     Call<List<UploadResponse>> upload(@Body UploadBody body);
+
+    @Headers({"Accept: application/json", "Content-Type: application/json"})
+    @POST("Sambandh/UploadFile")
+    Call<List<NewUploadResponse>> newUpload(@Body NewUploadBody body);
 
     @GET("Sambandh/GetMobileRegister")
     Call<List<CheckRegisteredResponse>> checkRegistered(@Query("MobileNo") String mobileNo);

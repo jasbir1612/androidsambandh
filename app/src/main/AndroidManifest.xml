@@ -17,8 +17,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name="test.gtconline.ui.MainActivity" />
         <activity android:name="test.gtconline.ui.DetailActivity" />
-        <activity android:name="test.gtconline.ui.LoginActivity">
-        </activity>
+        <activity android:name="test.gtconline.ui.LoginActivity"></activity>
         <activity android:name="test.gtconline.ui.RegisterActivity" />
         <activity android:name="test.gtconline.ui.UploadActivity" />
         <activity android:name="test.gtconline.ui.DownloadActivity" />
