@@ -56,7 +56,7 @@ public class DownloadActivity extends AppCompatActivity {
         btnpdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DownloadActivity.this, "PDF will be available after Oct 18, 2018", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DownloadActivity.this, "PDF will be available after Oct 29, 2018", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -80,7 +80,7 @@ public class DownloadActivity extends AppCompatActivity {
 //                    e.printStackTrace();
 //                    Toast.makeText(DownloadActivity.this, "Downloaded", Toast.LENGTH_SHORT).show();
 //                }
-                Toast.makeText(DownloadActivity.this, "Video will be available after Oct 18,2018", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DownloadActivity.this, "Video will be available after Oct 29,2018", Toast.LENGTH_SHORT).show();
 //                                downloadFileloc(storageReference);
 
 
@@ -90,7 +90,7 @@ public class DownloadActivity extends AppCompatActivity {
         btnhindi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DownloadActivity.this, "Video will be available after Oct 18,2018", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DownloadActivity.this, "Video will be available after Oct 29,2018", Toast.LENGTH_SHORT).show();
 
 
             }

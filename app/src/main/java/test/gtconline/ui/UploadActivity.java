@@ -239,77 +239,83 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void uploadFile2() {
-        if (fileUri != null) {
-            fileName2 = fileUri.getLastPathSegment();
 
-            if (!validateInputFileName(fileName2)) {
-                return;
+        if(flag ==1) {
+            if (fileUri != null) {
+                fileName2 = fileUri.getLastPathSegment();
+
+                if (!validateInputFileName(fileName2)) {
+                    return;
+                }
+
+                progressDialog.setTitle("Uploading...");
+                progressDialog.show();
+
+                final StorageReference fileRef2 = imageReference2.child(fileName2 + "." + getFileExtension(fileUri));
+                fileRef2.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressDialog.dismiss();
+                        Log.e(TAG, "Name: " + taskSnapshot.getMetadata().getName());
+
+                        upload2.setText("Uploaded " + taskSnapshot.getMetadata().getPath() + " - "
+                                + taskSnapshot.getMetadata().getSizeBytes() / 1024 + " KBs");
+                        upload2.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.gray_btn_color));
+                        upload2.setEnabled(false);
+                        imageView.setImageBitmap(null);
+                        reupload2.setVisibility(View.VISIBLE);
+                        flag2 = 1;
+                        Toast.makeText(UploadActivity.this, "File Uploaded ", Toast.LENGTH_LONG).show();
+                        fileUri = null;
+
+                        fileRef2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                imgUrl2 = uri.toString();
+                                Log.d("IURI", imgUrl2);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                                Log.d("IURI", "failure: " + e.toString());
+                            }
+                        });
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(UploadActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+
+                        // percentage in progress dialog
+                        progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+
+                    }
+                }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+                        System.out.println("Upload is paused!");
+                    }
+                });
+
+            } else {
+                Toast.makeText(UploadActivity.this, "No File! Please select Image", Toast.LENGTH_LONG).show();
             }
-
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
-
-            final StorageReference fileRef2 = imageReference2.child(fileName2 + "." + getFileExtension(fileUri));
-            fileRef2.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressDialog.dismiss();
-                    Log.e(TAG, "Name: " + taskSnapshot.getMetadata().getName());
-
-                    upload2.setText("Uploaded " + taskSnapshot.getMetadata().getPath() + " - "
-                            + taskSnapshot.getMetadata().getSizeBytes() / 1024 + " KBs");
-                    upload2.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.gray_btn_color));
-                    upload2.setEnabled(false);
-                    imageView.setImageBitmap(null);
-                    reupload2.setVisibility(View.VISIBLE);
-                    flag2 = 1;
-                    Toast.makeText(UploadActivity.this, "File Uploaded ", Toast.LENGTH_LONG).show();
-                    fileUri = null;
-
-                    fileRef2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            imgUrl2 = uri.toString();
-                            Log.d("IURI", imgUrl2);
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                            Log.d("IURI","failure: " +e.toString());
-                        }
-                    });
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    progressDialog.dismiss();
-
-                    Toast.makeText(UploadActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-
-                    // percentage in progress dialog
-                    progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
-
-                }
-            }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                    System.out.println("Upload is paused!");
-                }
-            });
-
-        } else {
-            Toast.makeText(UploadActivity.this, "No File! Please select Image", Toast.LENGTH_LONG).show();
         }
-
+        else{
+            
+            Toast.makeText(this, "Upload Image 1 first", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -356,11 +362,14 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                 uploadFile();
             }
         } else if (i == R.id.btn_upload_file2) {
-            if(fileUri == null)
-            {
-                showChoosingFile();
-            }else {
-                uploadFile2();
+            if(flag==1) {
+                if (fileUri == null) {
+                    showChoosingFile();
+                } else {
+                    uploadFile2();
+                }
+            }else{
+                Toast.makeText(this, "Upload Image 1 first", Toast.LENGTH_SHORT).show();
             }
         } else if (i == R.id.btn_upload_data) {
 //            selectDate();
@@ -385,7 +394,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 
     private void uploadForm() {
 
-        if (flag == 1 && flag2 == 1) {
+        if (flag == 1) {
             if(checkBox.isChecked()) {
                 final String date = dateST;
                 final String pledge = pledgesEt.getText().toString().trim();
@@ -440,7 +449,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 
             //add here
         } else {
-            Toast.makeText(this, "Please upload Images", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please upload atleast 1 image", Toast.LENGTH_SHORT).show();
         }
     }
 
