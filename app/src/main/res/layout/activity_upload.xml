@@ -61,47 +61,6 @@
                 android:text="Select Date MM/DD/YYYY*"
                 android:padding="10dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:weightSum="3">
-
-                <Button
-                    android:id="@+id/btn_choose_file"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#002468"
-                    android:text="Choose File"
-                    android:textColor="@android:color/white" />
-                <Button
-                    android:id="@+id/btn_reupload"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#002468"
-                    android:textSize="12sp"
-                    android:layout_marginLeft="10dp"
-                    android:text="Remove Image 1"
-                    android:textColor="@android:color/white" />
-                <Button
-                    android:id="@+id/btn_reupload2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#002468"
-                    android:layout_marginLeft="10dp"
-                    android:text="Remove Image 2"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/white" />
-
-
-
-            </LinearLayout>
-
             <TextView
                 android:id="@+id/tv_file_name"
                 android:layout_width="wrap_content"
@@ -168,6 +127,68 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btn_choose_file"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#002468"
+                    android:text="Choose File"
+                    android:textColor="@android:color/white" />
+                <Button
+                    android:id="@+id/btn_reupload"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#002468"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="10dp"
+                    android:text="Remove Image 1"
+                    android:textColor="@android:color/white" />
+                <Button
+                    android:id="@+id/btn_reupload2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#002468"
+                    android:layout_marginLeft="10dp"
+                    android:text="Remove Image 2"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white" />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                >
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/checkbox"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/white"
+                    android:text="I hereby certify that the information is true"/>
+
             </LinearLayout>
 
             <Button
