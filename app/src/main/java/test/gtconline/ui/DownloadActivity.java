@@ -1,6 +1,7 @@
 package test.gtconline.ui;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,49 +15,87 @@ import android.widget.VideoView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnPausedListener;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.FileInputStream;
 
 import test.gtconline.R;
 
 public class DownloadActivity extends AppCompatActivity {
 
-    VideoView videoView;
-    Button btndownload,btnpdf, btnhindi;
+//    VideoView videoView;
+    Button btndownload,btnpdf, btnhindi, viewHindi, viewEng;
     ProgressDialog progressDialog;
 
+    final String engURL="https://youtu.be/mH31g67Hjdk";
+    final String engFURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video%2FPFL_Video_Eng.mp4?alt=media&token=ce345530-7dbb-4286-b5cc-525660602a49";
+    final String hindiFURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video%2FPFL_Video_Hindi.mp4?alt=media&token=39eb8415-03ce-4b2b-8b2a-e9abdbb51b65";
+    final String hindiURL="https://youtu.be/gMCcAhrfhP8";
     final String videoURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video.mp4?alt=media&token=4761a05d-e86e-4a04-8149-2fab3217a3c5";
     StorageReference storageReference;
     private FirebaseAuth mAuth;
+    FirebaseStorage storage;
     Uri fileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
-        videoView = findViewById(R.id.video);
+//        videoView = findViewById(R.id.video);
         btndownload = findViewById(R.id.btdownload);
         btnpdf = findViewById(R.id.pdf);
         btnhindi = findViewById(R.id.btdownload_hindi);
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getReference();
         mAuth = FirebaseAuth.getInstance();
+        viewEng = findViewById(R.id.vengvideo);
+        viewHindi = findViewById(R.id.vhindivideo);
 
-        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(videoURL);
+
         progressDialog = new ProgressDialog(this);
         Log.d("storage", "storageref: " + storageReference);
 
 
         fileUri = Uri.parse(videoURL);
         Log.d("fileURI", fileUri.toString());
-        videoView.setVideoURI(fileUri);
-        videoView.requestFocus();
+//        videoView.setVideoURI(fileUri);
+//        videoView.requestFocus();
 //        videoView.start();
-        
+
+//        videoView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://youtu.be/mH31g67Hjdk")));
+//                Log.i("Video", "Video Playing....");
+//            }
+//        });
+
+        viewHindi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(hindiURL)));
+//                Log.i("Video", "Video Playing....");
+            }
+        });
+
+        viewEng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(engURL)));
+//                Log.i("Video", "Video Playing....");
+            }
+        });
+
         btnpdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DownloadActivity.this, "PDF will be available after Oct 29, 2018", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(DownloadActivity.this, PdfViewer.class);
+                startActivity(i);
             }
         });
 
@@ -64,7 +103,8 @@ public class DownloadActivity extends AppCompatActivity {
         btndownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                downloadFileinMemory(storageReference);
+                storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(engFURL);
+                downloadFileinMemory(storageReference);
 //                try {
 //                    FileInputStream fis = new FileInputStream(new File(getCacheDir(), "cachefile"));
 //                    if (fis != null) {
@@ -80,8 +120,8 @@ public class DownloadActivity extends AppCompatActivity {
 //                    e.printStackTrace();
 //                    Toast.makeText(DownloadActivity.this, "Downloaded", Toast.LENGTH_SHORT).show();
 //                }
-                Toast.makeText(DownloadActivity.this, "Video will be available after Oct 29,2018", Toast.LENGTH_SHORT).show();
-//                                downloadFileloc(storageReference);
+//                Toast.makeText(DownloadActivity.this, "Video will be available after Oct 29,2018", Toast.LENGTH_SHORT).show();
+////                                downloadFileloc(storageReference);
 
 
             }
@@ -90,9 +130,8 @@ public class DownloadActivity extends AppCompatActivity {
         btnhindi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DownloadActivity.this, "Video will be available after Oct 29,2018", Toast.LENGTH_SHORT).show();
-
-
+                storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(hindiFURL);
+                downloadFileinMemory(storageReference);
             }
         });
 

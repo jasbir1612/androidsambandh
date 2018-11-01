@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String finalDudice;
     static int count =3;
     TextView txtCount;
-    String udiseFinal;
+    String udiseFinal=null;
 
 
     @Override
@@ -158,64 +158,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(v.getId() == R.id.udise_search)
         {
-            udiceEt.setText(udiseFinal);
+
+
+                Log.d("Resp", "et" + udiceEt.getText().toString());
+                Log.d("Resp", "udice final: " + udiseFinal);
+                udiceEt.setText(udiseFinal);
+
         }
 
-        if (v.getId() == R.id.btn_submit)
-        {
+        if (v.getId() == R.id.btn_submit) {
 
-                finalUdice = udiceEt.getText().toString();
-            finalDudice = dUdiceEt.getText().toString();
-            url = baseurl + finalUdice;
+            if (udiseFinal != null || udiceEt.getText().toString()!=null)
+            {
 
-
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
+                    finalUdice = udiceEt.getText().toString();
+                finalDudice = dUdiceEt.getText().toString();
+                url = baseurl + finalUdice;
 
 
-                    try {
-                        JSONObject jsonObject = response.getJSONObject(0);
-                        Log.d("Volley", "jsonObject" + jsonObject.toString());
-                        String str = jsonObject.getString("Cnt");
-    //                    count = Integer.parseInt(str);
-                        int count2 = Integer.parseInt(str);
-                        Log.d("Volley", "count: " + count2);
+                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
 
-                        if (TextUtils.isEmpty(finalUdice)) {
-                            Toast.makeText(MainActivity.this, "Problem in finding udice. Try again later.", Toast.LENGTH_SHORT).show();
-                            return;
+
+                        try {
+                            JSONObject jsonObject = response.getJSONObject(0);
+                            Log.d("Volley", "jsonObject" + jsonObject.toString());
+                            String str = jsonObject.getString("Cnt");
+                            //                    count = Integer.parseInt(str);
+                            int count2 = Integer.parseInt(str);
+                            Log.d("Volley", "count: " + count2);
+
+                            if (TextUtils.isEmpty(finalUdice)) {
+                                Toast.makeText(MainActivity.this, "Problem in finding udice. Try again later.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            if (count2 < 3) {
+                                Intent resultIntent = new Intent();
+                                resultIntent.putExtra("udice_code", finalUdice);
+                                resultIntent.putExtra("dudice_code", finalDudice);
+                                setResult(Activity.RESULT_OK, resultIntent);
+                                finish();
+                            } else {
+                                Toast.makeText(MainActivity.this, "Maximum 3 users allowed on this UDISE code.", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.d("Volley", "catch error: " + e.toString());
                         }
-                        if (count2 < 3) {
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra("udice_code", finalUdice);
-                            resultIntent.putExtra("dudice_code", finalDudice);
-                            setResult(Activity.RESULT_OK, resultIntent);
-                            finish();
-                        } else {
-                            Toast.makeText(MainActivity.this, "Maximum 3 users allowed on this UDISE code.", Toast.LENGTH_SHORT).show();
-                        }
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.d("Volley", "catch error: " + e.toString());
                     }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                        Log.d("Volley", error.toString());
 
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(MainActivity.this, "Failure", Toast.LENGTH_SHORT).show();
-                    Log.d("Volley", error.toString());
+                    }
+                });
+                //
+                //        String temp = txtCount.getText().toString();
+                //        int countTemp = Integer.parseInt(temp);
+                //        Log.d("Volley", "count here: " +countTemp);
 
-                }
-            });
-    //
-    //        String temp = txtCount.getText().toString();
-    //        int countTemp = Integer.parseInt(temp);
-    //        Log.d("Volley", "count here: " +countTemp);
-
-            requestQueue.add(jsonArrayRequest);
+                requestQueue.add(jsonArrayRequest);
+            }
+            else{
+                Toast.makeText(this, "Udise code not found", Toast.LENGTH_SHORT).show();
+            }
         }
         
     }
@@ -224,19 +235,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         apiService.getSchoolData(districtCode, blockCode, villageCode, "", new ResponseCallback<List<SchoolDataResponse>>() {
             @Override
             public void success(List<SchoolDataResponse> schoolDataResponses) {
+
                 if (schoolDataResponses != null)
                     schoolDataList = new ArrayList<>(schoolDataResponses);
                 else
                     schoolDataList = new ArrayList<>();
                 fillSchoolData(schoolDataList);
                 showLoader(false);
+                Log.d("Resp", "School List" +schoolDataList);
             }
 
             @Override
             public void failure(List<SchoolDataResponse> schoolDataResponses) {
                 schoolDataList = new ArrayList<>();
                 fillSchoolData(schoolDataList);
-                showLoader(false);
+                    showLoader(false);
             }
         });
     }
@@ -350,19 +363,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void fillSchoolData(ArrayList<SchoolDataResponse> data) {
-        ArrayList<String> providerlist = new ArrayList<>();
-        for (SchoolDataResponse response : data) {
-            providerlist.add(response.getSchoolName());
-        }
+        if(data==null) {
+            Toast.makeText(MainActivity.this, "No School found", Toast.LENGTH_SHORT).show();
+        }else{
+            ArrayList<String> providerlist = new ArrayList<>();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, providerlist);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        schoolSpinner.setAdapter(adapter);
+            for (SchoolDataResponse response : data) {
+                providerlist.add(response.getSchoolName());
+            }
 
-        submitButton.setEnabled(true);
-        if (schoolDataList.size() > 0) {
-            udiseFinal = doubleConverter(schoolDataList.get(schoolSpinner.getSelectedItemPosition()).getSchoolCode());
-            dUdiceEt.setText(schoolDataList.get(schoolSpinner.getSelectedItemPosition()).getDistSchoolCode());
+            Log.d("Resp2", "List: "+providerlist);
+            if(providerlist.isEmpty())
+            {
+                Toast.makeText(MainActivity.this, "No School found", Toast.LENGTH_SHORT).show();
+                udiseFinal=null;
+                udiceEt.setText("");
+            }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, providerlist);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            schoolSpinner.setAdapter(adapter);
+
+            submitButton.setEnabled(true);
+            if (schoolDataList.size() > 0) {
+//            udiseFinal = doubleConverter(schoolDataList.get(schoolSpinner.getSelectedItemPosition()).getSchoolCode());
+                dUdiceEt.setText(schoolDataList.get(schoolSpinner.getSelectedItemPosition()).getDistSchoolCode());
+            }
         }
 
     }

@@ -39,12 +39,6 @@
                 android:layout_marginRight="10dp"
                 android:src="@drawable/pledgelife_logo" />
 
-            <VideoView
-                android:id="@+id/video"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_margin="10dp" />
-
             <Button
                 android:id="@+id/btdownload"
                 android:layout_width="match_parent"
@@ -54,15 +48,33 @@
                 android:background="#002468"
                 android:text="download PFL Video English"
                 android:textColor="@android:color/white" />
+            <Button
+                android:id="@+id/vengvideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#004c90"
+                android:text="View PFL Video English(Youtube)"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/btdownload_hindi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:background="#002468"
                 android:text="download PFL Video Hindi"
+                android:textColor="@android:color/white" />
+            <Button
+                android:id="@+id/vhindivideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#004c90"
+                android:text="View PFL Video Hindi(Youtube)"
                 android:textColor="@android:color/white" />
 
             <Button

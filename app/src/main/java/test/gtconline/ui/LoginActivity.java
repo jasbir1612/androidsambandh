@@ -150,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (sendOtpResponses.get(0).getAppUID() != null) {
                             db.setAppUid(sendOtpResponses.get(0).getAppUID());
                             db.setMobile(sendOtpResponses.get(0).getMobile());
+                            etOtp.requestFocus();
                         }
 
                         btnOtp.postDelayed(new Runnable() {

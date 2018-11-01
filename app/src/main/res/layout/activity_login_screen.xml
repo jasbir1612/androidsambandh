@@ -70,6 +70,8 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/etshape"
                 android:hint="Enter Mobile Number"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:inputType="number"
                 android:maxWidth="300dp"
                 android:maxLength="10"
@@ -86,6 +88,8 @@
                 android:background="@drawable/etshape"
                 android:hint="Enter OTP"
                 android:inputType="number"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:maxWidth="300dp"
                 android:maxLength="6"
                 android:padding="10dp" />

@@ -48,6 +48,8 @@
                 android:background="@drawable/etshape"
                 android:hint="Enter Number of Students*"
                 android:inputType="number"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:maxWidth="300dp"
                 android:clickable="true"
                 android:padding="10dp" />

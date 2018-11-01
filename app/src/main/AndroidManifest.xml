@@ -15,20 +15,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="test.gtconline.ui.MainActivity" />
-        <activity android:name="test.gtconline.ui.DetailActivity" />
-        <activity android:name="test.gtconline.ui.LoginActivity"></activity>
-        <activity android:name="test.gtconline.ui.RegisterActivity" />
-        <activity android:name="test.gtconline.ui.UploadActivity" />
-        <activity android:name="test.gtconline.ui.DownloadActivity" />
-        <activity android:name="test.gtconline.ui.HomeActivity" />
-        <activity android:name="test.gtconline.ui.SplashActivity">
+        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.DetailActivity" />
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.UploadActivity" />
+        <activity android:name=".ui.DownloadActivity" />
+        <activity android:name=".ui.HomeActivity" />
+        <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.PdfViewer"></activity>
     </application>
 
 </manifest>
