@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.commit451.youtubeextractor.YouTubeExtractionResult;
+import com.commit451.youtubeextractor.YouTubeExtractor;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +26,9 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.FileInputStream;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import test.gtconline.R;
 
 public class DownloadActivity extends AppCompatActivity {
@@ -41,6 +46,24 @@ public class DownloadActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseStorage storage;
     Uri fileUri;
+
+    private static final String YOUTUBE_ID = "SlLhbuASN7c";
+    private final YouTubeExtractor mExtractor = YouTubeExtractor.create();
+
+
+
+    private Callback<YouTubeExtractionResult> mExtractionCallback = new Callback<YouTubeExtractionResult>() {
+        @Override
+        public void onResponse(Call<YouTubeExtractionResult> call, Response<YouTubeExtractionResult> response) {
+            bindVideoResult(response.body());
+        }
+
+        @Override
+        public void onFailure(Call<YouTubeExtractionResult> call, Throwable t) {
+            onError(t);
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +101,7 @@ public class DownloadActivity extends AppCompatActivity {
         viewHindi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(hindiURL)));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(hindiURL)));
 //                Log.i("Video", "Video Playing....");
             }
         });
@@ -86,7 +109,7 @@ public class DownloadActivity extends AppCompatActivity {
         viewEng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(engURL)));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(engURL)));
 //                Log.i("Video", "Video Playing....");
             }
         });
@@ -98,7 +121,6 @@ public class DownloadActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
 
         btndownload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,10 +154,28 @@ public class DownloadActivity extends AppCompatActivity {
             public void onClick(View v) {
                 storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(hindiFURL);
                 downloadFileinMemory(storageReference);
+//                mExtractor.extract(YOUTUBE_ID).enqueue(mExtractionCallback);
             }
         });
 
     }
+    private void onError(Throwable t) {
+        Log.d("Error: ", "Error: " +t.toString());
+        Toast.makeText(DownloadActivity.this, "It failed to extract. So sad", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void bindVideoResult(YouTubeExtractionResult result) {
+
+//        Here you can get download url link
+
+        Log.d("OnSuccess", "Got a result with the best url: " + result.getBestAvailableQualityVideoUri());
+
+        Toast.makeText(this, "result : " + result.getSd360VideoUri(), Toast.LENGTH_SHORT).show();
+    }
+
+
+
 
     public void downloadFileinMemory(StorageReference fileReference) {
         if (fileReference != null) {
