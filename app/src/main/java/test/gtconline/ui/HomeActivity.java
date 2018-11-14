@@ -54,9 +54,10 @@ public class HomeActivity extends AppCompatActivity {
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loginUser(email, password);
                 Intent i = new Intent(HomeActivity.this, DownloadActivity.class);
                 startActivity(i);
-                loginUser(email, password);
+
             }
         });
 

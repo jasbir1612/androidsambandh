@@ -377,7 +377,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         } else if (i == R.id.btn_reupload) {
             upload1.setEnabled(true);
             upload1.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.login_btn_color));
-            upload1.setText("Upload Image 1");
+            upload1.setText("Upload Image 1*");
             flag = 0;
 
 
@@ -399,20 +399,22 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                 final String date = dateST;
                 final String pledge = pledgesEt.getText().toString().trim();
 
-
-                if (TextUtils.isEmpty(date)) {
-                    Toast.makeText(this, "Enter date.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
                 if (TextUtils.isEmpty(pledge)) {
                     Toast.makeText(this, "Enter number of students pledged.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(date)) {
+                    Toast.makeText(this, "Enter date.", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     int num = Integer.parseInt(pledge);
                     if (num > 5000) {
                         Toast.makeText(this, "Please enter students less than 5000", Toast.LENGTH_SHORT).show();
-                    } else {
+                    }
+                    else if(num==0)
+                    {
+                        Toast.makeText(this, "Please enter a number greater than 0", Toast.LENGTH_SHORT).show();
+                    }else {
 
                         UploadBody body = new UploadBody(date, pledge, db.getMobile(), "", db.getMobile());
 

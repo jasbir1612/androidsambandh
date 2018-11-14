@@ -50,6 +50,7 @@
                 android:inputType="number"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:maxLength="4"
                 android:maxWidth="300dp"
                 android:clickable="true"
                 android:padding="10dp" />
@@ -99,7 +100,7 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:background="#002468"
-                    android:text="Upload Image 1"
+                    android:text="Upload Image 1*"
                     android:textColor="@android:color/white" />
 
 

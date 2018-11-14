@@ -39,6 +39,14 @@
                 android:layout_marginRight="10dp"
                 android:src="@drawable/pledgelife_logo" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="*Downloaded files will be saved in the Downloads folder"/>
+
             <Button
                 android:id="@+id/btdownload"
                 android:layout_width="match_parent"
@@ -87,6 +95,16 @@
                 android:textColor="@android:color/white"
                 android:text="Download Instructions"
                 android:background="#002468"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/viewpdf"
+                android:layout_margin="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textColor="@android:color/white"
+                android:text="View Instructions"
+                android:background="#004c90"/>
         </LinearLayout>
     </ScrollView>
 

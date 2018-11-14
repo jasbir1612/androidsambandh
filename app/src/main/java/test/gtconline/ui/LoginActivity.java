@@ -97,9 +97,9 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mobile = etPhone.getText().toString().trim();
-                String otp = etOtp.getText().toString().trim();
-                String appUid = db.getAppUid();
+                final String mobile = etPhone.getText().toString().trim();
+                final String otp = etOtp.getText().toString().trim();
+                final String appUid = db.getAppUid();
 
                 if (TextUtils.isEmpty(mobile)) {
                     Toast.makeText(LoginActivity.this, "Enter mobile number first", Toast.LENGTH_SHORT).show();
@@ -111,16 +111,27 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                apiService.verifyOtp(mobile, otp, appUid, new ResponseCallback<List<VerifyOtpResponse>>() {
+                apiService.checkRegistered(mobile, new ResponseCallback<List<CheckRegisteredResponse>>() {
                     @Override
-                    public void success(List<VerifyOtpResponse> verifyOtpResponses) {
-                        Toast.makeText(LoginActivity.this, "Otp verified.", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                    public void success(List<CheckRegisteredResponse> checkRegisteredResponses) {
+                        Toast.makeText(LoginActivity.this, "Mobile number not Registered", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void failure(List<VerifyOtpResponse> verifyOtpResponses) {
-                        Toast.makeText(LoginActivity.this, "There was some problem right now. Try again later.", Toast.LENGTH_SHORT).show();
+                    public void failure(List<CheckRegisteredResponse> checkRegisteredResponses) {
+
+                        apiService.verifyOtp(mobile, otp, appUid, new ResponseCallback<List<VerifyOtpResponse>>() {
+                            @Override
+                            public void success(List<VerifyOtpResponse> verifyOtpResponses) {
+                                Toast.makeText(LoginActivity.this, "Otp verified.", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            }
+
+                            @Override
+                            public void failure(List<VerifyOtpResponse> verifyOtpResponses) {
+                                Toast.makeText(LoginActivity.this, "There was some problem right now. Try again later.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
             }

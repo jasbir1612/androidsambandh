@@ -68,6 +68,16 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="12sp"
+                android:layout_marginBottom="20dp"
+                android:textColor="@android:color/white"
+                android:text="*If you do not find your school then go to www.sambandhhealth.org and register your school to proceed"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:text="Select District"
                 android:textColor="@android:color/white" />
@@ -128,17 +138,6 @@
                 android:background="@drawable/spinnershape"
                 android:padding="10dp"
                 android:prompt="@string/school_spinner_hint" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="#002468"
-                android:text="Search UDISE Code"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:id="@+id/udise_search"
-                android:textColor="@android:color/white"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

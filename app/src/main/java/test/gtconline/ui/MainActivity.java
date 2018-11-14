@@ -1,7 +1,11 @@
 package test.gtconline.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
@@ -45,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AppCompatSpinner districtSpinner, villageSpinner, blockSpinner, schoolSpinner;
     private AppCompatEditText udiceEt, dUdiceEt;
     private ApiService apiService;
-    private Button submitButton,search;
+    private Button submitButton;
     private ProgressBar loadingProgress;
 
     private ArrayList<DistrictDataResponse> districtDataList = new ArrayList<>();
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static int count =3;
     TextView txtCount;
     String udiseFinal=null;
+    Context context;
 
 
     @Override
@@ -71,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         requestQueue = Volley.newRequestQueue(this);
         apiService = new ApiService();
 
-        search = findViewById(R.id.udise_search);
         udiceEt = findViewById(R.id.udice_code_et);
         dUdiceEt = findViewById(R.id.dudice_code_et);
         blockSpinner = findViewById(R.id.block_code);
@@ -79,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         villageSpinner = findViewById(R.id.village_code);
         loadingProgress = findViewById(R.id.loading_progress);
         schoolSpinner = findViewById(R.id.school_code);
-        search.setOnClickListener(this);
 
         submitButton = findViewById(R.id.btn_submit);
         submitButton.setEnabled(false);
@@ -130,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 submitButton.setEnabled(true);
                 if (position == 0) {
                     udiseFinal = doubleConverter(schoolDataList.get(position).getSchoolCode());
+                    udiceEt.setText(doubleConverter(schoolDataList.get(position).getSchoolCode()));
                 } else {
                     udiseFinal = doubleConverter(schoolDataList.get(position).getSchoolCode());
                     udiceEt.setText(doubleConverter(schoolDataList.get(position).getSchoolCode()));
@@ -155,17 +159,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-
-        if(v.getId() == R.id.udise_search)
-        {
-
-
-                Log.d("Resp", "et" + udiceEt.getText().toString());
-                Log.d("Resp", "udice final: " + udiseFinal);
-                udiceEt.setText(udiseFinal);
-
-        }
-
         if (v.getId() == R.id.btn_submit) {
 
             if (udiseFinal != null || udiceEt.getText().toString()!=null)
@@ -175,11 +168,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 finalDudice = dUdiceEt.getText().toString();
                 url = baseurl + finalUdice;
 
-
                 JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-
 
                         try {
                             JSONObject jsonObject = response.getJSONObject(0);
@@ -194,11 +185,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 return;
                             }
                             if (count2 < 3) {
-                                Intent resultIntent = new Intent();
-                                resultIntent.putExtra("udice_code", finalUdice);
-                                resultIntent.putExtra("dudice_code", finalDudice);
-                                setResult(Activity.RESULT_OK, resultIntent);
-                                finish();
+                                final AlertDialog.Builder builder;
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+                                } else {
+                                    builder = new AlertDialog.Builder(MainActivity.this);
+                                }
+                                builder.setTitle("UDISE code")
+                                        .setMessage("Selected UDISE code is: " +finalUdice)
+                                        .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent resultIntent = new Intent();
+                                                resultIntent.putExtra("udice_code", finalUdice);
+                                                resultIntent.putExtra("dudice_code", finalDudice);
+                                                setResult(Activity.RESULT_OK, resultIntent);
+                                                finish();
+                                            }
+                                        })
+                                        .setNegativeButton("Select Again", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                            }
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .show();
+
+
                             } else {
                                 Toast.makeText(MainActivity.this, "Maximum 3 users allowed on this UDISE code.", Toast.LENGTH_SHORT).show();
                             }

@@ -1,10 +1,16 @@
 package test.gtconline.ui;
 
+import android.Manifest;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +20,7 @@ import android.widget.VideoView;
 
 import com.commit451.youtubeextractor.YouTubeExtractionResult;
 import com.commit451.youtubeextractor.YouTubeExtractor;
+import com.google.android.gms.flags.Flag;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +32,11 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,44 +46,36 @@ import test.gtconline.R;
 public class DownloadActivity extends AppCompatActivity {
 
 //    VideoView videoView;
-    Button btndownload,btnpdf, btnhindi, viewHindi, viewEng;
+    Button btndownload,btnpdf, btnhindi, viewHindi, viewEng, viewPdf;
     ProgressDialog progressDialog;
 
+    final String pdfDownload = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/pdf%2FPFL_Instr.pdf?alt=media&token=42610766-218e-46ee-80e3-c3196e4f43a4";
     final String engURL="https://youtu.be/mH31g67Hjdk";
-    final String engFURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video%2FPFL_Video_Eng.mp4?alt=media&token=ce345530-7dbb-4286-b5cc-525660602a49";
-    final String hindiFURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video%2FPFL_Video_Hindi.mp4?alt=media&token=39eb8415-03ce-4b2b-8b2a-e9abdbb51b65";
+    final String engFURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video%2FPFL_Video_English_Ver_4.mp4?alt=media&token=0c0d4afb-d933-4903-8136-a1f147691ccb";
+    final String hindiFURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video%2FPFL_Video_Hindi_Ver_4.mp4?alt=media&token=2575422a-5e27-4be8-9b98-75f5d0d61459";
     final String hindiURL="https://youtu.be/gMCcAhrfhP8";
     final String videoURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video.mp4?alt=media&token=4761a05d-e86e-4a04-8149-2fab3217a3c5";
-    StorageReference storageReference;
+    StorageReference storageReference, videoReference;
     private FirebaseAuth mAuth;
     FirebaseStorage storage;
     Uri fileUri;
-
-    private static final String YOUTUBE_ID = "SlLhbuASN7c";
-    private final YouTubeExtractor mExtractor = YouTubeExtractor.create();
-
-
-
-    private Callback<YouTubeExtractionResult> mExtractionCallback = new Callback<YouTubeExtractionResult>() {
-        @Override
-        public void onResponse(Call<YouTubeExtractionResult> call, Response<YouTubeExtractionResult> response) {
-            bindVideoResult(response.body());
-        }
-
-        @Override
-        public void onFailure(Call<YouTubeExtractionResult> call, Throwable t) {
-            onError(t);
-        }
-    };
-
+    int feng = 0;
+    int fhindi = 0;
+    int fpdf = 0;
+    String filename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
+
+        final StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        videoReference = storageRef.child("video/video.mp4");
+
 //        videoView = findViewById(R.id.video);
         btndownload = findViewById(R.id.btdownload);
         btnpdf = findViewById(R.id.pdf);
+        viewPdf = findViewById(R.id.viewpdf);
         btnhindi = findViewById(R.id.btdownload_hindi);
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getReference();
@@ -98,6 +102,14 @@ public class DownloadActivity extends AppCompatActivity {
 //            }
 //        });
 
+        viewPdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DownloadActivity.this, PdfViewer.class);
+                startActivity(i);
+            }
+        });
+
         viewHindi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,117 +123,172 @@ public class DownloadActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(engURL)));
 //                Log.i("Video", "Video Playing....");
+
             }
         });
 
         btnpdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(DownloadActivity.this, PdfViewer.class);
-                startActivity(i);
+
+//                File pdfdir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+//                final File pdfFile = new File(pdfdir, "pfl_instructions.pdf");
+//                try {
+//                    pdfFile.createNewFile();
+//                } catch (IOException e1) {
+//                    e1.printStackTrace();
+//                }
+//                DownloadPdfFile(pdfDownload, pdfFile);
+//                Toast.makeText(DownloadActivity.this, "Instructions Downloaded", Toast.LENGTH_SHORT).show();
+
+                if(isStoragePermissionGranted())
+                {
+                    fpdf = 1;
+                        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(pdfDownload);
+                        downloadFirebaseFile(storageReference);
+                    }
+
             }
         });
 
         btndownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(engFURL);
-                downloadFileinMemory(storageReference);
-//                try {
-//                    FileInputStream fis = new FileInputStream(new File(getCacheDir(), "cachefile"));
-//                    if (fis != null) {
-//
-//                        storageReference.putStream(fis);
-//                        Toast.makeText(DownloadActivity.this, "cache", Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(videoURL);
-//                        Toast.makeText(DownloadActivity.this, "url", Toast.LENGTH_SHORT).show();
-//                        downloadFileinMemory(storageReference);
-//                    }
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                    Toast.makeText(DownloadActivity.this, "Downloaded", Toast.LENGTH_SHORT).show();
-//                }
-//                Toast.makeText(DownloadActivity.this, "Video will be available after Oct 29,2018", Toast.LENGTH_SHORT).show();
-////                                downloadFileloc(storageReference);
-
-
+                if(isStoragePermissionGranted())
+                {
+                        feng = 1;
+                        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(engFURL);
+                        downloadFirebaseFile(storageReference);
+                }
             }
         });
 
         btnhindi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(hindiFURL);
-                downloadFileinMemory(storageReference);
-//                mExtractor.extract(YOUTUBE_ID).enqueue(mExtractionCallback);
+                if(isStoragePermissionGranted()) {
+                    fhindi = 1;
+                        storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(hindiFURL);
+                        downloadFirebaseFile(storageReference);
+                    }
             }
         });
 
     }
-    private void onError(Throwable t) {
-        Log.d("Error: ", "Error: " +t.toString());
-        Toast.makeText(DownloadActivity.this, "It failed to extract. So sad", Toast.LENGTH_SHORT).show();
-    }
 
 
-    private void bindVideoResult(YouTubeExtractionResult result) {
+    public void downloadFirebaseFile(StorageReference fileReference){
 
-//        Here you can get download url link
-
-        Log.d("OnSuccess", "Got a result with the best url: " + result.getBestAvailableQualityVideoUri());
-
-        Toast.makeText(this, "result : " + result.getSd360VideoUri(), Toast.LENGTH_SHORT).show();
-    }
-
-
-
-
-    public void downloadFileinMemory(StorageReference fileReference) {
-        if (fileReference != null) {
-
+        if(fileReference!=null) {
             progressDialog.setTitle("Downloading...");
             progressDialog.show();
-            final long ONE_MEGABYTE = 10240 * 10240;
 
-            fileReference.getBytes(ONE_MEGABYTE)
-                    .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            if(fhindi == 1)
+            {
+                filename = "pfl_hindi.mp4";
+            }
+            if(feng ==1)
+            {
+                filename = "pfl_eng.mp4";
+            }
+            if(fpdf ==1)
+            {
+                filename = "pfl_instructions.pdf";
 
-                        @Override
-                        public void onSuccess(byte[] bytes) {
-                            progressDialog.dismiss();
-
-                            Toast.makeText(DownloadActivity.this, "File Downloaded ", Toast.LENGTH_LONG).show();
+            }
+            try {
+                File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                final File localFile = new File(dir, filename);
+                try {
+                    localFile.createNewFile();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                fileReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        progressDialog.dismiss();
+                        Log.d("pflVideo",localFile.getPath());
+                        if(fpdf == 1)
+                        {
+                            Toast.makeText(DownloadActivity.this, "Downloaded PDF", Toast.LENGTH_SHORT).show();
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            progressDialog.dismiss();
-
-                            Toast.makeText(DownloadActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
+                        else {
+                            Toast.makeText(DownloadActivity.this, "Downloaded video", Toast.LENGTH_SHORT).show();
                         }
-                    });
-//                    .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
-//
-//                        @Override
-//                        public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-//
-//                            // percentage in progress dialog
-//                            progressDialog.setMessage("Downloadeed " + ((int) progress) + "%...");
-//                        }
-//                    })
-//                    .addOnPausedListener(new OnPausedListener<FileDownloadTask.TaskSnapshot>() {
-//
-//                        @Override
-//                        public void onPaused(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                            System.out.println("Upload is paused!");
-//                        }
-//                    });
-        } else {
-            Toast.makeText(DownloadActivity.this, "No File!", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS));
+                        feng = fpdf = feng =0;
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Log.d("Error", e.toString());
+                        Toast.makeText(DownloadActivity.this, "Unable to download video", Toast.LENGTH_SHORT).show();
+
+                    }
+                }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        // percentage in progress dialog
+                        progressDialog.setMessage("Downloaded " + ((int) progress) + "%...");
+
+                    }
+                });
+
+            } catch (Exception e) {
+
+                progressDialog.dismiss();
+                Toast.makeText(this, "Network error", Toast.LENGTH_SHORT).show();
+                Log.d("Error", e.toString());
+            }
         }
 
+    }
+
+    public void DownloadPdfFile(String fileURL, File directory) {
+        
+        
+        try {
+            FileOutputStream f = new FileOutputStream(directory);
+            URL u = new URL(fileURL);
+            HttpURLConnection c = (HttpURLConnection) u.openConnection();
+            c.setRequestMethod("GET");
+            c.setDoOutput(true);
+            c.connect();
+
+            InputStream in = c.getInputStream();
+
+            byte[] buffer = new byte[1024];
+            int len1 = 0;
+            while ((len1 = in.read(buffer)) > 0) {
+                f.write(buffer, 0, len1);
+            }
+            f.close();
+            progressDialog.dismiss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("Storage","Permission is granted");
+                return true;
+            } else {
+
+                Log.v("Storage","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("Storage","Permission is granted");
+            return true;
+        }
     }
 }
