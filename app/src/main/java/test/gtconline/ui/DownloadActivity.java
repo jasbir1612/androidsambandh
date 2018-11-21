@@ -51,8 +51,8 @@ public class DownloadActivity extends AppCompatActivity {
 
     final String pdfDownload = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/pdf%2FPFL_Instr.pdf?alt=media&token=42610766-218e-46ee-80e3-c3196e4f43a4";
     final String engURL="https://youtu.be/mH31g67Hjdk";
-    final String engFURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video%2FPFL_Video_English_Ver_4.mp4?alt=media&token=0c0d4afb-d933-4903-8136-a1f147691ccb";
-    final String hindiFURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video%2FPFL_Video_Hindi_Ver_4.mp4?alt=media&token=2575422a-5e27-4be8-9b98-75f5d0d61459";
+    final String engFURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/PFL_Video_English_Ver_4.mp4?alt=media&token=49064b33-9f99-40f5-8faa-c906ac63f67f";
+    final String hindiFURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/PFL_Video_Hindi_Ver_4.mp4?alt=media&token=aa0d35fb-5640-4146-bce1-5a3715a9a505";
     final String hindiURL="https://youtu.be/gMCcAhrfhP8";
     final String videoURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video.mp4?alt=media&token=4761a05d-e86e-4a04-8149-2fab3217a3c5";
     StorageReference storageReference, videoReference;

@@ -35,7 +35,7 @@ import test.gtconline.pojo.response.VillageDataResponse;
 
 public class ApiService {
 
-    public static final String BASE_URL = "http://sambandhhealthapi.uniso.in/api/";
+    public static final String BASE_URL = "http://sambandhhealthapiv2.sambandhhealth.org/api/";
 
     private static OkHttpClient httpClient = new OkHttpClient.Builder()
             .addInterceptor(new HTTPLoggingInterceptor())
