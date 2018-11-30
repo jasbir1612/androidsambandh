@@ -18,6 +18,13 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.commit451.youtubeextractor.YouTubeExtractionResult;
 import com.commit451.youtubeextractor.YouTubeExtractor;
 import com.google.android.gms.flags.Flag;
@@ -29,6 +36,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,6 +48,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,6 +76,7 @@ public class DownloadActivity extends AppCompatActivity {
     int fhindi = 0;
     int fpdf = 0;
     String filename;
+    RequestQueue volleyQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +85,9 @@ public class DownloadActivity extends AppCompatActivity {
 
         final StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         videoReference = storageRef.child("video/video.mp4");
+
+        volleyQueue= Volley.newRequestQueue(this);
+
 
 //        videoView = findViewById(R.id.video);
         btndownload = findViewById(R.id.btdownload);
@@ -159,6 +176,10 @@ public class DownloadActivity extends AppCompatActivity {
                         feng = 1;
                         storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(engFURL);
                         downloadFirebaseFile(storageReference);
+
+
+                      postRequest();
+
                 }
             }
         });
@@ -270,6 +291,40 @@ public class DownloadActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+
+    public void postRequest()
+    {
+
+
+        final String moblieNumber="7678579823";
+        final String downloadType="PDF";
+
+        String url="http://sambandhhealthapiv2.sambandhhealth.org/api/Sambandh/DownloadFile?MobileNo=7678579823&DownloadType=PDF";
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Log.v("response",response);
+            }
+        },null){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> paramsMap=new HashMap();
+
+                paramsMap.put("MobileNo",moblieNumber);
+                paramsMap.put("DownloadType",downloadType);
+                return paramsMap;
+
+            }
+        };
+
+
+
+        volleyQueue.add(postRequest);
 
     }
 

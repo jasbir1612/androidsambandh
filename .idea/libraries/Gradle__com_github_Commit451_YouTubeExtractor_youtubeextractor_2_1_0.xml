@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.Commit451.YouTubeExtractor:youtubeextractor-2.1.0">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/youtubeextractor-2.1.0.aar/a7bbc4fce0fde1b182602b8e09855e75/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/youtubeextractor-2.1.0.aar/a7bbc4fce0fde1b182602b8e09855e75/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/youtubeextractor-2.1.0.aar/4c2e142fcccaaedbe4c8ffc8d280255b/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/youtubeextractor-2.1.0.aar/4c2e142fcccaaedbe4c8ffc8d280255b/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

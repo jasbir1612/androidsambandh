@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.barteksc:pdfium-android-1.4.0">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/pdfium-android-1.4.0.aar/64e1d7bccfd4dd655a53237237893966/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/pdfium-android-1.4.0.aar/64e1d7bccfd4dd655a53237237893966/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/pdfium-android-1.4.0.aar/c859af0957dbbe87128d23e41e44807e/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/pdfium-android-1.4.0.aar/c859af0957dbbe87128d23e41e44807e/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
