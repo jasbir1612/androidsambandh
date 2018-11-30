@@ -124,7 +124,10 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void success(List<VerifyOtpResponse> verifyOtpResponses) {
                                 Toast.makeText(LoginActivity.this, "Otp verified.", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+
+                               Intent homeActivityIntent=new Intent(LoginActivity.this, HomeActivity.class);
+                                homeActivityIntent.putExtra("mobileNumber",mobile);
+                                startActivity(homeActivityIntent);
                             }
 
                             @Override

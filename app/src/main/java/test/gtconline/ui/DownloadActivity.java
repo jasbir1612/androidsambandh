@@ -165,6 +165,8 @@ public class DownloadActivity extends AppCompatActivity {
                         downloadFirebaseFile(storageReference);
                     }
 
+                    postRequest( getIntent().getExtras().getString("mobileNumber"),"PDF");
+
             }
         });
 
@@ -178,7 +180,8 @@ public class DownloadActivity extends AppCompatActivity {
                         downloadFirebaseFile(storageReference);
 
 
-                      postRequest();
+
+                      postRequest( getIntent().getExtras().getString("mobileNumber"),"VIDEO");
 
                 }
             }
@@ -191,6 +194,9 @@ public class DownloadActivity extends AppCompatActivity {
                     fhindi = 1;
                         storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(hindiFURL);
                         downloadFirebaseFile(storageReference);
+
+                        postRequest( getIntent().getExtras().getString("mobileNumber"),"VIDEO");
+
                     }
             }
         });
@@ -295,12 +301,12 @@ public class DownloadActivity extends AppCompatActivity {
     }
 
 
-    public void postRequest()
+    public void postRequest(final String mobileNumber, final String downloadType)
     {
 
 
-        final String moblieNumber="7678579823";
-        final String downloadType="PDF";
+      //  final String moblieNumber="7678579823";
+     //   final String downloadType="PDF";
 
         String url="http://sambandhhealthapiv2.sambandhhealth.org/api/Sambandh/DownloadFile?MobileNo=7678579823&DownloadType=PDF";
 
@@ -315,7 +321,7 @@ public class DownloadActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> paramsMap=new HashMap();
 
-                paramsMap.put("MobileNo",moblieNumber);
+                paramsMap.put("MobileNo",mobileNumber);
                 paramsMap.put("DownloadType",downloadType);
                 return paramsMap;
 

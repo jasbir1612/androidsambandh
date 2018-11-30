@@ -45,10 +45,10 @@ public class HomeActivity extends AppCompatActivity {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent i = new Intent(HomeActivity.this, UploadActivity.class);
-//                startActivity(i);
-//                loginUser(email, password);
-                Toast.makeText(HomeActivity.this, "Will be available after December 1, 2018", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(HomeActivity.this, UploadActivity.class);
+                startActivity(i);
+                loginUser(email, password);
+//                Toast.makeText(HomeActivity.this, "Will be available after December 1, 2018", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -57,6 +57,8 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loginUser(email, password);
                 Intent i = new Intent(HomeActivity.this, DownloadActivity.class);
+                String mobileNumber=getIntent().getExtras().getString("mobileNumber");
+                i.putExtra("mobileNumber",mobileNumber);
                 startActivity(i);
 
             }
