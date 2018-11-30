@@ -49,10 +49,10 @@ public class DownloadActivity extends AppCompatActivity {
     Button btndownload,btnpdf, btnhindi, viewHindi, viewEng, viewPdf;
     ProgressDialog progressDialog;
 
-    final String pdfDownload = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/pdf%2FPFL_Instr.pdf?alt=media&token=42610766-218e-46ee-80e3-c3196e4f43a4";
+    final String pdfDownload = "https://firebasestorage.googleapis.com/v0/b/pledge-for-life.appspot.com/o/pdf%2FPFL_Instructions.pdf?alt=media&token=dfe74274-c5d1-4344-8f1e-5d4faba562c4";
     final String engURL="https://youtu.be/mH31g67Hjdk";
-    final String engFURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/PFL_Video_English_Ver_4.mp4?alt=media&token=49064b33-9f99-40f5-8faa-c906ac63f67f";
-    final String hindiFURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/PFL_Video_Hindi_Ver_4.mp4?alt=media&token=aa0d35fb-5640-4146-bce1-5a3715a9a505";
+    final String engFURL = "https://firebasestorage.googleapis.com/v0/b/pledge-for-life.appspot.com/o/PFL_Video_Eng.mp4?alt=media&token=02775ddf-06e6-4a82-a1fc-6fc400ac8c7f";
+    final String hindiFURL = "https://firebasestorage.googleapis.com/v0/b/pledge-for-life.appspot.com/o/PFL_Video_Hindi.mp4?alt=media&token=44c7847a-1b50-4718-8350-34114a29a660";
     final String hindiURL="https://youtu.be/gMCcAhrfhP8";
     final String videoURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video.mp4?alt=media&token=4761a05d-e86e-4a04-8149-2fab3217a3c5";
     StorageReference storageReference, videoReference;

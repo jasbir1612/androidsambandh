@@ -21,8 +21,8 @@ import test.gtconline.rest.Database;
 public class HomeActivity extends AppCompatActivity {
 
     Button btnUpload, btnDownload;
-    String email = "jasbir1612@gmail.com";
-    String password = "geniejasbir";
+    String email = "satnam.sethi@siinnovative.in";
+    String password = "Ishu@3206";
     String TAG = "Home";
     private FirebaseAuth mAuth;
     private Button logoutbtn;
@@ -45,9 +45,10 @@ public class HomeActivity extends AppCompatActivity {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(HomeActivity.this, UploadActivity.class);
-                startActivity(i);
-                loginUser(email, password);
+//                Intent i = new Intent(HomeActivity.this, UploadActivity.class);
+//                startActivity(i);
+//                loginUser(email, password);
+                Toast.makeText(HomeActivity.this, "Will be available after December 1, 2018", Toast.LENGTH_SHORT).show();
             }
         });
 
