@@ -308,7 +308,7 @@ public class DownloadActivity extends AppCompatActivity {
       //  final String moblieNumber="7678579823";
      //   final String downloadType="PDF";
 
-        String url="http://sambandhhealthapiv2.sambandhhealth.org/api/Sambandh/DownloadFile?MobileNo=7678579823&DownloadType=PDF";
+        String url="http://sambandhhealthapiv2.sambandhhealth.org/api/Sambandh/DownloadFile?MobileNo="+mobileNumber+"&DownloadType="+downloadType;
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
             @Override
