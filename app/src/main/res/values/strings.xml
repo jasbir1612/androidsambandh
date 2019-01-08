@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">PFL</string>
+    <string name="district_spinner_hint">Enter Block Code</string>
+    <string name="block_spinner_hint">Enter Village Code</string>
+    <string name="village_spinner_hint">Enter Village Code</string>
+    <string name="udice_spinner_hint">Enter UDice Code</string>
+    <string name="school_spinner_hint">Enter School Code</string>
+
+    <string name="designation_spinner_hint">Enter Designation</string>
+    <string name="user_type_spinner_hint">Enter User type</string>
+    <string name="school_type_spinner_hint">Enter School type</string>
+
+    <string-array name="array_designation">
+        <item>Professor</item>
+        <item>Teacher</item>
+        <item>Principal</item>
+        <item>Staff Member</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="array_user_type">
+        <item>Individual</item>
+    </string-array>
+
+    <string-array name="array_school_type">
+        <item>Primary</item>
+        <item>Upper Primary</item>
+        <item>Secondary</item>
+    </string-array>
+</resources>

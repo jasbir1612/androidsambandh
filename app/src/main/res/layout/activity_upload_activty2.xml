@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    tools:context=".ui.UploadActivty2">
+
+    <RelativeLayout
+        android:id="@+id/logo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:src="@drawable/logo" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/pledge_logo2"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/pledgelife_logo" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pledge_logo2"
+        android:layout_marginTop="-24dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txtlogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Login"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/txtlogin"
+                android:layout_margin="20dp"
+                android:background="#c0c0c0" />
+
+            <EditText
+                android:id="@+id/et_number2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line2"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/etshape"
+                android:hint="Enter Mobile Number"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:inputType="number"
+                android:maxWidth="300dp"
+                android:maxLength="10"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/et_otp2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/generate_otp_btn2"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/etshape"
+                android:hint="Enter OTP"
+                android:inputType="number"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:maxWidth="300dp"
+                android:maxLength="6"
+                android:padding="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_number2"
+                android:id="@+id/warning"
+                android:textSize="14sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:layout_margin="5dp"
+                android:text="Wait for 2 minutes to generate OTP again"/>
+
+            <Button
+                android:id="@+id/generate_otp_btn2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/warning"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/login_btn_color"
+                android:text="Generate OTP"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/register_btn2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/et_otp2"
+
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/gray_btn_color"
+                android:text="Login"
+                android:textColor="@android:color/white" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

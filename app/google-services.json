@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "767782524585",
+    "firebase_url": "https://pledge-for-life.firebaseio.com",
+    "project_id": "pledge-for-life",
+    "storage_bucket": "pledge-for-life.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767782524585:android:65d948d0a75a2c4a",
+        "android_client_info": {
+          "package_name": "test.gtconline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "767782524585-ufq5p4ctnd28cf81js6l0d3qno5lk5vl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnOgK41I3pYia97lb2Gl4LKLDVD1WfR_s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
