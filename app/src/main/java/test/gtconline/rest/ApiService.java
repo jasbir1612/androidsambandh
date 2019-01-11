@@ -77,7 +77,7 @@ public class ApiService {
         sambandhApi = mRetrofit.create(Sambandh.class);
     }
 
-    public void getSchoolData(long districtCode, long blockCode, long villageCode, String udiceCode, final ResponseCallback<List<SchoolDataResponse>> callback) {
+    public void getSchoolData(String districtCode, String blockCode, String villageCode, String udiceCode, final ResponseCallback<List<SchoolDataResponse>> callback) {
         Call<List<SchoolDataResponse>> call = sambandhApi.getSchoolData(districtCode, blockCode, villageCode, udiceCode);
         call.enqueue(new Callback<List<SchoolDataResponse>>() {
             @Override
@@ -85,7 +85,9 @@ public class ApiService {
                 if (response.isSuccessful()) {
                     callback.success(response.body());
                 } else {
+                    Log.d("err1", String.valueOf(response.body()));
                     callback.failure(new ArrayList<SchoolDataResponse>());
+
                 }
             }
 
@@ -111,6 +113,7 @@ public class ApiService {
 
             @Override
             public void onFailure(Call<List<DistrictDataResponse>> call, Throwable t) {
+                Log.d("err1", String.valueOf(t.getCause()));
                 callback.failure(new ArrayList<DistrictDataResponse>());
             }
         });
@@ -185,6 +188,7 @@ public class ApiService {
             @Override
             public void onFailure(Call<List<RegisterResponse>> call, Throwable t) {
                 callback.failure(new ArrayList<RegisterResponse>());
+
             }
         });
     }

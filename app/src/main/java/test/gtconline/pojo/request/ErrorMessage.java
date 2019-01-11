@@ -1,6 +1,8 @@
 package test.gtconline.pojo.request;
 
-public class ErrorMessage {
+import java.io.Serializable;
+
+public class ErrorMessage implements Serializable {
 
     String errorMessage;
     String deviceBrand;

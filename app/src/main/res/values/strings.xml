@@ -10,6 +10,14 @@
     <string name="user_type_spinner_hint">Enter User type</string>
     <string name="school_type_spinner_hint">Enter School type</string>
 
+    <string name="goToWebsite">Instructions:
+     "\n"   1. If School is not found, please visit Website http://sambandhhealth.org to Register New School.
+     "\n"   2. If Village is not found, please visit Website http://sambandhhealth.org to Register New Village.
+
+</string>
+
+    <string name="helplineMubers">To contact us,please dial our helpline number- +91 9560276894</string>
+
     <string-array name="array_designation">
         <item>Professor</item>
         <item>Teacher</item>
@@ -23,6 +31,7 @@
     </string-array>
 
     <string-array name="array_school_type">
+        <item>Select School Type</item>
         <item>Primary</item>
         <item>Upper Primary</item>
         <item>Secondary</item>

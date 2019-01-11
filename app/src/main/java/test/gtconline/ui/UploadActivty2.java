@@ -53,7 +53,7 @@ public class UploadActivty2 extends AppCompatActivity {
         db = new Database(getApplicationContext());
 
 
-        startActivity(new Intent(UploadActivty2.this,RegisterActivity.class));
+    //    startActivity(new Intent(UploadActivty2.this,RegisterActivity.class));
 
         apiService=new ApiService();
 
@@ -82,7 +82,7 @@ public class UploadActivty2 extends AppCompatActivity {
                     @Override
                     public void success(List<SendOtpResponse> sendOtpResponses) {
                         if (sendOtpResponses.get(0).getAppUID() != null) {
-                            SendOtpResponse sendOtpResponse=sendOtpResponses.get(0);
+                            SendOtpResponse sendOtpResponse = sendOtpResponses.get(0);
                             db.setAppUid(sendOtpResponse.getAppUID());
                             db.setMobile(sendOtpResponse.getMobile());
                             otpEt.requestFocus();

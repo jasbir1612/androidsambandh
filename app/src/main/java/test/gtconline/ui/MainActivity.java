@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String udiseFinal=null;
     Context context;
 
+    String selectedSchoolName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,9 +119,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         villageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                long selectedDistrictCode = districtDataList.get(districtSpinner.getSelectedItemPosition()).getDistrictCode();
-                long selectedblockCode = blockDataList.get(blockSpinner.getSelectedItemPosition()).getBlockCode();
-                long selectedVillageCode = villageDataList.get(position).getVillageCode();
+                String selectedDistrictCode = String.valueOf(districtDataList.get(districtSpinner.getSelectedItemPosition()).getDistrictCode());
+                String selectedblockCode = String.valueOf(blockDataList.get(blockSpinner.getSelectedItemPosition()).getBlockCode());
+                String selectedVillageCode = String.valueOf(villageDataList.get(position).getVillageCode());
 
                 getSchoolData(selectedDistrictCode, selectedblockCode, selectedVillageCode, "");
             }
@@ -137,9 +139,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (position == 0) {
                     udiseFinal = doubleConverter(schoolDataList.get(position).getSchoolCode());
                     udiceEt.setText(doubleConverter(schoolDataList.get(position).getSchoolCode()));
+                    selectedSchoolName=schoolDataList.get(0).getSchoolName();
                 } else {
                     udiseFinal = doubleConverter(schoolDataList.get(position).getSchoolCode());
                     udiceEt.setText(doubleConverter(schoolDataList.get(position).getSchoolCode()));
+                    selectedSchoolName=schoolDataList.get(0).getSchoolName();
+
                 }
             }
 
@@ -201,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 Intent resultIntent = new Intent();
                                                 resultIntent.putExtra("udice_code", finalUdice);
                                                 resultIntent.putExtra("dudice_code", finalDudice);
+                                                resultIntent.putExtra("schoolName",selectedSchoolName);
                                                 setResult(Activity.RESULT_OK, resultIntent);
                                                 finish();
                                             }
@@ -246,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         
     }
 
-    private void getSchoolData(long districtCode, long blockCode, long villageCode, String udiceCode) {
+    private void getSchoolData(String districtCode, String blockCode, String villageCode, String udiceCode) {
         apiService.getSchoolData(districtCode, blockCode, villageCode, "", new ResponseCallback<List<SchoolDataResponse>>() {
             @Override
             public void success(List<SchoolDataResponse> schoolDataResponses) {
@@ -371,9 +377,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         villageSpinner.setAdapter(adapter);
 
-        long selectedDistrictCode = districtDataList.get(districtSpinner.getSelectedItemPosition()).getDistrictCode();
-        long selectedblockCode = blockDataList.get(blockSpinner.getSelectedItemPosition()).getBlockCode();
-        long selectedVillageCode = villageDataList.get(villageSpinner.getSelectedItemPosition()).getVillageCode();
+        String selectedDistrictCode = String.valueOf(districtDataList.get(districtSpinner.getSelectedItemPosition()).getDistrictCode());
+        String selectedblockCode = String.valueOf(blockDataList.get(blockSpinner.getSelectedItemPosition()).getBlockCode());
+        String selectedVillageCode = String.valueOf(villageDataList.get(villageSpinner.getSelectedItemPosition()).getVillageCode());
         getSchoolData(selectedDistrictCode, selectedblockCode, selectedVillageCode, "");
     }
 

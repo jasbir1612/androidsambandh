@@ -37,6 +37,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText dudiceEt, etDesignation;
     private Database db;
 
+    private EditText schoolNameEt;
+
     private AppCompatSpinner designationSpinner, userTypeSpinner, schoolTypeSpinner;
 
     String[] designationArray, schoolTypeArray, userTypeArray;
@@ -54,6 +56,10 @@ public class RegisterActivity extends AppCompatActivity {
         btnFindUdice = findViewById(R.id.find_udice);
         submit = findViewById(R.id.rsubmit);
         etDesignation = findViewById(R.id.et_designation);
+        schoolNameEt=findViewById(R.id.et_schoolName);
+
+        schoolNameEt.setEnabled(false);
+
 
         mobileEt = findViewById(R.id.et_number);
         mobileEt.setEnabled(false);
@@ -117,6 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
                     String dudiceCode = data.getStringExtra("dudice_code");
                     udiceEt.setText(udiceCode);
                     dudiceEt.setText(dudiceCode);
+                    schoolNameEt.setText(data.getStringExtra("schoolName"));
                 }
             }
         }

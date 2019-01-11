@@ -37,15 +37,10 @@ public class ErrorDisplay extends AppCompatActivity {
                     }
                 });
 
-                ErrorMessage error= (ErrorMessage) getIntent().getExtras().get("errorMessage");
-              //  sendErrorReport(error);
-
+               ErrorMessage error= (ErrorMessage) getIntent().getExtras().get("error");
+                 sendErrorReport(error);
 
             }
-         //   @Override
-         //   public void onBackPressed() {
-          //      intentData();
-         //   }
 
 
            public void sendErrorReport(ErrorMessage errorMessage)

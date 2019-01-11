@@ -53,9 +53,9 @@ public interface Sambandh {
     Call<List<RegisterResponse>> register(@Body RegisterBody body);
 
     @GET("Sambandh/GetSchoolData")
-    Call<List<SchoolDataResponse>> getSchoolData(@Query("DistrictCode") long districtCode,
-                                                 @Query("BlockCode") long blockCode,
-                                                 @Query("VillageCode") long villageCode,
+    Call<List<SchoolDataResponse>> getSchoolData(@Query("DistrictCode") String districtCode,
+                                                 @Query("BlockCode") String blockCode,
+                                                 @Query("VillageCode") String villageCode,
                                                  @Query("UDiceCode") String udiceCode);
 
     @POST("Sambandh/VerifyOTP")

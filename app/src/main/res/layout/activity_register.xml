@@ -17,20 +17,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/logo_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:padding="10dp">
-
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:src="@drawable/logo" />
-            </RelativeLayout>
-
             <ImageView
                 android:id="@+id/pledge_logo2"
                 android:layout_width="300dp"
@@ -40,22 +26,19 @@
                 android:layout_marginRight="10dp"
                 android:src="@drawable/pledgelife_logo" />
 
-            <TextView
-                android:id="@+id/txtlogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Register"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
 
-            <View
-                android:id="@+id/line"
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:layout_below="@+id/txtlogin"
-                android:layout_margin="20dp"
-                android:background="#c0c0c0" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:linksClickable="true"
+                android:autoLink="all"
+                android:background="@android:color/white"
+                android:text="@string/goToWebsite"/>
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -102,10 +85,24 @@
                     android:textSize="12sp" />
 
                 <EditText
-                    android:id="@+id/et_name"
+                    android:id="@+id/et_schoolName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/find_udice"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/etshape"
+                    android:hint="Selected School Name will appear here"
+                    android:inputType="textCapWords"
+                    android:maxWidth="300dp"
+                    android:padding="10dp" />
+
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/et_schoolName"
                     android:layout_margin="10dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/etshape"
@@ -114,24 +111,12 @@
                     android:maxWidth="300dp"
                     android:padding="10dp" />
 
-                <EditText
-                    android:id="@+id/et_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_name"
-                    android:layout_margin="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/etshape"
-                    android:hint="Enter Email"
-                    android:inputType="textEmailAddress"
-                    android:maxWidth="300dp"
-                    android:padding="10dp" />
 
                 <EditText
                     android:id="@+id/et_designation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_email"
+                    android:layout_below="@+id/et_name"
                     android:layout_margin="10dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/etshape"
@@ -140,11 +125,54 @@
                     android:maxWidth="300dp"
                     android:padding="10dp" />
 
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/et_designation"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/etshape"
+                    android:hint="Enter Email"
+                    android:inputType="textEmailAddress"
+                    android:maxWidth="300dp"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:id="@+id/update"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@+id/et_email"
+                    android:background="@drawable/etshape"
+                    android:focusable="true"
+                    android:text="Activity Date MM/DD/YYYY*"
+                    android:padding="10dp" />
+
+                <EditText
+                    android:id="@+id/upnumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_below="@+id/update"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/etshape"
+                    android:hint="Enter Number of Students*"
+                    android:inputType="number"
+                    android:focusableInTouchMode="true"
+                    android:maxLength="4"
+                    android:maxWidth="300dp"
+                    android:clickable="true"
+                    android:padding="10dp" />
+
+
+
                 <LinearLayout
                     android:id="@+id/designation_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_email"
+                    android:layout_below="@+id/upnumber"
                     android:layout_margin="10dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical">
@@ -164,18 +192,10 @@
                     android:id="@+id/school_type_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_designation"
+                    android:layout_below="@+id/upnumber"
                     android:layout_margin="10dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="10dp"
-                        android:text="Select School type"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp" />
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/school_type_spinner"
@@ -298,7 +318,7 @@
                     android:layout_below="@+id/user_type_ll"
                     android:layout_margin="10dp"
                     android:background="#004c90"
-                    android:text="Submit"
+                    android:text="Proceed"
                     android:textColor="@android:color/white" />
 
             </RelativeLayout>

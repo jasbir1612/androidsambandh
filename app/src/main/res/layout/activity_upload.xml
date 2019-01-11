@@ -16,19 +16,6 @@
             android:layout_marginTop="10dp"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/logo_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:padding="10dp">
-
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:src="@drawable/logo" />
-            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/pledge_logo2"
@@ -39,30 +26,7 @@
                 android:layout_marginRight="10dp"
                 android:src="@drawable/pledgelife_logo" />
 
-            <EditText
-                android:id="@+id/upnumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/etshape"
-                android:hint="Enter Number of Students*"
-                android:inputType="number"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:maxLength="4"
-                android:maxWidth="300dp"
-                android:clickable="true"
-                android:padding="10dp" />
-            <TextView
-                android:id="@+id/update"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/etshape"
-                android:text="Select Date MM/DD/YYYY*"
-                android:padding="10dp" />
+
 
             <TextView
                 android:id="@+id/tv_file_name"
@@ -100,7 +64,7 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:background="#002468"
-                    android:text="Upload Image 1*"
+                    android:text="Upload Image 1* (jpg/jpeg upto 3 MB)"
                     android:textColor="@android:color/white" />
 
 
@@ -120,7 +84,7 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:background="#002468"
-                    android:text="Upload Image 2"
+                    android:text="Upload Image 2 (jpg/jpeg upto 3 MB"
                     android:textColor="@android:color/white" />
 
 

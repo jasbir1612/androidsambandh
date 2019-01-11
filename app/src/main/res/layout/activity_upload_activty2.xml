@@ -9,20 +9,6 @@
     android:focusableInTouchMode="true"
     tools:context=".ui.UploadActivty2">
 
-    <RelativeLayout
-        android:id="@+id/logo_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:padding="10dp">
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:src="@drawable/logo" />
-    </RelativeLayout>
-
     <ImageView
         android:id="@+id/pledge_logo2"
         android:layout_width="300dp"
@@ -49,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Login"
+                android:text="Upload"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
@@ -113,7 +99,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/login_btn_color"
-                android:text="Generate OTP"
+                android:text="Send OTP"
                 android:textColor="@android:color/white" />
 
             <Button
@@ -126,7 +112,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/gray_btn_color"
-                android:text="Login"
+                android:text="Proceed"
                 android:textColor="@android:color/white" />
 
         </RelativeLayout>

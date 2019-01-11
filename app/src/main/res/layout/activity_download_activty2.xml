@@ -10,20 +10,6 @@
     tools:context=".ui.DownloadActivty2">
 
 
-    <RelativeLayout
-        android:id="@+id/logo_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:padding="10dp">
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:src="@drawable/logo" />
-    </RelativeLayout>
-
     <ImageView
         android:id="@+id/pledge_logo2"
         android:layout_width="300dp"
@@ -63,10 +49,27 @@
                 android:background="#c0c0c0" />
 
             <EditText
-                android:id="@+id/et_number"
+                android:id="@+id/selectStateEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/line2"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/etshape"
+                android:hint="Select State"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:maxWidth="300dp"
+                android:maxLength="10"
+                android:padding="10dp" />
+
+
+            <EditText
+                android:id="@+id/et_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/selectStateEt"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
@@ -118,15 +121,6 @@
                 android:background="@android:color/darker_gray"
                 android:text="download PFL Video English"
                 android:textColor="@android:color/white" />
-            <Button
-                android:id="@+id/vengvideo2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@android:color/darker_gray"
-                android:text="View PFL Video English(Youtube)"
-                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/btdownload_hindi2"
@@ -137,15 +131,7 @@
                 android:background="@android:color/darker_gray"
                 android:text="download PFL Video Hindi"
                 android:textColor="@android:color/white" />
-            <Button
-                android:id="@+id/vhindivideo2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@android:color/darker_gray"
-                android:text="View PFL Video Hindi(Youtube)"
-                android:textColor="@android:color/white" />
+
 
             <Button
                 android:layout_width="match_parent"
@@ -167,7 +153,34 @@
                 android:textColor="@android:color/white"
                 android:text="View Instructions"
                 android:background="@android:color/darker_gray"/>
-        </LinearLayout>
+
+                <Button
+                    android:id="@+id/vengvideo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/darker_gray"
+                    android:text="View PFL Video English(Youtube)"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/vhindivideo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/darker_gray"
+                    android:text="View PFL Video Hindi(Youtube)"
+                    android:textColor="@android:color/white" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:src="@drawable/help_line"/>
+
+
+            </LinearLayout>
 
 
         </RelativeLayout>

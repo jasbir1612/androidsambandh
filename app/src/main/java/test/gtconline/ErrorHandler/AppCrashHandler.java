@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import test.gtconline.BuildConfig;
 import test.gtconline.pojo.request.ErrorMessage;
 import test.gtconline.ui.ErrorDisplay;
 
@@ -67,8 +68,9 @@ public class AppCrashHandler implements
             errorMessage.setReleseVersion(Build.VERSION.RELEASE);
             errorMessage.setIncrementalvVersion(Build.VERSION.INCREMENTAL);
 
+
             Intent intent = new Intent(myContext, ErrorDisplay.class);
-            intent.putExtra("error", (Parcelable) errorMessage);
+            intent.putExtra("error",errorMessage);
         //    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             myContext.startActivity(intent);

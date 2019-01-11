@@ -95,8 +95,8 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         btnchoose.setVisibility(View.GONE);
         imageView = findViewById(R.id.img_file);
         tvFileName = findViewById(R.id.tv_file_name);
-        dateEt = findViewById(R.id.update);
-        pledgesEt = findViewById(R.id.upnumber);
+      //  dateEt = findViewById(R.id.update);
+      //  pledgesEt = findViewById(R.id.upnumber);
         reUpload = findViewById(R.id.btn_reupload);
         reUpload.setVisibility(View.GONE);
         tvFileName.setText("");
