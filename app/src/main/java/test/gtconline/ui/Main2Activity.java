@@ -75,7 +75,7 @@ public class Main2Activity extends AppCompatActivity {
 
         alertdialog.setCancelable(false);
 
-       // alertdialog.show();
+        alertdialog.show();
 
      /*   ApiService apiService=new ApiService();
         apiService.getLatestAppVersion(new ResponseCallback<AppVersionResponse>() {
