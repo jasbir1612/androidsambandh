@@ -2,6 +2,7 @@ package test.gtconline.rest;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,11 @@ import test.gtconline.pojo.request.NewUploadBody;
 import test.gtconline.pojo.request.RegisterBody;
 import test.gtconline.pojo.request.SendSmsBody;
 import test.gtconline.pojo.request.UploadBody;
+import test.gtconline.pojo.response.AppVersionResponse;
 import test.gtconline.pojo.response.BlockDataResponse;
 import test.gtconline.pojo.response.CheckRegisteredResponse;
 import test.gtconline.pojo.response.DistrictDataResponse;
+import test.gtconline.pojo.response.DownloadLinksResponse;
 import test.gtconline.pojo.response.NewUploadResponse;
 import test.gtconline.pojo.response.RegisterResponse;
 import test.gtconline.pojo.response.SchoolDataResponse;
@@ -235,9 +238,9 @@ public class ApiService {
         });
     }
 
-    public void uploadErrorMessage(String errorMessage, String deviceBrand, String deviceName, String devicemodel, String deviceId, String product, String sdkVersion, String releaseVersion, String incrementalVersion, final ResponseCallback<List<ErrorMessage>> callback)
+    public void uploadErrorMessage(ErrorMessage errorMessage, final ResponseCallback<List<ErrorMessage>> callback)
     {
-        Call<List<ErrorMessage>> call=sambandhApi.uploadErrorMessage(errorMessage,deviceBrand,deviceName,devicemodel,deviceId,product,sdkVersion,releaseVersion,incrementalVersion);
+        Call<List<ErrorMessage>> call=sambandhApi.uploadErrorMessage(errorMessage);
         call.enqueue(new Callback<List<ErrorMessage>>() {
             @Override
             public void onResponse(Call<List<ErrorMessage>> call, Response<List<ErrorMessage>> response) {
@@ -258,6 +261,49 @@ public class ApiService {
             }
         });
 
+    }
+
+    public void getLatestAppVersion(final ResponseCallback<AppVersionResponse> callback)
+    {
+        Call<AppVersionResponse> call=sambandhApi.getLatestVersion();
+        call.enqueue(new Callback<AppVersionResponse>() {
+            @Override
+            public void onResponse(Call<AppVersionResponse> call, Response<AppVersionResponse> response) {
+                callback.success(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<AppVersionResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getDownloadLinks(final ResponseCallback<DownloadLinksResponse> callback)
+    {
+        Call<DownloadLinksResponse> call=sambandhApi.getDownloadLinks();
+        call.enqueue(new Callback<DownloadLinksResponse>() {
+            @Override
+            public void onResponse(Call<DownloadLinksResponse> call, Response<DownloadLinksResponse> response) {
+                if (response.isSuccessful())
+                {
+                    callback.success(response.body());
+                }
+                else {
+
+                    int i=0;
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DownloadLinksResponse> call, Throwable t) {
+
+                int j=0;
+            }
+
+
+        });
     }
 
     public void verifyOtp(String mobileNo, String otp, String appUid, final ResponseCallback<List<VerifyOtpResponse>> callback) {

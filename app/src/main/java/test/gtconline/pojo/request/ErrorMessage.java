@@ -1,20 +1,81 @@
 package test.gtconline.pojo.request;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class ErrorMessage implements Serializable {
 
+    @SerializedName("Message")
     String errorMessage;
+
+    @SerializedName("BrandName")
     String deviceBrand;
+
+    @SerializedName("DeviceName")
     String deviceName;
+
+    @SerializedName("ModalNumber")
     String deviceModel;
+
+    @SerializedName("DeviceID")
     String deviceId;
+
+    @SerializedName("Product")
     String product;
 
+    @SerializedName("SDK")
     String sdkVersion;
+
+    @SerializedName("Release")
     String releseVersion;
+
+    @SerializedName("Incremental")
     String incrementalvVersion;
 
+    @SerializedName("AppVersion")
+    String appVersion;
+
+    @SerializedName("DateTime")
+    String dateTime;
+
+    @SerializedName("ErrorTrace")
+    String errorTrace;
+
+    @SerializedName("MobileNo")
+    String mobileNo;
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public String getErrorTrace() {
+        return errorTrace;
+    }
+
+    public void setErrorTrace(String errorTrace) {
+        this.errorTrace = errorTrace;
+    }
 
     public String getErrorMessage() {
         return errorMessage;

@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Parcelable;
+import android.os.SystemClock;
+import android.util.Log;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.DateFormat;
+import java.util.Date;
 
 import test.gtconline.BuildConfig;
 import test.gtconline.pojo.request.ErrorMessage;
@@ -58,7 +62,7 @@ public class AppCrashHandler implements
 
 
             ErrorMessage errorMessage=new ErrorMessage();
-            errorMessage.setErrorMessage(stackTrace.toString());
+            errorMessage.setErrorTrace(stackTrace.toString());
             errorMessage.setDeviceBrand(Build.BRAND);
             errorMessage.setDeviceName(Build.DEVICE);
             errorMessage.setDeviceModel(Build.MODEL);
@@ -68,6 +72,29 @@ public class AppCrashHandler implements
             errorMessage.setReleseVersion(Build.VERSION.RELEASE);
             errorMessage.setIncrementalvVersion(Build.VERSION.INCREMENTAL);
 
+            errorMessage.setErrorMessage(null);
+            errorMessage.setMobileNo("9998887642");
+
+
+
+            Date d=new Date();
+            String date= (String) android.text.format.DateFormat.format("MMMMM/dd/yyyy",d.getTime());
+
+            errorMessage.setDateTime(date);
+
+            errorMessage.setAppVersion(BuildConfig.VERSION_NAME);
+
+
+            Log.d("date",date);
+            Log.d("date1",errorMessage.getAppVersion());
+         //   Log.d("date2",errorMessage.getDeviceBrand());
+         //   Log.d("date3",errorMessage.getDeviceId());
+         //   Log.d("date4",errorMessage.getIncrementalvVersion());
+         //   Log.d("date5",errorMessage.getProduct());
+         //   Log.d("date6",errorMessage.getSdkVersion());
+         //   Log.d("date7",errorMessage.getReleseVersion());
+
+//            errorMessage.setErrorTrace("some error");
 
             Intent intent = new Intent(myContext, ErrorDisplay.class);
             intent.putExtra("error",errorMessage);

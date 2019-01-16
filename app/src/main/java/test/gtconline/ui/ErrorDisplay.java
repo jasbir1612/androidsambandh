@@ -46,7 +46,7 @@ public class ErrorDisplay extends AppCompatActivity {
            public void sendErrorReport(ErrorMessage errorMessage)
            {
                ApiService apiService=new ApiService();
-               apiService.uploadErrorMessage(errorMessage.getErrorMessage(), errorMessage.getDeviceBrand(), errorMessage.getDeviceName(), errorMessage.getDeviceModel(), errorMessage.getDeviceId(), errorMessage.getProduct(), errorMessage.getSdkVersion(), errorMessage.getReleseVersion(), errorMessage.getIncrementalvVersion(), new ResponseCallback<List<ErrorMessage>>() {
+               apiService.uploadErrorMessage(errorMessage, new ResponseCallback<List<ErrorMessage>>() {
                    @Override
                    public void success(List<ErrorMessage> errorMessages) {
 

@@ -1,6 +1,5 @@
 package test.gtconline.ui;
 
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -17,18 +16,14 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.OnProgressListener;
@@ -36,7 +31,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import test.gtconline.ErrorHandler.AppCrashHandler;
@@ -56,8 +53,9 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     String videoUrl = "https://firebasestorage.googleapis.com/v0/b/pet-simplified-automation.appspot.com/o/devpet%2FGB%2010sec%20video-1537724669843.mp4?alt=media&token=fa764176-c7bd-4f7d-9378-99009c3dfa40";
     String fileName, fileName2;
     ProgressDialog progressDialog;
-    EditText pledgesEt;
-    private TextView tvFileName, dateEt;
+    //EditText pledgesEt;
+    private TextView tvFileName;
+    EditText dateEt;
     private ImageView imageView;
     private Uri fileUri;
     private Bitmap bitmap;
@@ -67,18 +65,21 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     private Database db;
     Button upload1, upload2, reUpload, reupload2;
     Calendar myCalendar;
-    String dateST, datecurrent;
+ //   String dateST, datecurrent;
     int flag = 0;
     int flag2 = 0;
-    int year, month, day;
-    long back2 = 1000 * 30 * 60 * 60;
-    long back = back2 * 24;
-    private DatePickerDialog.OnDateSetListener date;
-    DatePickerDialog dialog;
+ //   int year, month, day;
+ //   long back2 = 1000 * 30 * 60 * 60;
+ //   long back = back2 * 24;
+ //   private DatePickerDialog.OnDateSetListener date;
+ //   DatePickerDialog dialog;
     String imgUrl1, imgUrl2;
     FirebaseStorage storage;
     Button btnchoose;
     CheckBox checkBox;
+
+    String pledge;
+    String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,14 +122,17 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         upload2.setOnClickListener(this);
         upload2.setEnabled(true);
         findViewById(R.id.btn_upload_data).setOnClickListener(this);
-        year = myCalendar.get(Calendar.YEAR);
-        month = myCalendar.get(Calendar.MONTH);
-        day = myCalendar.get(Calendar.DAY_OF_MONTH);
-        datecurrent = month + "/" + day + "/" + year;
+   //     year = myCalendar.get(Calendar.YEAR);
+   //     month = myCalendar.get(Calendar.MONTH);
+   //     day = myCalendar.get(Calendar.DAY_OF_MONTH);
+  //        datecurrent = month + "/" + day + "/" + year;
         checkBox = findViewById(R.id.checkbox);
 
-        dateEt.setOnClickListener(this);
-        date = new DatePickerDialog.OnDateSetListener() {
+        pledge=getIntent().getStringExtra("pledge");
+        date= getIntent().getStringExtra("date");
+
+//        dateEt.setOnClickListener(this);
+     /*   date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int dyear, int dmonth, int ddayOfMonth) {
                 dmonth = dmonth + 1;
@@ -153,10 +157,10 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         };
 
         dialog = new DatePickerDialog(UploadActivity.this, android.R.style.Theme_DeviceDefault, date, year, month, day);
-
+*/
     }
 
-    private void selectDate() {
+  /*  private void selectDate() {
 
 //        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
@@ -164,7 +168,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         dialog.show();
 
     }
-
+*/
     private void uploadFile() {
         if (fileUri != null) {
 
@@ -391,7 +395,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             upload2.setText("Upload Image 2");
             flag = 0;
         } else if (i == R.id.update) {
-            selectDate();
+   //         selectDate();
         }
 
     }
@@ -400,17 +404,19 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 
         if (flag == 1) {
             if(checkBox.isChecked()) {
-                final String date = dateST;
-                final String pledge = pledgesEt.getText().toString().trim();
+     //           final String date = dateST;
+            //    final String pledge = pledgesEt.getText().toString().trim();
 
-                if (TextUtils.isEmpty(pledge)) {
-                    Toast.makeText(this, "Enter number of students pledged.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(date)) {
-                    Toast.makeText(this, "Enter date.", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
+    //            if (TextUtils.isEmpty(pledge)) {
+    //                Toast.makeText(this, "Enter number of students pledged.", Toast.LENGTH_SHORT).show();
+    //                return;
+    //            }
+     //           if (TextUtils.isEmpty(date)) {
+     //               Toast.makeText(this, "Enter date.", Toast.LENGTH_SHORT).show();
+     //               return;
+    //            }
+
+
                     int num = Integer.parseInt(pledge);
                     if (num > 5000) {
                         Toast.makeText(this, "Please enter students less than 5000", Toast.LENGTH_SHORT).show();
@@ -450,7 +456,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                             }
                         });
                     }
-                }
+
             }
             else{
                 Toast.makeText(this, "Please declare that the information is true.", Toast.LENGTH_SHORT).show();

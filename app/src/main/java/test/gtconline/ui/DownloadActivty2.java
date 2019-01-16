@@ -33,22 +33,33 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import test.gtconline.ErrorHandler.AppCrashHandler;
 import test.gtconline.R;
+import test.gtconline.pojo.response.DownloadLinksResponse;
+import test.gtconline.rest.ApiService;
+import test.gtconline.rest.ResponseCallback;
 
 public class DownloadActivty2 extends AppCompatActivity {
 
     EditText mobileEt;
-    Button proceedButton, btdownload, btdownload_hindi, vEngVideo, vHindiVideo, vInstructions_btn, download_instructions_btn;
+    Button proceedButton, btdownload, btdownload_hindi, vEngVideo, vHindiVideo, vInstructions_btn, download_instructions_btn,pledgeDownloadBtn;
 
-    final String pdfDownload = "https://firebasestorage.googleapis.com/v0/b/pledge-for-life.appspot.com/o/pdf%2FPFL_Instructions.pdf?alt=media&token=dfe74274-c5d1-4344-8f1e-5d4faba562c4";
-    final String engURL = "https://youtu.be/mH31g67Hjdk";
-    final String engFURL = "https://firebasestorage.googleapis.com/v0/b/pledge-for-life.appspot.com/o/PFL_Video_Eng.mp4?alt=media&token=02775ddf-06e6-4a82-a1fc-6fc400ac8c7f";
-    final String hindiFURL = "https://firebasestorage.googleapis.com/v0/b/pledge-for-life.appspot.com/o/PFL_Video_Hindi.mp4?alt=media&token=44c7847a-1b50-4718-8350-34114a29a660";
-    final String hindiURL = "https://youtu.be/gMCcAhrfhP8";
-    final String videoURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video.mp4?alt=media&token=4761a05d-e86e-4a04-8149-2fab3217a3c5";
+
+     String pdfDownload = "https://firebasestorage.googleapis.com/v0/b/pledge-for-life.appspot.com/o/pdf%2FPFL_Instructions.pdf?alt=media&token=dfe74274-c5d1-4344-8f1e-5d4faba562c4";
+     String engURL = "https://youtu.be/mH31g67Hjdk";
+     String engFURL = "https://firebasestorage.googleapis.com/v0/b/pledge-for-life.appspot.com/o/PFL_Video_Eng.mp4?alt=media&token=02775ddf-06e6-4a82-a1fc-6fc400ac8c7f";
+     String hindiFURL = "https://firebasestorage.googleapis.com/v0/b/pledge-for-life.appspot.com/o/PFL_Video_Hindi.mp4?alt=media&token=44c7847a-1b50-4718-8350-34114a29a660";
+     String hindiURL = "https://youtu.be/gMCcAhrfhP8";
+     String videoURL = "https://firebasestorage.googleapis.com/v0/b/sambandh-a8609.appspot.com/o/video.mp4?alt=media&token=4761a05d-e86e-4a04-8149-2fab3217a3c5";
+     String pledgeDownload="https://firebasestorage.googleapis.com/v0/b/pledge-for-life.appspot.com/o/pledge.jpg?alt=media&token=9ab07d64-b812-4302-8cca-84bdac8bbadc";
     StorageReference storageReference, videoReference;
+
+    EditText selectStateEt;
+
+
 
     private FirebaseAuth mAuth;
     FirebaseStorage storage;
@@ -56,10 +67,13 @@ public class DownloadActivty2 extends AppCompatActivity {
     int feng = 0;
     int fhindi = 0;
     int fpdf = 0;
+    int fpledge=0;
     String filename;
+
 
     ProgressDialog progressDialog;
 
+    ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +91,10 @@ public class DownloadActivty2 extends AppCompatActivity {
         download_instructions_btn = findViewById(R.id.pdf2);
         vEngVideo = findViewById(R.id.vengvideo2);
         vHindiVideo = findViewById(R.id.vhindivideo2);
+        pledgeDownloadBtn=findViewById(R.id.howToPledgeButton);
+
+        selectStateEt=findViewById(R.id.selectStateEt);
+        selectStateEt.setEnabled(false);
 
         btdownload_hindi.setEnabled(false);
         btdownload.setEnabled(false);
@@ -84,6 +102,7 @@ public class DownloadActivty2 extends AppCompatActivity {
         download_instructions_btn.setEnabled(false);
         vEngVideo.setEnabled(false);
         vHindiVideo.setEnabled(false);
+        pledgeDownloadBtn.setEnabled(false);
 
         final StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         videoReference = storageRef.child("video/video.mp4");
@@ -109,6 +128,7 @@ public class DownloadActivty2 extends AppCompatActivity {
                     download_instructions_btn.setEnabled(true);
                     vHindiVideo.setEnabled(true);
                     vEngVideo.setEnabled(true);
+                    pledgeDownloadBtn.setEnabled(true);
 
 
                     btdownload.setBackgroundColor(ContextCompat.getColor(DownloadActivty2.this, R.color.login_btn_color));
@@ -117,6 +137,8 @@ public class DownloadActivty2 extends AppCompatActivity {
                     btdownload_hindi.setBackgroundColor(ContextCompat.getColor(DownloadActivty2.this, R.color.register_btn_color));
                     vInstructions_btn.setBackgroundColor(ContextCompat.getColor(DownloadActivty2.this, R.color.login_btn_color));
                     download_instructions_btn.setBackgroundColor(ContextCompat.getColor(DownloadActivty2.this, R.color.register_btn_color));
+
+                    pledgeDownloadBtn.setBackgroundColor(ContextCompat.getColor(DownloadActivty2.this,R.color.login_btn_color));
 
                     proceedButton.setBackgroundColor(ContextCompat.getColor(DownloadActivty2.this, R.color.gray_btn_color));
 
@@ -151,6 +173,28 @@ public class DownloadActivty2 extends AppCompatActivity {
             }
         });
 
+        apiService=new ApiService();
+        apiService.getDownloadLinks(new ResponseCallback<DownloadLinksResponse>() {
+            @Override
+            public void success(DownloadLinksResponse downloadLinksResponse) {
+                pdfDownload = downloadLinksResponse.getLink1();
+                engURL = downloadLinksResponse.getLink2();
+                engFURL = downloadLinksResponse.getLink3();
+                hindiFURL = downloadLinksResponse.getLink4();
+                hindiURL = downloadLinksResponse.getLink5();
+                videoURL = downloadLinksResponse.getLink6();
+                pledgeDownload=downloadLinksResponse.getLink7();
+            }
+
+            @Override
+            public void failure(DownloadLinksResponse downloadLinksResponses) {
+
+                Toast.makeText(DownloadActivty2.this,"Error in getting links",Toast.LENGTH_SHORT).show();
+
+            }
+
+
+        });
         download_instructions_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,6 +215,18 @@ public class DownloadActivty2 extends AppCompatActivity {
                     downloadFirebaseFile(storageReference);
                 }
 
+            }
+        });
+
+        pledgeDownloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isStoragePermissionGranted())
+                {
+                    fpledge=1;
+                    storageReference=FirebaseStorage.getInstance().getReferenceFromUrl(pledgeDownload);
+                        downloadFirebaseFile(storageReference);
+                }
             }
         });
 
@@ -216,6 +272,11 @@ public class DownloadActivty2 extends AppCompatActivity {
                 filename = "pfl_instructions.pdf";
 
             }
+
+            if(fpledge==1)
+            {
+                filename="pledge.jpg";
+            }
             try {
                 File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
                 final File localFile = new File(dir, filename);
@@ -235,7 +296,7 @@ public class DownloadActivty2 extends AppCompatActivity {
                             Toast.makeText(DownloadActivty2.this, "Downloaded video", Toast.LENGTH_SHORT).show();
                         }
                         startActivity(new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS));
-                        feng = fpdf = feng = 0;
+                        feng = fpdf = feng = fpledge = 0;
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

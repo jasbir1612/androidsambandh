@@ -138,7 +138,7 @@
                     android:maxWidth="300dp"
                     android:padding="10dp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/update"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -147,7 +147,7 @@
                     android:layout_below="@+id/et_email"
                     android:background="@drawable/etshape"
                     android:focusable="true"
-                    android:text="Activity Date MM/DD/YYYY*"
+                    android:hint="Activity Date MM/DD/YYYY*"
                     android:padding="10dp" />
 
                 <EditText

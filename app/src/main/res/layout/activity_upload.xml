@@ -167,8 +167,15 @@
                 android:background="#002468"
                 android:text="Upload Data"
                 android:textColor="@android:color/white" />
-
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/help_line"
+                />
 
         </LinearLayout>
     </ScrollView>
+
+
+
 </LinearLayout>

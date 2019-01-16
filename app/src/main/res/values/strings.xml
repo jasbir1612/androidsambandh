@@ -11,8 +11,7 @@
     <string name="school_type_spinner_hint">Enter School type</string>
 
     <string name="goToWebsite">Instructions:
-     "\n"   1. If School is not found, please visit Website http://sambandhhealth.org to Register New School.
-     "\n"   2. If Village is not found, please visit Website http://sambandhhealth.org to Register New Village.
+     "\n"   1. If School or village not found, please visit Website http://sambandhhealth.org to Register.
 
 </string>
 

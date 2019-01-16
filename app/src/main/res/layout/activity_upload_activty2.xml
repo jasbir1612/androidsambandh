@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,6 +8,11 @@
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     tools:context=".ui.UploadActivty2">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
 
     <ImageView
         android:id="@+id/pledge_logo2"
@@ -28,6 +33,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/register_layout"
             android:padding="10dp">
 
             <TextView
@@ -48,10 +54,26 @@
                 android:background="#c0c0c0" />
 
             <EditText
-                android:id="@+id/et_number2"
+                android:id="@+id/selectStateUploadEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/line2"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/etshape"
+                android:hint="Assam"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:maxWidth="300dp"
+                android:maxLength="10"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/et_number2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/selectStateUploadEt"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
@@ -63,6 +85,8 @@
                 android:maxWidth="300dp"
                 android:maxLength="10"
                 android:padding="10dp" />
+
+
 
             <EditText
                 android:id="@+id/et_otp2"
@@ -115,8 +139,20 @@
                 android:text="Proceed"
                 android:textColor="@android:color/white" />
 
+
+
         </RelativeLayout>
 
     </ScrollView>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:src="@drawable/help_line"
+            android:layout_alignParentBottom="true"/>
+
 
 </RelativeLayout>
+
+
+
+</LinearLayout>

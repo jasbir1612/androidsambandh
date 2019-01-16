@@ -30,6 +30,8 @@ public class UploadActivty2 extends AppCompatActivity {
     EditText mobileEt,otpEt;
     TextView otpWarning;
 
+    EditText selectStateUpload;
+
     String phoneNumber;
 
     Database db;
@@ -50,10 +52,12 @@ public class UploadActivty2 extends AppCompatActivity {
         otpWarning=findViewById(R.id.warning);
         mobileEt=findViewById(R.id.et_number2);
 
+        selectStateUpload=findViewById(R.id.selectStateUploadEt);
+        selectStateUpload.setEnabled(false);
+
         db = new Database(getApplicationContext());
 
-
-    //    startActivity(new Intent(UploadActivty2.this,RegisterActivity.class));
+        startActivity(new Intent(UploadActivty2.this,RegisterActivity.class));
 
         apiService=new ApiService();
 

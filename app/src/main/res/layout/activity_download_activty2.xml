@@ -57,7 +57,7 @@
                 android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/etshape"
-                android:hint="Select State"
+                android:hint="Assam"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:maxWidth="300dp"
@@ -154,6 +154,17 @@
                 android:text="View Instructions"
                 android:background="@android:color/darker_gray"/>
 
+
+                <Button
+                    android:id="@+id/howToPledgeButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/darker_gray"
+                    android:text="How to take pledge"
+                    android:textColor="@android:color/white" />
+
                 <Button
                     android:id="@+id/vengvideo2"
                     android:layout_width="match_parent"
@@ -161,7 +172,7 @@
                     android:layout_margin="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@android:color/darker_gray"
-                    android:text="View PFL Video English(Youtube)"
+                    android:text="Stream PFL Video English(Youtube)"
                     android:textColor="@android:color/white" />
 
                 <Button
@@ -171,13 +182,13 @@
                     android:layout_margin="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@android:color/darker_gray"
-                    android:text="View PFL Video Hindi(Youtube)"
+                    android:text="Stream PFL Video Hindi(Youtube)"
                     android:textColor="@android:color/white" />
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:src="@drawable/help_line"/>
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/help_line"/>
 
 
             </LinearLayout>

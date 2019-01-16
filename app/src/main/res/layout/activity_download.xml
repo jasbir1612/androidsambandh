@@ -63,7 +63,7 @@
                 android:layout_margin="10dp"
                 android:layout_marginTop="10dp"
                 android:background="#004c90"
-                android:text="View PFL Video English(Youtube)"
+                android:text="Stream PFL Video English(Youtube)"
                 android:textColor="@android:color/white" />
 
             <Button
@@ -82,7 +82,7 @@
                 android:layout_margin="10dp"
                 android:layout_marginTop="10dp"
                 android:background="#004c90"
-                android:text="View PFL Video Hindi(Youtube)"
+                android:text="Stream PFL Video Hindi(Youtube)"
                 android:textColor="@android:color/white" />
 
             <Button
