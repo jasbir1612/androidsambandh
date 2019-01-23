@@ -16,7 +16,10 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -68,8 +71,15 @@ public class RegisterActivity extends AppCompatActivity {
 
         Thread.setDefaultUncaughtExceptionHandler(new AppCrashHandler(getApplicationContext()));
 
+    //   startActivity(new Intent(RegisterActivity.this,UploadActivity.class));
+
         apiService = new ApiService();
         db = new Database(getApplicationContext());
+
+        Calendar myCalendar=Calendar.getInstance();
+        year = myCalendar.get(Calendar.YEAR);
+        month = myCalendar.get(Calendar.MONTH);
+        day = myCalendar.get(Calendar.DAY_OF_MONTH);
 
         btnFindUdice = findViewById(R.id.find_udice);
         submit = findViewById(R.id.rsubmit);
@@ -92,6 +102,8 @@ public class RegisterActivity extends AppCompatActivity {
         nameEt = findViewById(R.id.et_name);
         emailEt = findViewById(R.id.et_email);
         jsonDataEt = findViewById(R.id.et_json_data);
+
+        udiceEt.setEnabled(false);
 
         designationSpinner = findViewById(R.id.designation_spinner);
         designationSpinner.setVisibility(View.GONE);
@@ -126,12 +138,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         userTypeArray = getResources().getStringArray(R.array.array_user_type);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, R.layout.spinner_item_register, userTypeArray);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userTypeSpinner.setAdapter(adapter2);
 
         schoolTypeArray = getResources().getStringArray(R.array.array_school_type);
         ArrayAdapter<String> adapter3 = new ArrayAdapter<>(this, R.layout.spinner_item_register, schoolTypeArray);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         schoolTypeSpinner.setAdapter(adapter3);
         userTypeSpinner.setVisibility(View.GONE);
 
@@ -201,23 +213,50 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(pledge))
         {  //if(Integer.parseInt(pledge) <= 0) {
-            Toast.makeText(RegisterActivity.this, "Please enter no of students.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegisterActivity.this, "Please fill all compulsory(*) boxes or try again later.", Toast.LENGTH_SHORT).show();
+        }
+        else if (TextUtils.isEmpty(userName))
+        {  //if(Integer.parseInt(pledge) <= 0) {
+            Toast.makeText(RegisterActivity.this, "Please fill all compulsory(*) boxes or try again later.", Toast.LENGTH_SHORT).show();
+        }
+        else if (TextUtils.isEmpty(designation))
+        {  //if(Integer.parseInt(pledge) <= 0) {
+            Toast.makeText(RegisterActivity.this, "Please fill all compulsory(*) boxes or try again later.", Toast.LENGTH_SHORT).show();
+        }
+        else if(schoolType.equals("Select School Type"))
+        {
+            Toast.makeText(RegisterActivity.this,"Please fill all compulsory(*) boxes or try again later",Toast.LENGTH_SHORT).show();
+
         }
         else if (TextUtils.isEmpty(dateST) ) {
-            Toast.makeText(this, "Please enter date", Toast.LENGTH_SHORT).show();
-        } else {
-            RegisterBody jsonBody = new RegisterBody(mobile, schoolType, userType, userName, designation, email, jsonData, createdBy, udiceCode, dudiceCode);
-            apiService.register(jsonBody, new ResponseCallback<List<RegisterResponse>>() {
+            Toast.makeText(this, "Please fill all compulsory(*) boxes or try again later.", Toast.LENGTH_SHORT).show();
+        }
+        else if(Integer.parseInt(pledge)>5000)
+        {
+            Toast.makeText(this,"No of students cant be greater than 5000.",Toast.LENGTH_SHORT).show();
+        }
+        else if(TextUtils.isEmpty(udiceCode))
+        {
+            Toast.makeText(this,"Please select school",Toast.LENGTH_SHORT).show();
+        }
+        else if(Integer.parseInt(pledge)<=0)
+        {
+            Toast.makeText(this, "Please enter a number greater than 0", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            RegisterBody jsonBody = new RegisterBody(mobile, schoolType, userName, designation, email, jsonData, udiceCode, dudiceCode,dateST,pledge);
+            apiService.insertPflData(jsonBody, new ResponseCallback<List<RegisterResponse>>() {
                 @Override
                 public void success(List<RegisterResponse> registerResponses) {
 //                Toast.makeText(RegisterActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show();
 //                db.setMobile(registerResponses.get(0).getMobileNo());
 //                db.setAppId(registerResponses.get(0).getAppID());
-//                Intent intent = new Intent(RegisterAtivity.this, HomeActivity.class);
+//                Intent intent = new Intent(RegisterAtivity.this, Main2Activity.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                startActivity(intent);
 //                finish();
 
+                    db.setAppId(registerResponses.get(0).getAppID());
 
                     Toast.makeText(RegisterActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show();
                     // db.clear();

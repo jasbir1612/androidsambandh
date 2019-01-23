@@ -107,6 +107,7 @@
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/etshape"
                     android:hint="Enter Name*"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:inputType="textCapWords"
                     android:maxWidth="300dp"
                     android:padding="10dp" />
@@ -116,6 +117,7 @@
                     android:id="@+id/et_designation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:layout_below="@+id/et_name"
                     android:layout_margin="10dp"
                     android:layout_marginBottom="10dp"

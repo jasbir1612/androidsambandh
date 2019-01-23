@@ -4,14 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class NewUploadBody {
 
-    @SerializedName("DTActivity")
-    String dtActivity;
 
-    @SerializedName("NOStudentPledge")
-    String noStudentPledge;
-
-    @SerializedName("MobileNo")
-    String mobileNo;
+    @SerializedName("AppID")
+    String appId;
 
     @SerializedName("CreatedBy")
     String createdBy;
@@ -21,39 +16,24 @@ public class NewUploadBody {
 
     @SerializedName("DownloadURL2")
     String downloadUrl2;
+    @SerializedName("Content1")
+    String content1;
 
-    public NewUploadBody(String dtActivity, String noStudentPledge, String mobileNo, String createdBy, String downloadUrl1, String downloadUrl2) {
-        this.dtActivity = dtActivity;
-        this.noStudentPledge = noStudentPledge;
-        this.mobileNo = mobileNo;
+    @SerializedName("Content2")
+    String content2;
+
+
+    public NewUploadBody(String createdBy, String downloadUrl1, String downloadUrl2,String content1, String content2, String appId) {
         this.createdBy = createdBy;
         this.downloadUrl1 = downloadUrl1;
         this.downloadUrl2 = downloadUrl2;
+        this.content1=content1;
+        this.content2=content2;
+        this.appId=appId;
+
     }
 
-    public String getDtActivity() {
-        return dtActivity;
-    }
 
-    public void setDtActivity(String dtActivity) {
-        this.dtActivity = dtActivity;
-    }
-
-    public String getNoStudentPledge() {
-        return noStudentPledge;
-    }
-
-    public void setNoStudentPledge(String noStudentPledge) {
-        this.noStudentPledge = noStudentPledge;
-    }
-
-    public String getMobileNo() {
-        return mobileNo;
-    }
-
-    public void setMobileNo(String mobileNo) {
-        this.mobileNo = mobileNo;
-    }
 
     public String getCreatedBy() {
         return createdBy;

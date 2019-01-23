@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import test.gtconline.ErrorHandler.AppCrashHandler;
 import test.gtconline.R;
 import test.gtconline.pojo.request.ErrorMessage;
 import test.gtconline.rest.ApiService;
@@ -38,8 +37,12 @@ public class ErrorDisplay extends AppCompatActivity {
                 });
 
                ErrorMessage error= (ErrorMessage) getIntent().getExtras().get("error");
-                 sendErrorReport(error);
+               try {
+                   sendErrorReport(error);
+               }
+               catch(Exception e) {
 
+               }
             }
 
 

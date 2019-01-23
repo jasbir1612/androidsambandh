@@ -64,7 +64,7 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:background="#002468"
-                    android:text="Upload Image 1* (jpg/jpeg upto 3 MB)"
+                    android:text="Choose Image 1* (jpg/jpeg upto 3 MB)"
                     android:textColor="@android:color/white" />
 
 
@@ -84,7 +84,7 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:background="#002468"
-                    android:text="Upload Image 2 (jpg/jpeg upto 3 MB"
+                    android:text="Choose Image 2 (jpg/jpeg upto 3 MB"
                     android:textColor="@android:color/white" />
 
 

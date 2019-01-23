@@ -3,14 +3,17 @@ package test.gtconline.ui;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -30,6 +33,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -50,6 +54,9 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     private static final String TAG = "UploadActivity";
     //track Choosing Image Intent
     private static final int CHOOSING_IMAGE_REQUEST = 1234;
+    private static final int CHOOSING_IMAGE_REQUEST1 = 1235;
+    private static final int CHOOSING_IMAGE_REQUEST2 = 1236;
+
     String videoUrl = "https://firebasestorage.googleapis.com/v0/b/pet-simplified-automation.appspot.com/o/devpet%2FGB%2010sec%20video-1537724669843.mp4?alt=media&token=fa764176-c7bd-4f7d-9378-99009c3dfa40";
     String fileName, fileName2;
     ProgressDialog progressDialog;
@@ -81,6 +88,11 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     String pledge;
     String date;
 
+
+
+    String content1,content2;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +119,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         imageReference = FirebaseStorage.getInstance().getReference().child("images");
         imageReference2 = FirebaseStorage.getInstance().getReference().child("images2");
         storage = FirebaseStorage.getInstance();
+
 
         progressDialog = new ProgressDialog(this);
 
@@ -176,6 +189,14 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             if (!validateInputFileName(fileName)) {
                 return;
             }
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                content1=converImageTtoBase64(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
@@ -256,6 +277,14 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                     return;
                 }
 
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                    content2=converImageTtoBase64(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
                 progressDialog.setTitle("Uploading...");
                 progressDialog.show();
 
@@ -327,11 +356,20 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void showChoosingFile() {
+
+    public String converImageTtoBase64(Bitmap bitmap)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+        byte[] b = baos.toByteArray();
+        return Base64.encodeToString(b, Base64.DEFAULT);
+    }
+
+    private void showChoosingFile(int CHOOSING_IMAGE_REQUEST1_2) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Image"), CHOOSING_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, "Select Image"), CHOOSING_IMAGE_REQUEST1_2);
     }
 
     @Override
@@ -342,11 +380,59 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             bitmap.recycle();
         }
 
-        if (requestCode == CHOOSING_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == CHOOSING_IMAGE_REQUEST1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             fileUri = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
                 imageView.setImageBitmap(bitmap);
+                Cursor returnCursor = getContentResolver().query(fileUri, null, null, null, null);
+                int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
+                returnCursor.moveToFirst();
+                Log.e("TAG", "Name:" + returnCursor.getString(nameIndex));
+                Log.e("TAG","Size: "+Long.toString(returnCursor.getLong(sizeIndex)));
+
+                long size =returnCursor.getLong(sizeIndex);
+                if(size/(1024*1024)>3)
+                {
+                    upload1.setEnabled(true);
+                    fileUri=null;
+                    imageView.setImageBitmap(null);
+                    upload1.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.login_btn_color));
+                    upload1.setText("Choose Image 1* (jpg/jpeg upto 3 MB)");
+                    Toast.makeText(UploadActivity.this,"File size cannot be than 3 Mb",Toast.LENGTH_SHORT).show();
+                    flag = 0;
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (requestCode == CHOOSING_IMAGE_REQUEST2 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            fileUri = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                imageView.setImageBitmap(bitmap);
+                Cursor returnCursor = getContentResolver().query(fileUri, null, null, null, null);
+                int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
+                returnCursor.moveToFirst();
+                Log.e("TAG", "Name:" + returnCursor.getString(nameIndex));
+                Log.e("TAG","Size: "+Long.toString(returnCursor.getLong(sizeIndex)));
+
+                long size =returnCursor.getLong(sizeIndex);
+                if(size/(1024*1024)>3)
+                {
+                    fileUri=null;
+                    imageView.setImageBitmap(null);
+                    upload2.setEnabled(true);
+                    upload2.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.login_btn_color));
+                    upload2.setText("Choose Image 2* (jpg/jpeg upto 3 MB)");
+                    flag2 = 0;
+                    Toast.makeText(UploadActivity.this,"File size cannot be than 3 Mb",Toast.LENGTH_SHORT).show();
+
+
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -360,19 +446,21 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         int i = v.getId();
 
         if (i == R.id.btn_choose_file) {
-            showChoosingFile();
+            showChoosingFile(CHOOSING_IMAGE_REQUEST1);
             imageView.setImageBitmap(null);
         } else if (i == R.id.btn_upload_file) {
             if(fileUri == null)
             {
-                showChoosingFile();
+                upload1.setText("Upload Image 1* (jpg/jpeg upto 3 MB)");
+                showChoosingFile(CHOOSING_IMAGE_REQUEST1);
             }else {
                 uploadFile();
             }
         } else if (i == R.id.btn_upload_file2) {
             if(flag==1) {
                 if (fileUri == null) {
-                    showChoosingFile();
+                    showChoosingFile(CHOOSING_IMAGE_REQUEST2);
+                    upload2.setText("Upload Image 2* (jpg/jpeg upto 3 MB)");
                 } else {
                     uploadFile2();
                 }
@@ -385,15 +473,15 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         } else if (i == R.id.btn_reupload) {
             upload1.setEnabled(true);
             upload1.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.login_btn_color));
-            upload1.setText("Upload Image 1*");
+            upload1.setText("Choose Image 1* (jpg/jpeg upto 3 MB)");
             flag = 0;
 
 
         } else if (i == R.id.btn_reupload2) {
             upload2.setEnabled(true);
             upload2.setBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.login_btn_color));
-            upload2.setText("Upload Image 2");
-            flag = 0;
+            upload2.setText("Choose Image 2* (jpg/jpeg upto 3 MB)");
+            flag2 = 0;
         } else if (i == R.id.update) {
    //         selectDate();
         }
@@ -417,25 +505,18 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     //            }
 
 
-                    int num = Integer.parseInt(pledge);
-                    if (num > 5000) {
-                        Toast.makeText(this, "Please enter students less than 5000", Toast.LENGTH_SHORT).show();
-                    }
-                    else if(num==0)
-                    {
-                        Toast.makeText(this, "Please enter a number greater than 0", Toast.LENGTH_SHORT).show();
-                    }else {
-
-                        UploadBody body = new UploadBody(date, pledge, db.getMobile(), "", db.getMobile());
-
-                        Log.d("uploadObj",body.toString());
 
 
-                        apiService.upload(body, new ResponseCallback<List<UploadResponse>>() {
-                            @Override
-                            public void success(List<UploadResponse> uploadResponses) {
-                                NewUploadBody newUploadBody = new NewUploadBody(date, pledge, db.getMobile(), db.getMobile(), imgUrl1, imgUrl2);
-                                apiService.newUpload(newUploadBody, new ResponseCallback<List<NewUploadResponse>>() {
+                    //    UploadBody body = new UploadBody(date, pledge, db.getMobile(), "", db.getMobile());
+
+               //         Log.d("uploadObj",body.toString());
+
+
+             //           apiService.upload(body, new ResponseCallback<List<UploadResponse>>() {
+           //                 @Override
+           //                 public void success(List<UploadResponse> uploadResponses) {
+                                NewUploadBody newUploadBody = new NewUploadBody(db.getMobile(), imgUrl1, imgUrl2,content1,content2,db.getAppId());
+                                apiService.insertPflApi(newUploadBody, new ResponseCallback<List<NewUploadResponse>>() {
                                     @Override
                                     public void success(List<NewUploadResponse> newUploadResponses) {
                                         Toast.makeText(UploadActivity.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
@@ -445,17 +526,15 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 
                                     @Override
                                     public void failure(List<NewUploadResponse> newUploadResponses) {
+
+                                        Log.d("upload",db.getAppId()+" "+db.getMobile());
+
                                         Toast.makeText(UploadActivity.this, "Error in uploading. Try again later.", Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                            }
 
-                            @Override
-                            public void failure(List<UploadResponse> uploadResponses) {
-                                Toast.makeText(UploadActivity.this, "Error in uploading. Try again later.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+
+
 
             }
             else{

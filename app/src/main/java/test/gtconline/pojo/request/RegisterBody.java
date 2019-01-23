@@ -34,15 +34,23 @@ public class RegisterBody {
     @SerializedName("DUdiceCode")
     String dudiceCode;
 
-    public RegisterBody(String mobileNo, String schoolType, String userType, String userName, String designation, String emailID, String jsonData, String createdBy, String udiceCode, String dudiceCode) {
+    @SerializedName("DTActivity")
+    String dateTime;
+
+    @SerializedName("NOStudentPledge")
+    String pledge;
+
+
+
+    public RegisterBody(String mobileNo, String schoolType, String userName, String designation, String emailID, String jsonData, String udiceCode, String dudiceCode,String dateTime,String pledge) {
         this.mobileNo = mobileNo;
         this.schoolType = schoolType;
-        this.userType = userType;
+        this.dateTime = dateTime;
         this.userName = userName;
         this.designation = designation;
         this.emailID = emailID;
         this.jsonData = jsonData;
-        this.createdBy = createdBy;
+        this.pledge = pledge;
         this.udiceCode = udiceCode;
         this.dudiceCode = dudiceCode;
     }

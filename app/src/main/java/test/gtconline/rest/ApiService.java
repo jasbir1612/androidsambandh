@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +15,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import test.gtconline.R;
+import test.gtconline.pojo.request.DownloadApiInfoBody;
 import test.gtconline.pojo.request.ErrorMessage;
 import test.gtconline.pojo.request.NewUploadBody;
 import test.gtconline.pojo.request.RegisterBody;
@@ -23,6 +26,7 @@ import test.gtconline.pojo.response.AppVersionResponse;
 import test.gtconline.pojo.response.BlockDataResponse;
 import test.gtconline.pojo.response.CheckRegisteredResponse;
 import test.gtconline.pojo.response.DistrictDataResponse;
+import test.gtconline.pojo.response.DownloadApiInfoResponse;
 import test.gtconline.pojo.response.DownloadLinksResponse;
 import test.gtconline.pojo.response.NewUploadResponse;
 import test.gtconline.pojo.response.RegisterResponse;
@@ -39,7 +43,7 @@ import test.gtconline.pojo.response.VillageDataResponse;
 
 public class ApiService {
 
-    public static final String BASE_URL = "http://sambandhhealthapi.uniso.in/api/";
+    public static final String BASE_URL = "http://sambandhhealthapiv2.sambandhhealth.org/api/";
 
     private static OkHttpClient httpClient = new OkHttpClient.Builder()
             .addInterceptor(new HTTPLoggingInterceptor())
@@ -279,6 +283,131 @@ public class ApiService {
         });
     }
 
+    public void insertPflApi(NewUploadBody newUploadBody, final ResponseCallback<List<NewUploadResponse>> callback){
+        Call<List<NewUploadResponse>> call=sambandhApi.insertPhotoApi(newUploadBody);
+        call.enqueue(new Callback<List<NewUploadResponse>>() {
+            @Override
+            public void onResponse(Call<List<NewUploadResponse>> call, Response<List<NewUploadResponse>> response) {
+                if(response.isSuccessful())
+                {
+                    if (response.body() != null) {
+                        if (response.body().get(0) != null) {
+                            if (!response.body().get(0).getMessage().equalsIgnoreCase("")) {
+                                callback.failure(new ArrayList<NewUploadResponse>());
+                            } else {
+                                if (response.body().get(0).getResult() == 1) {
+                                    callback.success(response.body());
+                                } else {
+                                    callback.failure(new ArrayList<NewUploadResponse>());
+                                }
+                            }
+                        } else {
+                            callback.failure(new ArrayList<NewUploadResponse>());
+                        }
+                    } else {
+                        callback.failure(new ArrayList<NewUploadResponse>());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<NewUploadResponse>> call, Throwable t) {
+
+                callback.failure(new ArrayList<NewUploadResponse>());
+            }
+        });
+    }
+    public void insertPflData(RegisterBody  registerBody,final ResponseCallback <List<RegisterResponse>> callback)
+    {
+        Call<List<RegisterResponse>> call=sambandhApi.insertPflData(registerBody);
+        call.enqueue(new Callback<List<RegisterResponse>>() {
+            @Override
+            public void onResponse(Call<List<RegisterResponse>> call, Response<List<RegisterResponse>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().get(0) != null) {
+                            if (response.body().get(0).getMessage() != null && !response.body().get(0).getMessage().equalsIgnoreCase("")) {
+                            //    callback.failure(new ArrayList<RegisterResponse>());
+                            } else {
+                                if (response.body().get(0).getResult() == 1) {
+                                    callback.success(response.body());
+                                } else {
+                                    callback.failure(new ArrayList<RegisterResponse>());
+                                }
+                            }
+                        } else {
+                            callback.failure(new ArrayList<RegisterResponse>());
+                        }
+                    } else {
+                        callback.failure(new ArrayList<RegisterResponse>());
+                    }
+                } else {
+                    callback.failure(new ArrayList<RegisterResponse>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RegisterResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void GetDownloadAPiLinks(String SA,final ResponseCallback<DownloadLinksResponse> callback)
+    {
+        Call<DownloadLinksResponse> call=sambandhApi.GetDownloadAPiLinks(SA);
+        call.enqueue(new Callback<DownloadLinksResponse>() {
+            @Override
+            public void onResponse(Call<DownloadLinksResponse> call, Response<DownloadLinksResponse> response) {
+                if (response.isSuccessful())
+                {
+                    callback.success(response.body());
+                }
+                else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DownloadLinksResponse> call, Throwable t) {
+
+            }
+
+
+        });
+    }
+
+
+    public void insertDownloadLinkApi(DownloadApiInfoBody body, final ResponseCallback<DownloadApiInfoResponse> callback)
+    {
+        Call<DownloadApiInfoResponse> call=sambandhApi.insertDownloadApiLink(body);
+        call.enqueue(new Callback<DownloadApiInfoResponse>() {
+            @Override
+            public void onResponse(Call<DownloadApiInfoResponse> call, Response<DownloadApiInfoResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                                callback.success(response.body());
+                            } else{
+
+                            }
+                        }
+
+            }
+
+            @Override
+            public void onFailure(Call<DownloadApiInfoResponse> call, Throwable t) {
+
+            }
+        });
+
+
+
+
+        }
+
+
+
+
     public void getDownloadLinks(final ResponseCallback<DownloadLinksResponse> callback)
     {
         Call<DownloadLinksResponse> call=sambandhApi.getDownloadLinks();
@@ -291,15 +420,12 @@ public class ApiService {
                 }
                 else {
 
-                    int i=0;
-
                 }
             }
 
             @Override
             public void onFailure(Call<DownloadLinksResponse> call, Throwable t) {
 
-                int j=0;
             }
 
 

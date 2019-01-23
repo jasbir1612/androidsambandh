@@ -33,37 +33,6 @@ public class DownloadLinksResponse {
     @Expose
     String Link7;
 
-    @SerializedName("Link8")
-    @Expose
-    String Link8;
-
-    @SerializedName("Link9")
-    @Expose
-    String Link9;
-
-    @SerializedName("Link10")
-    @Expose
-    String Link10;
-
-    @SerializedName("Link11")
-    @Expose
-    String Link11;
-
-    @SerializedName("Link12")
-    @Expose
-    String Link12;
-
-    @SerializedName("Link13")
-    @Expose
-    String Link13;
-
-    @SerializedName("Link14")
-    @Expose
-    String Link14;
-
-    @SerializedName("Link15")
-    @Expose
-    String Link15;
 
 
     public String getLink1() {

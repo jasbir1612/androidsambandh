@@ -17,11 +17,11 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.DetailActivity" />
-        <activity android:name=".ui.LoginActivity" />
+
         <activity android:name=".ui.RegisterActivity" />
         <activity android:name=".ui.UploadActivity" />
-        <activity android:name=".ui.DownloadActivity" />
-        <activity android:name=".ui.HomeActivity" />
+
+        <activity android:name=".ui.Main2Activity" />
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,10 +30,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.PdfViewer" />
-        <activity android:name=".ui.Main2Activity" />
-        <activity android:name=".ui.DownloadActivty2" />
-        <activity android:name=".ui.UploadActivty2" />
-        <activity android:name=".ui.ErrorDisplay"></activity>
+
+        <activity android:name=".ui.DownloadActivty" />
+        <activity android:name=".ui.LoginActivty" />
+        <activity android:name=".ui.ErrorDisplay" />
     </application>
 
 </manifest>

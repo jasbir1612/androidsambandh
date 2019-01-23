@@ -22,7 +22,7 @@ public class PdfViewer extends AppCompatActivity implements OnPageChangeListener
 
     WebView mwebView;
     private static final String TAG = MainActivity.class.getSimpleName();
-    public static final String SAMPLE_FILE = "pfl_instr.pdf";
+    public static final String SAMPLE_FILE = "Instructions.pdf";
     PDFView pdfView;
     Integer pageNumber = 0;
     String pdfFileName;

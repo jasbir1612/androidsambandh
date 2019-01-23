@@ -139,11 +139,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (position == 0) {
                     udiseFinal = doubleConverter(schoolDataList.get(position).getSchoolCode());
                     udiceEt.setText(doubleConverter(schoolDataList.get(position).getSchoolCode()));
-                    selectedSchoolName=schoolDataList.get(0).getSchoolName();
+                    selectedSchoolName=schoolDataList.get(position).getSchoolName();
                 } else {
                     udiseFinal = doubleConverter(schoolDataList.get(position).getSchoolCode());
                     udiceEt.setText(doubleConverter(schoolDataList.get(position).getSchoolCode()));
-                    selectedSchoolName=schoolDataList.get(0).getSchoolName();
+                    selectedSchoolName=schoolDataList.get(position).getSchoolName();
 
                 }
             }
