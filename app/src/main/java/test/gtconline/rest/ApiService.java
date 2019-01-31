@@ -1,8 +1,12 @@
 package test.gtconline.rest;
 
+import android.content.Context;
+import android.content.Intent;
+import android.renderscript.ScriptC;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,9 +37,11 @@ import test.gtconline.pojo.response.RegisterResponse;
 import test.gtconline.pojo.response.SchoolDataResponse;
 import test.gtconline.pojo.response.SendOtpResponse;
 import test.gtconline.pojo.response.SendSmsResponse;
+import test.gtconline.pojo.response.UdiseDataResponse;
 import test.gtconline.pojo.response.UploadResponse;
 import test.gtconline.pojo.response.VerifyOtpResponse;
 import test.gtconline.pojo.response.VillageDataResponse;
+import test.gtconline.ui.RegisterActivity;
 
 /**
  * Created by rajdeep1008 on 17/12/17.
@@ -431,6 +437,39 @@ public class ApiService {
 
         });
     }
+
+    public void getSchoolNameUsingUdise(String SA, String udiseCode, final ResponseCallback<List<UdiseDataResponse>> callback)
+    {
+        Call<List<UdiseDataResponse>> call=sambandhApi.getSchoolNameUsingUdise(udiseCode,SA);
+        call.enqueue(new Callback<List<UdiseDataResponse>>() {
+
+
+            @Override
+            public void onResponse(Call<List<UdiseDataResponse>> call, Response<List<UdiseDataResponse>> response) {
+
+             if(response.isSuccessful()) {
+                 if(response.body().get(0).getError()!=null) {
+                     if (Integer.parseInt(response.body().get(0).getError()) == 402) {
+                         callback.failure(response.body());
+                     }
+                 }
+                 callback.success(response.body());
+
+             }
+            else {
+                 callback.failure(new ArrayList<UdiseDataResponse>());
+             }
+            }
+
+            @Override
+            public void onFailure(Call<List<UdiseDataResponse>> call, Throwable t) {
+
+                callback.failure(new ArrayList<UdiseDataResponse>());
+            }
+        });
+        }
+
+
 
     public void verifyOtp(String mobileNo, String otp, String appUid, final ResponseCallback<List<VerifyOtpResponse>> callback) {
         Call<List<VerifyOtpResponse>> call = sambandhApi.verifyOtp(mobileNo, otp, appUid);

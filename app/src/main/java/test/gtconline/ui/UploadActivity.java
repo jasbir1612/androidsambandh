@@ -193,13 +193,21 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
                 content1=converImageTtoBase64(bitmap);
+
+                if(content1==null)
+                {
+                    Toast.makeText(getApplicationContext(),"Please choose another file.",Toast.LENGTH_SHORT).show();
+                    fileUri=null;
+                    return;
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
 
-            progressDialog.setTitle("Uploading...");
             progressDialog.show();
+            progressDialog.setTitle("Uploading...");
 
             final StorageReference fileRef = imageReference.child(fileName + "." + getFileExtension(fileUri));
             fileRef.putFile(fileUri)
@@ -362,7 +370,18 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
         byte[] b = baos.toByteArray();
-        return Base64.encodeToString(b, Base64.DEFAULT);
+
+        String base64=null;
+
+        try{
+            base64=Base64.encodeToString(b, Base64.DEFAULT);
+        }
+        catch (OutOfMemoryError e)
+        {
+            return null;
+
+        }
+        return base64;
     }
 
     private void showChoosingFile(int CHOOSING_IMAGE_REQUEST1_2) {

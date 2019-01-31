@@ -30,6 +30,7 @@ import test.gtconline.pojo.response.RegisterResponse;
 import test.gtconline.pojo.response.SchoolDataResponse;
 import test.gtconline.pojo.response.SendOtpResponse;
 import test.gtconline.pojo.response.SendSmsResponse;
+import test.gtconline.pojo.response.UdiseDataResponse;
 import test.gtconline.pojo.response.UploadResponse;
 import test.gtconline.pojo.response.VerifyOtpResponse;
 import test.gtconline.pojo.response.VillageDataResponse;
@@ -49,7 +50,6 @@ public interface Sambandh {
 
     @GET("Sambandh/GetVillageData")
     Call<List<VillageDataResponse>> getVillageData(@Query("BlockCode") long code);
-
     @POST("Sambandh/SendOTP")
     Call<List<SendOtpResponse>> sendOtp(@Query("MobileNo") String phoneNumber);
 
@@ -73,6 +73,10 @@ public interface Sambandh {
     @Headers({"Accept: application/json", "Content-Type: application/json"})
     @POST("Sambandh/Upload")
     Call<List<UploadResponse>> upload(@Body UploadBody body);
+
+    @GET("Sambandh/GetSchoolAPiData")
+    Call<List<UdiseDataResponse>> getSchoolNameUsingUdise(@Query("UDiceCode") String udiseCode, @Query("SA") String SA);
+
 
     @Headers({"Accept: application/json", "Content-Type: application/json"})
     @POST("Sambandh/UploadFile")

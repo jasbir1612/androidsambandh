@@ -58,7 +58,7 @@ public class LoginActivty extends AppCompatActivity {
 
         db = new Database(getApplicationContext());
 
-   //   startActivity(new Intent(LoginActivty.this,RegisterActivity.class));
+  //   startActivity(new Intent(LoginActivty.this,RegisterActivity.class));
 
         apiService=new ApiService();
 

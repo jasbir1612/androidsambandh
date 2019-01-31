@@ -319,13 +319,20 @@ public class DownloadActivty extends AppCompatActivity {
                 filename="HowToTakePledge.jpg";
             }
             try {
-                File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+
+
+                final File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+
+
                 final File localFile = new File(dir, filename);
                 try {
                     localFile.createNewFile();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+
                 fileReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -336,7 +343,10 @@ public class DownloadActivty extends AppCompatActivity {
                         } else {
                             Toast.makeText(DownloadActivty.this, "Downloaded file", Toast.LENGTH_SHORT).show();
                         }
-                        startActivity(new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS));
+
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setDataAndType(Uri.parse(dir.getAbsolutePath()), "*/*");
+                        startActivity(intent);
                         feng = fpdf = feng = fpledge = 0;
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -352,6 +362,7 @@ public class DownloadActivty extends AppCompatActivity {
                     public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                         // percentage in progress dialog
+
                         progressDialog.setMessage("Downloaded " + ((int) progress) + "%...");
 
                     }

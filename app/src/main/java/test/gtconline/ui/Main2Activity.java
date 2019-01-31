@@ -96,6 +96,9 @@ public class Main2Activity extends AppCompatActivity {
         apiService.getLatestAppVersion(new ResponseCallback<AppVersionResponse>() {
             @Override
             public void success(AppVersionResponse appVersionResponse) {
+
+                if(appVersionResponse!=null)
+                {
                 if(Integer.parseInt(appVersionResponse.getStableVersionCode())>BuildConfig.VERSION_CODE)
                 {
                     AlertDialog.Builder alertdialog=new AlertDialog.Builder(Main2Activity.this);
@@ -127,9 +130,9 @@ public class Main2Activity extends AppCompatActivity {
 
 
                 }
-                else if(Integer.parseInt(appVersionResponse.getLatestVersionCode())>BuildConfig.VERSION_CODE){
-                    Toast.makeText(Main2Activity.this,"New version available",Toast.LENGTH_SHORT).show();
-
+                else if(Integer.parseInt(appVersionResponse.getLatestVersionCode())>BuildConfig.VERSION_CODE) {
+                    Toast.makeText(Main2Activity.this, "New version available", Toast.LENGTH_SHORT).show();
+                }
                 }
             }
 

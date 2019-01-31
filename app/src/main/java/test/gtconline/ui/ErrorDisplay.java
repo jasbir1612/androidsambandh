@@ -15,7 +15,8 @@ import test.gtconline.pojo.request.ErrorMessage;
 import test.gtconline.rest.ApiService;
 import test.gtconline.rest.ResponseCallback;
 
-public class ErrorDisplay extends AppCompatActivity {
+public class
+ErrorDisplay extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

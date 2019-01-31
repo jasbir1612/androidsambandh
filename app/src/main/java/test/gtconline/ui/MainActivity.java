@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<VillageDataResponse> villageDataList = new ArrayList<>();
     private ArrayList<SchoolDataResponse> schoolDataList = new ArrayList<>();
     RequestQueue requestQueue;
-    String baseurl = "http://sambandhhealthapi.uniso.in/api/Sambandh/GetUdiseCount?UdiseCode=";
+    String baseurl = "http://sambandhhealthapiv2.sambandhhealth.org/api/Sambandh/GetUdiseCount?UdiseCode=";
     String finalUdice, url;
     String finalDudice;
     static int count =3;
@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "Udise code not found", Toast.LENGTH_SHORT).show();
             }
         }
-        
+
     }
 
     private void getSchoolData(String districtCode, String blockCode, String villageCode, String udiceCode) {
@@ -284,6 +284,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     districtDataList = new ArrayList<>(districtDataResponses);
                 else
                     districtDataList = new ArrayList<>();
+
                 fillDistrictData(districtDataList);
                 showLoader(false);
             }
@@ -340,6 +341,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
+
+
 
     private void fillDistrictData(ArrayList<DistrictDataResponse> data) {
         ArrayList<String> providerlist = new ArrayList<>();
